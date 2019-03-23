@@ -25,7 +25,8 @@ module.exports = {
       "pre-deploy": "git fetch",
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
-        "npm install && pm2 reload ecosystem.config.js --env production",
+        // npm install when using new dependencies
+        "npm run build && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
