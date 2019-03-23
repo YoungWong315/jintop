@@ -1,16 +1,18 @@
 module.exports = {
-  apps: [{
-    name: "jintop",
-    script: "./server/index.js",
+  apps: [
+    {
+      name: "jintop",
+      script: "./server/index.js",
 
-    // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
-    env: {
-      COMMON_VARIABLE: "true"
-    },
-    env_production: {
-      NODE_ENV: "production"
+      // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
+      env: {
+        COMMON_VARIABLE: "true"
+      },
+      env_production: {
+        NODE_ENV: "production"
+      }
     }
-  }],
+  ],
 
   deploy: {
     production: {
@@ -18,11 +20,12 @@ module.exports = {
       host: ["140.143.80.9"],
       port: "31599",
       ref: "origin/master",
-      repo: "git@github.com:YoungWong315/JinTop.git",
+      repo: "git@github.com:YoungWong315/jintop.git",
       path: "/www/wwwroot/server/jintop",
       "pre-deploy": "git fetch",
       ssh_options: "StrictHostKeyChecking=no",
-      "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production",
+      "post-deploy":
+        "npm install && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
