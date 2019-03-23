@@ -1,28 +1,6 @@
 {
   "name": "jintop",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "description": "jintop",
-  "main": "ecosystem.config.js",
-  "dependencies": {
-    "koa": "^2.7.0"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YoungWong315/JinTop.git"
-  },
-  "author": "wang yang",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/YoungWong315/JinTop/issues"
-  },
-  "homepage": "https://github.com/YoungWong315/JinTop#readme"
-=======
   "description": "My wonderful Nuxt.js project",
   "author": "1099216788@qq.com",
   "private": true,
@@ -42,5 +20,4 @@
   "devDependencies": {
     "nodemon": "^1.18.9"
   }
->>>>>>> nuxt/koa
 }
