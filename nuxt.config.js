@@ -61,6 +61,6 @@ module.exports = {
     port: 9999
   },
   router: {
-    base: "/server/"
+    base: "/"
   }
 };
