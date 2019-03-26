@@ -29,10 +29,11 @@ async function start() {
   // start router
   app.use(router.routes()).use(router.allowedMethods());
 
-  app.use(ctx => {
+  app.use((ctx, next) => {
+    console.log(ctx.request.url);
     ctx.status = 200;
-    // ctx.respond = false; // Bypass Koa's built-in response handling
-    // ctx.req.ctx = ctx; // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
+    ctx.respond = false; // Bypass Koa's built-in response handling
+    ctx.req.ctx = ctx; // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
     nuxt.render(ctx.req, ctx.res);
   });
 
