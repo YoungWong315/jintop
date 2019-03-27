@@ -1,5 +1,4 @@
 const Koa = require("koa");
-const router = require("../router/index");
 const consola = require("consola");
 const { Nuxt, Builder } = require("nuxt");
 
@@ -26,11 +25,7 @@ async function start() {
     await nuxt.ready();
   }
 
-  // start router
-  app.use(router.routes()).use(router.allowedMethods());
-
-  app.use((ctx, next) => {
-    console.log(ctx.request.url);
+  app.use(ctx => {
     ctx.status = 200;
     ctx.respond = false; // Bypass Koa's built-in response handling
     ctx.req.ctx = ctx; // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash

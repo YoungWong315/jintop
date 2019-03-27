@@ -21,7 +21,7 @@ module.exports = {
       port: "31599",
       ref: "origin/master",
       repo: "git@github.com:YoungWong315/jintop.git",
-      path: "/www/wwwroot/server/jintop",
+      path: "/www/wwwroot/website/www_site/jintop_cn",
       "pre-deploy": "git fetch",
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
