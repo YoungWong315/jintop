@@ -1,5 +1,7 @@
 const Koa = require("koa");
+const router = require("../router");
 const consola = require("consola");
+// const koaBody = require("koa-body");
 const { Nuxt, Builder } = require("nuxt");
 
 const app = new Koa();
@@ -12,10 +14,19 @@ async function start() {
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config);
 
-  const {
-    host = process.env.HOST || "127.0.0.1",
-    port = process.env.PORT || 9999
-  } = nuxt.options.server;
+  const { host = process.env.HOST || "127.0.0.1", port = process.env.PORT || 9999 } = nuxt.options.server;
+
+  /* app.use(
+    koaBody({
+      multipart: true,
+      formidable: {
+        maxFieldsSize: 1024 * 1024 * 5,
+        uploadDir: "./temp"
+      }
+    })
+  ); */
+  // start router -----------------------------<
+  // app.use(router.routes()).use(router.allowedMethods());
 
   // Build in development
   if (config.dev) {
