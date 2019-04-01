@@ -22,7 +22,6 @@ module.exports = {
   rootDir: "./",
   build: {
     transpile: [/^element-ui/],
-    extractCSS: true,
     loaders: [
       {
         test: /\.(png|jpe?g|gif|svg)$/,
