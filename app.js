@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const { db_config } = require("./nuxt.config.js");
 
 // 启动server
-require("./server");
+require("./server/index.js");
 
 const connectDb = ({ dialect, username, password, host, port, dbName }) => {
   const sequelize = new Sequelize(`${dialect}://${username}:${password}@${host}:${port}/${dbName}`);
