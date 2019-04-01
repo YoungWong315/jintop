@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "jintop",
-      script: "./server/index.js",
+      script: "./app.js",
 
       // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
       env: {
@@ -26,7 +26,7 @@ module.exports = {
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
         // npm install when using new dependencies
-        "npm run build && pm2 startOrRestart ecosystem.config.js --env production",
+        "npm run build && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
