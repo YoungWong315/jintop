@@ -23,6 +23,16 @@ module.exports = {
   build: {
     transpile: [/^element-ui/],
     extractCSS: true,
+    loaders: [
+      {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        loader: "url-loader",
+        query: {
+          limit: 10000,
+          name: "img/[name].[hash].[ext]"
+        }
+      }
+    ],
 
     /*
      ** You can extend webpack config here
