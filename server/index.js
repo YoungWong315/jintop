@@ -25,8 +25,6 @@ async function start() {
       }
     })
   ); */
-  // start router -----------------------------<
-  // app.use(router.routes()).use(router.allowedMethods());
 
   // Build in development
   if (config.dev) {
@@ -35,6 +33,9 @@ async function start() {
   } else {
     await nuxt.ready();
   }
+
+  // start router -----------------------------<
+  app.use(router.routes()).use(router.allowedMethods());
 
   app.use(ctx => {
     ctx.status = 200;
