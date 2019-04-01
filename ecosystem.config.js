@@ -26,7 +26,7 @@ module.exports = {
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
         // npm install when using new dependencies
-        "npm install && npm run build && pm2 reload ecosystem.config.js --env production",
+        "npm run build && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
