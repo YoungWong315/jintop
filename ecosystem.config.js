@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "jintop",
-      script: "./app.js",
+      script: "./server/index.js",
 
       // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
       env: {
