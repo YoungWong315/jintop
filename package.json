@@ -5,10 +5,12 @@
   "author": "1099216788@qq.com",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon -w components -w layouts -w middleware -w pages -w server -w store -w app.js app.js",
     "build": "nuxt build",
-    "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "start": "cross-env NODE_ENV=production node app.js",
+    "generate": "nuxt generate",
+    "setup": "pm2 deploy production setup",
+    "deploy": "pm2 deploy production update"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
@@ -17,7 +19,6 @@
     "koa": "^2.6.2",
     "koa-body": "^4.1.0",
     "koa-router": "^7.4.0",
-    "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "nuxt": "^2.4.0",
     "sequelize": "^5.2.1"
