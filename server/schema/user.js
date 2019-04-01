@@ -13,7 +13,6 @@ const create = () => {
 
 const find = async () => {
   const res = await User.findOne({ where: { username: "wy" } });
-  console.log(res);
   return res;
 };
 
