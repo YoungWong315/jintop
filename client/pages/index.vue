@@ -4,6 +4,7 @@
       <logo/>
       <h1 class="title">jintop</h1>
       <h2 class="subtitle">My wonderful Nuxt.js project</h2>
+      <img src="@/static/cat.jpeg" class="cat-img">
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
         <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
@@ -55,5 +56,11 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.cat-img {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid violet;
 }
 </style>
