@@ -19,7 +19,7 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
   },
   srcDir: "client/",
-  rootDir: "/www/wwwroot/website/jintop_cn",
+  rootDir: "/www/wwwroot/website/www_jintop_cn",
   build: {
     transpile: [/^element-ui/],
     loaders: [
