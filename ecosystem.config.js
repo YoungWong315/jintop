@@ -28,7 +28,7 @@ module.exports = {
       "post-deploy":
         // npm install when using new dependencies
         // copy node_modules to nuxt.config.js's rootDir
-        "npm run build && cp -r /www/wwwroot/www_jintop_cn/source/node_modules /www/wwwroot/website/www_jintop_cn/node_modules dir2 && pm2 reload ecosystem.config.js --env production",
+        "npm run build && cp -r /www/wwwroot/www_jintop_cn/source/node_modules /www/wwwroot/website/www_jintop_cn/dist/node_modules dir2 && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
