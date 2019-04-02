@@ -22,7 +22,6 @@ module.exports = {
   },
   // 打包目标路径 -----------------------------------------------------<
   buildDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/nuxt" : ".nuxt",
-  rootDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/nuxt/dist" : process.cwd(),
   // ------------------------------------------------------------<
   srcDir: "client/",
   build: {
