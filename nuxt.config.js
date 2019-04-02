@@ -20,7 +20,6 @@ module.exports = {
   },
   // 线上路径 -----------------------------------------------------<
   buildDir: "/www/wwwroot/website/www_jintop_cn",
-  rootDir: "/www/wwwroot/website/www_jintop_cn",
   // ------------------------------------------------------------<
   srcDir: "client/",
   build: {
