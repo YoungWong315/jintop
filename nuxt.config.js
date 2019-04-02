@@ -47,7 +47,7 @@ module.exports = {
     port: 9999
   },
   router: {
-    base: "/"
+    base: "./"
   },
   // custom config
   db_config: {
