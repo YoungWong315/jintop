@@ -11,7 +11,7 @@ module.exports = {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
-  loading: { color: "#fff" },
+  loading: { color: "green" },
   css: ["element-ui/lib/theme-chalk/index.css"],
   plugins: ["@/plugins/element-ui"],
   modules: ["@nuxtjs/axios"],
@@ -19,7 +19,7 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
   },
   srcDir: "client/",
-  rootDir: "./",
+  rootDir: "/www/wwwroot/website/jintop_cn",
   build: {
     transpile: [/^element-ui/],
     loaders: [
