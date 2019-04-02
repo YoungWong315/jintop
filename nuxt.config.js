@@ -21,22 +21,13 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
   },
   // 打包目标路径 -----------------------------------------------------<
-  buildDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/nuxt" : ".nuxt",
+  // buildDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/nuxt" : ".nuxt",
   // ------------------------------------------------------------<
   srcDir: "client/",
   build: {
     transpile: [/^element-ui/],
-    loaders: [
-      {
-        test: /\.(png|jpe?g|gif|svg)$/,
-        loader: "url-loader",
-        query: {
-          limit: 10000,
-          name: "img/[name].[hash].[ext]"
-        }
-      }
-    ],
-
+    // 此处配置可能与nginx反向代理有关
+    publicPath: "/jintop/",
     /*
      ** You can extend webpack config here
      */
@@ -47,9 +38,9 @@ module.exports = {
     port: 9999
   },
   router: {
-    base: "./"
+    base: "/"
   },
-  // custom config
+  // custom config想·
   db_config: {
     username: "jintop",
     password: "1123581321wy.",
