@@ -18,7 +18,7 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-  // 线上路径 -----------------------------------------------------<
+  // 打包目标路径 -----------------------------------------------------<
   buildDir: "/www/wwwroot/website/www_jintop_cn",
   // ------------------------------------------------------------<
   srcDir: "client/",

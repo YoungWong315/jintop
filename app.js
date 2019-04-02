@@ -2,8 +2,7 @@ const consola = require("consola");
 const Sequelize = require("sequelize");
 const { db_config } = require("./nuxt.config.js");
 
-// 远端数据库连接失败，需要统一本地和远端的数据库用户和密码，把本地的数据库同步到线上，后面再做
-// 需要再次修改项目目录，源码与打包后的代码分离；原有的server不再需要
+// 需求：远端数据库连接失败，需要统一本地和远端的数据库用户和密码，把本地的数据库同步到线上
 
 // 启动server
 require("./server/index.js");

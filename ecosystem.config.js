@@ -21,12 +21,13 @@ module.exports = {
       port: "31599",
       ref: "origin/master",
       repo: "git@github.com:YoungWong315/jintop.git",
+      // 源码发布路径
       path: "/www/wwwroot/source/www_jintop_cn",
       "pre-deploy": "git fetch",
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
         // npm install when using new dependencies
-        "npm install && npm run build && pm2 reload ecosystem.config.js --env production",
+        "npm run build && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
