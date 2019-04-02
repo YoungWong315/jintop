@@ -18,8 +18,11 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
-  srcDir: "client/",
+  // 线上路径 -----------------------------------------------------<
+  buildDir: "/www/wwwroot/website/www_jintop_cn",
   rootDir: "/www/wwwroot/website/www_jintop_cn",
+  // ------------------------------------------------------------<
+  srcDir: "client/",
   build: {
     transpile: [/^element-ui/],
     loaders: [
@@ -45,6 +48,7 @@ module.exports = {
   router: {
     base: "/"
   },
+  // custom config
   db_config: {
     username: "root",
     password: "1123581321wy.",
