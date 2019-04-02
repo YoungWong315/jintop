@@ -2,7 +2,7 @@ const consola = require("consola");
 const Sequelize = require("sequelize");
 const { db_config } = require("./nuxt.config.js");
 
-// 需求：远端数据库连接失败，需要统一本地和远端的数据库用户和密码，把本地的数据库同步到线上
+// 需求：修改一波配置，使线上资源可以访问。还需处理favicon的访问问题，目前还访问不到
 
 // 启动server
 require("./server/index.js");
