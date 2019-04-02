@@ -1,7 +1,7 @@
 const User = require("../model/user");
 
 const create = () => {
-  User.sync({ force: true }).then(function() {
+  User.sync().then(function() {
     return User.create({
       username: "wy",
       password: "19920315wy",
