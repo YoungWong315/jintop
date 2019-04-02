@@ -21,7 +21,7 @@ module.exports = {
     // See https://github.com/nuxt-community/axios-module#options
   },
   // 打包目标路径 -----------------------------------------------------<
-  buildDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/.nuxt" : ".nuxt",
+  buildDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn/nuxt" : ".nuxt",
   rootDir: process.env.NODE_ENV === "production" ? "/www/wwwroot/website/www_jintop_cn" : process.cwd(),
   // ------------------------------------------------------------<
   srcDir: "client/",
