@@ -27,7 +27,8 @@ module.exports = {
       ssh_options: "StrictHostKeyChecking=no",
       "post-deploy":
         // npm install when using new dependencies
-        "npm run build && pm2 reload ecosystem.config.js --env production",
+        // copy node_modules to nuxt.config.js's rootDir
+        "npm run build && cp -r /www/wwwroot/www_jintop_cn/source/node_modules /www/wwwroot/website/www_jintop_cn/node_modules dir2 && pm2 reload ecosystem.config.js --env production",
       env: { NODE_ENV: "production" }
     }
   }
