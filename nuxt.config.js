@@ -26,7 +26,7 @@ module.exports = {
   srcDir: "client/",
   build: {
     transpile: [/^element-ui/],
-    // 此处配置可能与nginx反向代理有关
+    // 资源访问路径
     publicPath: "/jintop/",
     /*
      ** You can extend webpack config here
