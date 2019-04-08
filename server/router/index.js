@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 const koaBody = require("koa-body");
-const { create, find } = require("../schema/user");
+const { create, find } = require("../../database/schema/user");
 
 const router = new Router();
 
