@@ -1,66 +1,60 @@
 <template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">jintop</h1>
-      <h2 class="subtitle">My wonderful Nuxt.js project</h2>
-      <img src="../assets/cat.jpeg" class="cat-img">
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
-        <nuxt-link to="/manage">管理</nuxt-link>
-        <nuxt-link to="/test">测试</nuxt-link>
-      </div>
-    </div>
+  <section id="index">
+    <el-menu
+      :default-active="activeIndex"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+    >
+      <el-menu-item index="1">处理中心</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">我的工作台</template>
+        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-2">选项2</el-menu-item>
+        <el-menu-item index="2-3">选项3</el-menu-item>
+        <el-submenu index="2-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="2-4-1">选项1</el-menu-item>
+          <el-menu-item index="2-4-2">选项2</el-menu-item>
+          <el-menu-item index="2-4-3">选项3</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-menu-item index="3" class="index-register">
+        <nuxt-link :to="{name: 'register'}">注册</nuxt-link>
+      </el-menu-item>
+      <el-menu-item index="4" class="index-login">
+        <nuxt-link :to="{name: 'login'}">登录</nuxt-link>
+      </el-menu-item>
+    </el-menu>
   </section>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-
 export default {
-  layout: "default",
-  components: {
-    Logo
+  data() {
+    return {
+      activeIndex: "1"
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    }
   }
 };
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.index-login,
+.index-register {
+  float: right !important;
 }
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-
-.cat-img {
-  display: block;
-  margin: 0 auto;
-  border: 2px solid violet;
+.index-login a,
+.index-register a {
+  text-decoration: none !important;
 }
 </style>
+
