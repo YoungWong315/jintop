@@ -5,7 +5,7 @@ const { Nuxt, Builder } = require("nuxt");
 
 const app = new Koa();
 
-// 爬虫
+// start crawler
 require("./crawler");
 
 // Import and Set Nuxt.js options
