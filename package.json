@@ -10,7 +10,7 @@
     "start": "cross-env NODE_ENV=production node app.js",
     "generate": "nuxt generate",
     "setup": "pm2 deploy production setup",
-    "deploy": "pm2 deploy production update --force"
+    "deploy": "pm2 deploy production update"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
