@@ -28,11 +28,14 @@ module.exports = {
     transpile: [/^element-ui/],
     // 资源访问路径
     publicPath: "/jintop/",
+    cssSourceMap: true,
+    devtools: true,
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
   },
+  plugins: ["~/plugins/validator/index.js", "~/plugins/element-ui.js"],
   server: {
     host: "127.0.0.1",
     port: 9999
@@ -40,7 +43,7 @@ module.exports = {
   router: {
     base: "/"
   },
-  // custom config想·
+  // custom config
   db_config: {
     username: "jintop",
     password: "1123581321wy.",

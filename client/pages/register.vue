@@ -1,16 +1,23 @@
 <template>
   <section class="container">
-    <div>
-      <el-input placeholder="用户名" v-model="username" clearable autofocus></el-input>
-      <el-input placeholder="密码" v-model="password" clearable show-password></el-input>
-      <el-input placeholder="手机号" v-model="phone" clearable show-password></el-input>
+    <div class="form-container">
+      <el-input
+        type="text"
+        placeholder="用户名"
+        v-model="username"
+        clearable
+        autofocus
+        minlength="14"
+        maxlength="16"
+      ></el-input>
+      <el-input type="text" placeholder="密码" v-model="password" clearable show-password></el-input>
+      <el-input type="text" placeholder="手机号" v-model="phone" clearable></el-input>
+      <el-button type="primary" @click="submit">立即注册</el-button>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-
 export default {
   data() {
     return {
@@ -20,8 +27,35 @@ export default {
     };
   },
   layout: "default",
-  components: {
-    Logo
+  mounted() {},
+  methods: {
+    submit() {
+      const { username, password, phone } = this;
+      const valiArr = [
+        {
+          requirement: "userName",
+          key: "username",
+          value: username
+        },
+        {
+          requirement: "password",
+          key: "password",
+          value: password
+        },
+        {
+          requirement: "phone",
+          key: "phone",
+          value: phone
+        }
+      ];
+      this.$validateAll(valiArr)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
@@ -38,5 +72,14 @@ export default {
 }
 .el-button--text {
   color: #c0c4cc;
+}
+.form-container {
+  width: 400px;
+}
+.el-input {
+  margin-bottom: 10px;
+}
+.el-button {
+  width: 100%;
 }
 </style>
