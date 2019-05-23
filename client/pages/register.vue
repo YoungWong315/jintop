@@ -27,7 +27,9 @@ export default {
     };
   },
   layout: "default",
-  mounted() {},
+  mounted() {
+    console.log(this.$service);
+  },
   methods: {
     submit() {
       const { username, password, phone } = this;

@@ -35,7 +35,7 @@ module.exports = {
      */
     extend(config, ctx) {}
   },
-  plugins: ["~/plugins/validator/index.js", "~/plugins/element-ui.js"],
+  plugins: ["~/plugins/validator/index.js", "~/plugins/element-ui.js", "~/plugins/service/index.js"],
   server: {
     host: "127.0.0.1",
     port: 9999
