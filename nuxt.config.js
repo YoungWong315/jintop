@@ -11,11 +11,10 @@ module.exports = {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: pkg.description }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/jt/client/assets/favicon.ico" }]
   },
   loading: { color: "green" },
   css: ["element-ui/lib/theme-chalk/index.css"],
-  plugins: ["@/plugins/element-ui"],
   modules: ["@nuxtjs/axios"],
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
@@ -27,7 +26,7 @@ module.exports = {
   build: {
     transpile: [/^element-ui/],
     // 资源访问路径
-    publicPath: "/jintop/",
+    publicPath: "/jt/",
     cssSourceMap: true,
     devtools: true,
     /*

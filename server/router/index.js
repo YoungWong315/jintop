@@ -1,5 +1,5 @@
 const router = require("koa-router")();
-const koaBody = require("koa-body");
+const koaBody = require("koa-body"); // 处理post请求数据
 const { create, find } = require("../../database/schema/user");
 
 router.post("/user/register", koaBody(), async (ctx, next) => {

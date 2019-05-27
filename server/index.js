@@ -1,6 +1,8 @@
 const consola = require("consola");
 const Koa = require("koa");
+const path = require("path");
 const router = require("./router");
+const serve = require("koa-static"); // 处理静态资源
 const { Nuxt, Builder } = require("nuxt");
 
 const app = new Koa();
@@ -25,8 +27,10 @@ async function start() {
     await nuxt.ready();
   }
 
+  // const static = serve(path.join(__dirname));
   // start router -----------------------------<
   app.use(router.routes()).use(router.allowedMethods());
+  // .use(static);
 
   app.use(ctx => {
     ctx.status = 200;

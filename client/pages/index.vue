@@ -1,5 +1,8 @@
 <template>
-  <section id="index">welcome to jintop</section>
+  <section id="index">
+    <div>welcome to jintop</div>
+    <img src="../assets/cat.jpeg">
+  </section>
 </template>
 
 <script>
@@ -21,10 +24,13 @@ export default {
 #index {
   width: 100%;
   height: 100vh;
-  line-height: 90vh;
   text-align: center;
 
   font-size: 50px;
+}
+#index > img {
+  width: 500px;
+  height: 500px;
 }
 </style>
 
