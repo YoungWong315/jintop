@@ -2,9 +2,9 @@
 const notBlank = str => {
   return !(str == null || str == undefined || str == "");
 };
-// 用户名正则(4到16位,字母,数字,下划线,减号)
-const userName = str => {
-  return /^[a-zA-Z0-9_-]{4,16}$/.test(str);
+// 用户名正则(2到16位,字母,数字,汉字，下划线,减号)
+const username = str => {
+  return /^[a-zA-Z0-9\u4e00-\u9fa5_-]{2,16}$/.test(str);
 };
 // 手机号正则
 const phone = str => {
@@ -241,7 +241,7 @@ function luhnCheck(bankno) {
 // 针对上述正则的内置数组(数组元素与函数名相同)
 const patternArr = () => {
   return [
-    "userName",
+    "username",
     "phone",
     "password",
     "strongPsd",
@@ -264,7 +264,7 @@ const patternArr = () => {
 
 module.exports = {
   notBlank,
-  userName,
+  username,
   phone,
   password,
   strongPsd,

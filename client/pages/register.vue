@@ -35,7 +35,7 @@ export default {
       const { username, password, phone } = this;
       const valiArr = [
         {
-          requirement: "userName",
+          requirement: "username",
           key: "username",
           value: username
         },
@@ -52,6 +52,11 @@ export default {
       ];
       this.$validateAll(valiArr)
         .then(res => {
+          this.$service.register({
+            username,
+            password,
+            phone
+          });
           console.log(res);
         })
         .catch(err => {
