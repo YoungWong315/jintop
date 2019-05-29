@@ -31,7 +31,7 @@ export default {
     console.log(this.$service);
   },
   methods: {
-    submit() {
+    async submit() {
       const { username, password, phone } = this;
       const valiArr = [
         {
@@ -50,18 +50,29 @@ export default {
           value: phone
         }
       ];
-      this.$validateAll(valiArr)
+      try {
+        const validateResult = await this.$validateAll(valiArr);
+        const result = await this.$service.register({
+          username,
+          password,
+          phone
+        });
+        console.log(result);
+      } catch (e) {
+        console.log(e);
+      }
+      /* this.$validateAll(valiArr)
         .then(res => {
-          this.$service.register({
+          const result = await this.$service.register({
             username,
             password,
             phone
           });
-          console.log(res);
+          console.log(result);
         })
         .catch(err => {
           console.log(err);
-        });
+        }); */
     }
   }
 };

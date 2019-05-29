@@ -1,25 +1,42 @@
 const router = require("koa-router")();
 const koaBody = require("koa-body"); // 处理post请求数据
-const { create, find } = require("../../database/schema/user");
+const { register, findByUsername, findAllUser } = require("../../database/schema/user");
 
 router.post("/user/register", koaBody(), async (ctx, next) => {
-  // create();
   const { data } = ctx.request.body;
+  const result = await register(data);
+  console.log("result-----------<");
+  console.log(result);
 
   ctx.status = 200;
   ctx.body = {
     code: 1,
-    msg: data
+    data: result
   };
 });
 
-router.get("/user/find", async (ctx, next) => {
-  const res = await find();
+router.get("/user/findByUsername", async (ctx, next) => {
+  const {
+    data: { username }
+  } = ctx.request.body;
+  const res = await findByUsername(username);
 
   ctx.status = 200;
   ctx.body = {
     code: 1,
-    msg: res
+    data: res
+  };
+});
+
+router.get("/user/findAllUser", async (ctx, next) => {
+  const result = await findAllUser();
+
+  console.log(result);
+
+  ctx.status = 200;
+  ctx.body = {
+    code: 1,
+    data: result
   };
 });
 

@@ -39,9 +39,17 @@ export default {
       activeIndex: "1"
     };
   },
+  created() {
+    this.findAllUser();
+  },
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    async findAllUser() {
+      console.log("findAllUser");
+      const result = await this.$service.findAllUser();
+      console.log(result);
     }
   }
 };

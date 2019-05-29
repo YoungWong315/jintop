@@ -3,7 +3,10 @@ import axios from "../../modules/axios/axios";
 class Service {
   constructor() {}
   register(bodyData) {
-    axios.post("/user/register", bodyData);
+    return axios.post("/user/register", bodyData);
+  }
+  findAllUser() {
+    return axios.get("/user/findAllUser");
   }
 }
 
