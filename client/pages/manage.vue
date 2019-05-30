@@ -47,7 +47,6 @@ export default {
       console.log(key, keyPath);
     },
     async findAllUser() {
-      console.log("findAllUser");
       const result = await this.$service.findAllUser();
       console.log(result);
     }

@@ -1,8 +1,8 @@
 const consola = require("consola");
 const Koa = require("koa");
-const path = require("path");
+// const path = require("path");
 const router = require("./router");
-const serve = require("koa-static"); // 处理静态资源
+// const serve = require("koa-static"); // 处理静态资源
 const { Nuxt, Builder } = require("nuxt");
 
 const app = new Koa();

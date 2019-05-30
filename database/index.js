@@ -18,6 +18,8 @@ class Database {
     sequelize
       .authenticate()
       .then(() => {
+        // 同步所有模型
+        sequelize.sync();
         consola.success({
           message: `mysql connection has been established successfully, database: ${dbName}`,
           badge: true

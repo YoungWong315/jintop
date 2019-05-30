@@ -1,8 +1,6 @@
 const User = require("../model/user");
 
 const register = async userData => {
-  await User.sync();
-
   const { username, password, phone } = userData;
   const role = "default";
   return User.create({

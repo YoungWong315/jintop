@@ -1,43 +1,24 @@
 const router = require("koa-router")();
 const koaBody = require("koa-body"); // 处理post请求数据
-const { register, findByUsername, findAllUser } = require("../../database/schema/user");
 
-router.post("/user/register", koaBody(), async (ctx, next) => {
-  const { data } = ctx.request.body;
-  const result = await register(data);
-  console.log("result-----------<");
-  console.log(result);
+// 引入router<-->user处理模块
+const user = require("./user");
 
-  ctx.status = 200;
-  ctx.body = {
-    code: 1,
-    data: result
-  };
-});
+const handler = async (ctx, next) => {
+  try {
+    ctx.status = 200;
+    await next();
+  } catch (err) {
+    ctx.status = err.status || 200;
+    ctx.body = {
+      code: 0,
+      errMsg: err.message
+    };
+  }
+};
 
-router.get("/user/findByUsername", async (ctx, next) => {
-  const {
-    data: { username }
-  } = ctx.request.body;
-  const res = await findByUsername(username);
+router.use(koaBody()).use(handler);
 
-  ctx.status = 200;
-  ctx.body = {
-    code: 1,
-    data: res
-  };
-});
-
-router.get("/user/findAllUser", async (ctx, next) => {
-  const result = await findAllUser();
-
-  console.log(result);
-
-  ctx.status = 200;
-  ctx.body = {
-    code: 1,
-    data: result
-  };
-});
+user.inject(router);
 
 module.exports = router;

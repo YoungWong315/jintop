@@ -1,11 +1,11 @@
 import axios from "axios";
 import Interceptor from "./interceptor";
 
-const env = process.env.NODE_ENV;
+// const env = process.env.NODE_ENV;
 
 // 默认配置
 const axiosInstance = axios.create({
-  baseURL: env.VUE_APP_BASEURL,
+  baseURL: "",
   timeout: 20000,
   maxContentLength: 2000,
   /*允许携带cookie*/

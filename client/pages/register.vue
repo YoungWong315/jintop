@@ -51,13 +51,16 @@ export default {
         }
       ];
       try {
-        const validateResult = await this.$validateAll(valiArr);
-        const result = await this.$service.register({
-          username,
-          password,
-          phone
-        });
-        console.log(result);
+        // 如果reject，会进入catch
+        const { result } = await this.$validateAll(valiArr);
+        if (result) {
+          const result = await this.$service.register({
+            username,
+            password
+            phone
+          });
+          console.log(result);
+        }
       } catch (e) {
         console.log(e);
       }
