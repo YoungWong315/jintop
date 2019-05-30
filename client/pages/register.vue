@@ -56,7 +56,7 @@ export default {
         if (result) {
           const result = await this.$service.register({
             username,
-            password
+            password,
             phone
           });
           console.log(result);
