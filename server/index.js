@@ -1,9 +1,11 @@
 const consola = require("consola");
 const Koa = require("koa");
+const session = require("koa-session");
 // const path = require("path");
-const router = require("./router");
 // const serve = require("koa-static"); // 处理静态资源
 const { Nuxt, Builder } = require("nuxt");
+const router = require("./router");
+let config = require("../nuxt.config.js");
 
 const app = new Koa();
 
@@ -11,7 +13,6 @@ const app = new Koa();
 require("./crawler");
 
 // Import and Set Nuxt.js options
-let config = require("../nuxt.config.js");
 config.dev = !(app.env === "production");
 
 async function start() {
@@ -27,11 +28,19 @@ async function start() {
     await nuxt.ready();
   }
 
+  // koa-session config
+  app.keys = ["some secret hurr"];
+  const { session_config } = config;
+
   // const static = serve(path.join(__dirname));
   // start router -----------------------------<
-  app.use(router.routes()).use(router.allowedMethods());
+  app
+    .use(session(session_config, app))
+    .use(router.routes())
+    .use(router.allowedMethods());
   // .use(static);
 
+  // nuxt render
   app.use(ctx => {
     ctx.status = 200;
     ctx.respond = false; // Bypass Koa's built-in response handling

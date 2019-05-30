@@ -1,4 +1,4 @@
-const { register, findByUsername, findAllUser } = require("../../../database/schema/user");
+const { register, login, findByUsername, findAllUser } = require("../../../database/schema/user");
 
 const user = {};
 
@@ -6,6 +6,16 @@ user.inject = router => {
   router.post("/user/register", async ctx => {
     const { data } = ctx.request.body;
     const result = await register(data);
+
+    ctx.body = {
+      code: 1,
+      data: result
+    };
+  });
+
+  router.post("/user/login", async ctx => {
+    const { data } = ctx.request.body;
+    const result = await login(data);
 
     ctx.body = {
       code: 1,

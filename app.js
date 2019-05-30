@@ -7,4 +7,4 @@ const db = new Database();
 db.connect();
 
 // 启动server
-require("./server/index.js");
+require("./server");
