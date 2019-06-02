@@ -12,7 +12,7 @@
       <el-menu-item index="1">处理中心</el-menu-item>
       <el-submenu index="2">
         <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-1">用户列表</el-menu-item>
         <el-menu-item index="2-2">选项2</el-menu-item>
         <el-menu-item index="2-3">选项3</el-menu-item>
         <el-submenu index="2-4">
@@ -29,6 +29,26 @@
         <nuxt-link :to="{name: 'login'}">登录</nuxt-link>
       </el-menu-item>
     </el-menu>
+
+    <!-- 内容容器 -->
+    <table>
+      <thead>
+        <tr>
+          <td>id</td>
+          <td>username</td>
+          <td>password</td>
+          <td>phone</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in userList" :key="index">
+          <td>{{ item.id }}</td>
+          <td>{{ item.username }}</td>
+          <td>{{ item.password }}</td>
+          <td>{{ item.phone }}</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </template>
 
@@ -36,7 +56,8 @@
 export default {
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "1",
+      userList: []
     };
   },
   created() {
@@ -48,6 +69,10 @@ export default {
     },
     async findAllUser() {
       const result = await this.$service.findAllUser();
+      const { code, data } = result;
+      if (code === 1) {
+        this.userList = data;
+      }
       console.log(result);
     }
   }

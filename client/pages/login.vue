@@ -3,13 +3,15 @@
     <div>
       <el-input placeholder="用户名/手机号" v-model="username" clearable autofocus></el-input>
       <el-input placeholder="密码" v-model="password" clearable show-password></el-input>
-      <div>
-        <el-button type="text">忘记密码?</el-button>
+      <div class="flex-wrap">
+        <nuxt-link :to="{name: 'register'}">
+          <el-button type="text">忘记密码?</el-button>
+        </nuxt-link>
         <nuxt-link :to="{name: 'register'}">
           <el-button type="text">立即注册</el-button>
         </nuxt-link>
       </div>
-      <el-button type="success">登录</el-button>
+      <el-button type="success" @click="submit">登录</el-button>
     </div>
   </section>
 </template>
@@ -27,6 +29,14 @@ export default {
   layout: "default",
   components: {
     Logo
+  },
+  methods: {
+    async submit() {
+      console.log(this);
+      const { username, password } = this;
+      const result = await this.$service.login({ username, password });
+      console.log(result);
+    }
   }
 };
 </script>
@@ -43,5 +53,10 @@ export default {
 }
 .el-button--text {
   color: #c0c4cc;
+}
+.flex-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

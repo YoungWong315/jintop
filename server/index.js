@@ -1,6 +1,8 @@
 const consola = require("consola");
 const Koa = require("koa");
 const session = require("koa-session");
+const redisStore = require("koa-redis");
+const passport = require("koa-passport");
 // const path = require("path");
 // const serve = require("koa-static"); // 处理静态资源
 const { Nuxt, Builder } = require("nuxt");
@@ -9,13 +11,10 @@ let config = require("../nuxt.config.js");
 
 const app = new Koa();
 
-// start crawler
-require("./crawler");
-
 // Import and Set Nuxt.js options
 config.dev = !(app.env === "production");
 
-async function start() {
+const startServer = async () => {
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config);
   const { host = process.env.HOST || "127.0.0.1", port = process.env.PORT || 9999 } = nuxt.options.server;
@@ -31,11 +30,17 @@ async function start() {
   // koa-session config
   app.keys = ["some secret hurr"];
   const { session_config } = config;
+  /* session_config.store = redisStore({
+    // Options specified here
+  }); */
 
   // const static = serve(path.join(__dirname));
   // start router -----------------------------<
+
   app
-    .use(session(session_config, app))
+    .use(session(session_config, app)) // koa-session
+    //.use(passport.initialize()) // koa-possport
+    //.use(passport.session())
     .use(router.routes())
     .use(router.allowedMethods());
   // .use(static);
@@ -53,6 +58,6 @@ async function start() {
     message: `Server listening on http://${host}:${port}`,
     badge: true
   });
-}
+};
 
-start();
+module.exports = startServer;

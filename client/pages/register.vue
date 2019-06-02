@@ -27,9 +27,7 @@ export default {
     };
   },
   layout: "default",
-  mounted() {
-    console.log(this.$service);
-  },
+  mounted() {},
   methods: {
     async submit() {
       const { username, password, phone } = this;
@@ -64,18 +62,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-      /* this.$validateAll(valiArr)
-        .then(res => {
-          const result = await this.$service.register({
-            username,
-            password,
-            phone
-          });
-          console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        }); */
     }
   }
 };

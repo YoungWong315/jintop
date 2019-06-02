@@ -8,6 +8,9 @@ class Service {
   findAllUser() {
     return axios.get("/user/findAllUser");
   }
+  login(bodyData) {
+    return axios.post("/user/login", bodyData);
+  }
 }
 
 const myService = new Service();

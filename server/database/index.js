@@ -1,6 +1,6 @@
 const consola = require("consola");
 const Sequelize = require("sequelize");
-const { db_config } = require("../nuxt.config.js");
+const { db_config } = require("../../nuxt.config.js");
 
 class Database {
   constructor() {
