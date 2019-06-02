@@ -1,4 +1,4 @@
-const { register, login, findByUsername, findAllUser } = require("../../database/schema/user");
+const { register, findByUsername, findAllUser } = require("../../database/schema/user");
 
 const user = {};
 
@@ -14,18 +14,15 @@ user.inject = router => {
   });
 
   router.post("/user/login", async ctx => {
-    console.log(ctx.request);
     const { data } = ctx.request.body;
-    console.log("data ----------<");
-    console.log(data);
 
     console.log("session ------------<");
-    const session = this.session;
-    console.log(session);
+    const session = ctx.session;
+    console.log(ctx);
 
     ctx.body = {
       code: 1,
-      data: result
+      data: data
     };
   });
 
@@ -42,6 +39,8 @@ user.inject = router => {
   });
 
   router.get("/user/findAllUser", async ctx => {
+    const { page, size } = ctx.query;
+    console.log("query: ", page, size);
     const result = await findAllUser();
 
     ctx.body = {

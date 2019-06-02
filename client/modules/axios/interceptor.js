@@ -10,10 +10,12 @@ class Interceptor {
     // RPODCUTION ? "" : console.info("requestInterceptorFunc", `url: ${requestObj.url}`, requestObj);
     // const aesData = vue.$aes.encrypt(env.VUE_APP_AESKEY, JSON.stringify(requestObj.data));
     // 自定义请求拦截逻辑，可以处理权限，请求发送监控等
-    // requestObj.data = {
-    //   data: requestObj.data
-    // };
+    // 格式不可修改，否则后端无法拿到body
+    requestObj.data = {
+      data: requestObj.data
+    };
     // vue.$bus.emit('loading')
+    console.log(requestObj);
     return requestObj;
   }
 
@@ -42,7 +44,8 @@ class Interceptor {
         // 业务失败
         // vue.$bus.emit("toast", resData.msg, 2000);
         return {
-          code: 0
+          code: 0,
+          errMsg: resData.errMsg
         };
       case -1:
         console.log("登录失效");

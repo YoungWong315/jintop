@@ -68,12 +68,11 @@ export default {
       console.log(key, keyPath);
     },
     async findAllUser() {
-      const result = await this.$service.findAllUser();
+      const result = await this.$service.findAllUser(0, 10);
       const { code, data } = result;
       if (code === 1) {
         this.userList = data;
       }
-      console.log(result);
     }
   }
 };

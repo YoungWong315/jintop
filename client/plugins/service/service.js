@@ -5,8 +5,8 @@ class Service {
   register(bodyData) {
     return axios.post("/user/register", bodyData);
   }
-  findAllUser() {
-    return axios.get("/user/findAllUser");
+  findAllUser(page, size) {
+    return axios.get(`/user/findAllUser?page=${page}&size=${size}`);
   }
   login(bodyData) {
     return axios.post("/user/login", bodyData);
