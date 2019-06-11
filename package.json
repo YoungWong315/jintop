@@ -10,7 +10,7 @@
     "start": "cross-env NODE_ENV=production node app.js",
     "generate": "nuxt generate",
     "setup": "pm2 deploy production setup",
-    "deploy": "pm2 deploy production update",
+    "update": "pm2 deploy production update",
     "revert": "pm2 deploy production revert 1"
   },
   "dependencies": {
