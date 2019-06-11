@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken"); // 生成accessToken库
 const { register, findByUsername, findAllUser } = require("../../database/schema/user");
 
 const user = {};
