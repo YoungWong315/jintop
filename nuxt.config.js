@@ -32,7 +32,7 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   },
   plugins: ["~/plugins/validator/index.js", "~/plugins/element-ui.js", "~/plugins/service/index.js"],
   server: {
