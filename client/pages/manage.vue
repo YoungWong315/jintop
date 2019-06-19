@@ -35,6 +35,7 @@
       <thead>
         <tr>
           <td>id</td>
+          <td>uid</td>
           <td>username</td>
           <td>password</td>
           <td>phone</td>
@@ -43,6 +44,7 @@
       <tbody>
         <tr v-for="(item, index) in userList" :key="index">
           <td>{{ item.id }}</td>
+          <td>{{ item.uid }}</td>
           <td>{{ item.username }}</td>
           <td>{{ item.password }}</td>
           <td>{{ item.phone }}</td>

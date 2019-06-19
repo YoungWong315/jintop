@@ -3,6 +3,10 @@ const db = new Database();
 const { Sequelize, sequelize } = db;
 
 const User = sequelize.define("user", {
+  uid: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   username: {
     type: Sequelize.STRING,
     allowNull: false
@@ -20,6 +24,6 @@ const User = sequelize.define("user", {
     allowNull: false
   }
 });
-User.sync(); // 同步表结构
+User.sync({ alter: true }); // 同步表结构(alter:true,同步新字段)
 
 module.exports = User;

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken"); // 生成accessToken库
-const { register, findByUsername, findAllUser } = require("../../database/schema/user");
+const { register, registerAdmin, findByUsername, findAllUser } = require("../../database/schema/user");
 
 const user = {};
 
@@ -14,12 +14,25 @@ user.inject = router => {
     };
   });
 
-  router.post("/user/login", async ctx => {
+  router.post("/user/registerAdmin", async ctx => {
     const { data } = ctx.request.body;
+    const result = await registerAdmin(data);
 
-    console.log("session ------------<");
-    const session = ctx.session;
-    console.log(ctx);
+    ctx.body = {
+      code: 1,
+      data: result
+    };
+  })
+
+  router.post("/user/login", async ctx => {
+    const { data: { username, psd } } = ctx.request.body;
+    const res = await findByUsername(username)
+
+    const { password, uid } = res
+    if (password === psd) {
+      console.log('验证成功')
+      // jwt.sign()
+    }
 
     ctx.body = {
       code: 1,
@@ -27,10 +40,9 @@ user.inject = router => {
     };
   });
 
+
   router.get("/user/findByUsername", async ctx => {
-    const {
-      data: { username }
-    } = ctx.request.body;
+    const { data: { username } } = ctx.request.body;
     const res = await findByUsername(username);
 
     ctx.body = {

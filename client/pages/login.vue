@@ -2,7 +2,7 @@
   <section class="container">
     <div>
       <el-input placeholder="用户名/手机号" v-model="username" clearable autofocus></el-input>
-      <el-input placeholder="密码" v-model="password" clearable show-password></el-input>
+      <el-input placeholder="密码" v-model="psd" clearable show-password></el-input>
       <div class="flex-wrap">
         <nuxt-link :to="{name: 'register'}">
           <el-button type="text">忘记密码?</el-button>
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      psd: ""
     };
   },
   layout: "default",
@@ -33,8 +33,8 @@ export default {
   methods: {
     async submit() {
       console.log(this);
-      const { username, password } = this;
-      const result = await this.$service.login({ username, password });
+      const { username, psd } = this;
+      const result = await this.$service.login({ username, psd });
       console.log(result);
     }
   }
