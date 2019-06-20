@@ -1,5 +1,5 @@
 const User = require("../model/user");
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid/v1");
 
 const register = async userData => {
   const { username, password, phone } = userData;
@@ -9,7 +9,7 @@ const register = async userData => {
     username,
     password,
     phone,
-    role: 'default'
+    role: "default"
   });
 };
 
@@ -20,16 +20,16 @@ const registerAdmin = async userData => {
     username,
     password,
     phone,
-    role: 'admin'
+    role: "admin"
   });
-}
+};
 
 const findByUsername = async username => {
   return User.findOne({ where: { username: username } });
 };
 
-const findByUId = async uId => {
-  return User.findOne({ where: { uid: uId } });
+const findByUid = async uid => {
+  return User.findOne({ where: { uid: uid } });
 };
 
 const findAllUser = async () => {
@@ -40,6 +40,6 @@ module.exports = {
   register,
   registerAdmin,
   findByUsername,
-  findByUId,
-  findAllUser,
+  findByUid,
+  findAllUser
 };

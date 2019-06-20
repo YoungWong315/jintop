@@ -1,5 +1,6 @@
 const router = require("koa-router")();
 const koaBody = require("koa-body"); // 处理post请求数据
+const jwt = require("jsonwebtoken");
 
 // 引入router<-->user处理模块
 const user = require("./user");
@@ -18,6 +19,17 @@ const handler = async (ctx, next) => {
   }
 };
 
+const verifyToken = async (ctx, next) => {
+  const {
+    url,
+    header: { Authorization }
+  } = ctx.request;
+  // 认证token
+  if (url === "/user/findByUsername") {
+    const token = jwt.verify(Authorization, "secret");
+  }
+};
+
 router
   .use(
     koaBody({
@@ -27,7 +39,8 @@ router
       }
     })
   )
-  .use(handler);
+  .use(handler)
+  .use(verifyToken);
 
 user.inject(router);
 
