@@ -28,7 +28,7 @@ const startServer = async () => {
   }
 
   // koa-session config
-  app.keys = ["some secret hurr"];
+  app.keys = ["jintop session secret"];
   const { session_config } = config;
   /* session_config.store = redisStore({
     // Options specified here
