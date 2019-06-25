@@ -22,14 +22,12 @@ const handler = async (ctx, next) => {
 const tokenVerifier = async (ctx, next) => {
   const {
     url,
-    header: { Authorization },
+    header: { authorization },
   } = ctx.request
-  console.log(ctx.request.header)
   // 认证token
-  /* if (url === '/user/findByUsername') {
-    const token = jwt.verify(Authorization, 'jintop_token_secret')
-    console.log(token)
-  } */
+  if (url.includes('/user/findAllUser')) {
+    const { uid, iat, exp } = jwt.verify(authorization, 'jintop_token_secret')
+  }
   await next()
 }
 

@@ -71,7 +71,6 @@ export default {
       console.log(key, keyPath)
     },
     async findAllUser() {
-      // this.$service.setAuthHeader()
       const result = await this.$service.findAllUser(0, 10)
       const { code, data } = result
       console.log(result)

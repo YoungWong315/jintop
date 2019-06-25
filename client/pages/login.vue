@@ -43,7 +43,6 @@ export default {
       const {
         data: { token }
       } = await this.$service.login({ username, psd })
-      // this.$service.setAuthHeader(token)
       localStorage.setItem('token', token)
     }
   }

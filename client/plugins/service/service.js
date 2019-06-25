@@ -2,12 +2,6 @@ import axios from '../../modules/axios/axios'
 
 class Service {
   constructor() {}
-  /* setAuthHeader() {
-    axios.defaults.headers['Authorization'] = localStorage.getItem('token')
-  }
-  getAuthHeader() {
-    return axios.defaults.headers['Authorization']
-  } */
   register(bodyData) {
     return axios.post('/user/register', bodyData)
   }

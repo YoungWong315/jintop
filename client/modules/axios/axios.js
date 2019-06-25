@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 
 // 为拦截器注入Vue实例(service中初始化)
 axiosInstance.inject = Vue => {
-  const interceptorInstance = new Interceptor(Vue, axiosInstance)
+  const interceptorInstance = new Interceptor(Vue)
   // 注入请求拦截
   axiosInstance.interceptors.request.use(
     interceptorInstance.requestSuccessFunc,

@@ -38,7 +38,7 @@ user.inject = router => {
     const { password, uid } = res
     if (password === psd) {
       const token = jwt.sign({ uid }, 'jintop_token_secret', {
-        expiresIn: '1h',
+        expiresIn: '48h',
       })
       data.token = token
     }

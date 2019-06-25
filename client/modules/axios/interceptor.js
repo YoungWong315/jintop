@@ -2,23 +2,19 @@ const env = process.env.NODE_ENV
 const RPODCUTION = env === 'production'
 
 class Interceptor {
-  constructor(Vue, axiosInstance) {
+  constructor(Vue) {
     this.vm = Vue
-    this.axiosInstance = axiosInstance
   }
 
   requestSuccessFunc = requestObj => {
+    // 自定义请求拦截逻辑，可以处理权限，请求发送监控等
     // RPODCUTION ? "" : console.info("requestInterceptorFunc", `url: ${requestObj.url}`, requestObj);
-    // 设置header ---> 此处代码运行在服务端，所以访问不到localStorage
+    // 设置登录header ---> 此处代码会运行在服务端，所以访问不到localStorage
     if (!process.server) {
-      this.axiosInstance.defaults.headers[
-        'Authorization'
-      ] = localStorage.getItem('token')
-      console.log(this.axiosInstance.defaults.headers['Authorization'])
+      requestObj.headers['Authorization'] = localStorage.getItem('token')
     }
 
     // const aesData = vue.$aes.encrypt(env.VUE_APP_AESKEY, JSON.stringify(requestObj.data));
-    // 自定义请求拦截逻辑，可以处理权限，请求发送监控等
     // 格式不可修改，否则后端无法拿到body
     requestObj.data = {
       data: requestObj.data,
