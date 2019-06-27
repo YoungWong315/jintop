@@ -1,75 +1,73 @@
-const jwt = require('jsonwebtoken') // 生成accessToken库
-const {
-  register,
-  registerAdmin,
-  findByUsername,
-  findAllUser,
-  findByUid,
-} = require('../../database/schema/user')
+const jwt = require("jsonwebtoken"); // 生成accessToken库
+const { register, registerAdmin, findByUsername, findAllUser, findByUid } = require("../../database/schema/user");
+const { JWT_SECRET } = require("../../modules/crypto/config");
 
-const user = {}
+const user = {};
 
 user.inject = router => {
-  router.post('/user/register', async ctx => {
-    const { data } = ctx.request.body
-    const result = await register(data)
+  router.post("/user/register", async ctx => {
+    const { data } = ctx.request.body;
+    const result = await register(data);
+    const { uid, username, phone, role } = result;
+
+    const token = jwt.sign({ uid }, JWT_SECRET, {
+      expiresIn: "48h"
+    });
 
     ctx.body = {
       code: 1,
-      data: result,
-    }
-  })
+      data: { uid, username, phone, role, token }
+    };
+  });
 
-  router.post('/user/registerAdmin', async ctx => {
-    const { data } = ctx.request.body
-    const result = await registerAdmin(data)
+  router.post("/user/registerAdmin", async ctx => {
+    const { data } = ctx.request.body;
+    const result = await registerAdmin(data);
 
     ctx.body = {
       code: 1,
-      data: result,
-    }
-  })
+      data: result
+    };
+  });
 
-  router.post('/user/login', async ctx => {
-    const { data } = ctx.request.body
-    const { username, psd } = data
-    const res = await findByUsername(username)
+  router.post("/user/login", async ctx => {
+    const { username, psd } = ctx.request.body.data;
+    const { password, uid } = await findByUsername(username);
 
-    const { password, uid } = res
+    let result = { password, uid, username };
     if (password === psd) {
-      const token = jwt.sign({ uid }, 'jintop_token_secret', {
-        expiresIn: '48h',
-      })
-      data.token = token
+      result.token = jwt.sign({ uid }, JWT_SECRET, {
+        expiresIn: "48h"
+      });
     }
 
     ctx.body = {
       code: 1,
-      data: data,
-    }
-  })
+      data: result
+    };
+  });
 
-  router.get('/user/findByUsername', async ctx => {
+  router.get("/user/findByUsername", async ctx => {
     const {
-      data: { username },
-    } = ctx.request.body
-    const res = await findByUsername(username)
+      data: { username }
+    } = ctx.request.body;
+    const res = await findByUsername(username);
 
     ctx.body = {
       code: 1,
-      data: res,
-    }
-  })
+      data: res
+    };
+  });
 
-  router.get('/user/findAllUser', async ctx => {
-    const { page, size } = ctx.query
-    const result = await findAllUser()
+  router.get("/user/findAllUser", async ctx => {
+    const { page, size } = ctx.query;
+    const result = await findAllUser();
 
     ctx.body = {
       code: 1,
-      data: result,
-    }
-  })
-}
+      data: result
+    };
+  });
+};
 
-module.exports = user
+module.exports = user;

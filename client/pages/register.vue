@@ -52,12 +52,11 @@ export default {
         // 如果reject，会进入catch
         const { result } = await this.$validateAll(valiArr);
         if (result) {
-          const result = await this.$service.register({
-            username,
-            password,
-            phone
-          });
-          console.log(result);
+          const {
+            data: { token }
+          } = await this.$service.register({ username, password, phone });
+          console.log(token);
+          localStorage.setItem("token", token);
         }
       } catch (e) {
         console.log(e);
