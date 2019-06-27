@@ -46,7 +46,7 @@ class Interceptor {
         // 业务失败
         return {
           code: 0,
-          errMsg: resData.errMsg
+          err: resData.err
         };
       case -1:
         console.log("登录失效");

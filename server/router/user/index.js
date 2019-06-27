@@ -1,6 +1,5 @@
-const jwt = require("jsonwebtoken"); // 生成accessToken库
+const crypto = require("../../modules/crypto/index");
 const { register, registerAdmin, findByUsername, findAllUser, findByUid } = require("../../database/schema/user");
-const { JWT_SECRET } = require("../../modules/crypto/config");
 
 const user = {};
 
@@ -10,9 +9,7 @@ user.inject = router => {
     const result = await register(data);
     const { uid, username, phone, role } = result;
 
-    const token = jwt.sign({ uid }, JWT_SECRET, {
-      expiresIn: "48h"
-    });
+    let token = crypto.jwtSign({ uid }, "48h");
 
     ctx.body = {
       code: 1,
@@ -34,11 +31,9 @@ user.inject = router => {
     const { username, psd } = ctx.request.body.data;
     const { password, uid } = await findByUsername(username);
 
-    let result = { password, uid, username };
+    let result = { uid, username };
     if (password === psd) {
-      result.token = jwt.sign({ uid }, JWT_SECRET, {
-        expiresIn: "48h"
-      });
+      result.token = crypto.jwtSign({ uid }, "48h");
     }
 
     ctx.body = {

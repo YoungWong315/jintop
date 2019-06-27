@@ -7,17 +7,21 @@ const crypto = require("../modules/crypto");
 const user = require("./user");
 
 const handler = async (ctx, next) => {
-  console.log(`request url: ${ctx.request.url}`);
+  const { url } = ctx.request;
+  console.log(`request url: ${url}`);
   try {
     ctx.status = 200;
     const { data } = ctx.request.body;
     if (data) ctx.request.body.data = crypto.decryptAES(data);
-    await next();
+    await next(); // next()中的错误都会catch到此处
   } catch (err) {
     ctx.status = err.status || 200;
     ctx.body = {
       code: 0,
-      errMsg: err.message
+      err: {
+        errMsg: err.message,
+        errUrl: url
+      }
     };
   }
 };
@@ -29,7 +33,7 @@ const tokenVerifier = async (ctx, next) => {
   } = ctx.request;
   // 认证token
   if (url.includes("/user/findAllUser")) {
-    const { uid, iat, exp } = jwt.verify(authorization, "jintop_token_secret");
+    const { uid, iat, exp } = crypto.jwtVerify(authorization);
   }
   await next();
 };

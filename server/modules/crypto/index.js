@@ -1,10 +1,12 @@
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+const { AES_SECRET, JWT_SECRET } = require("./config");
 const { AES, SHA1 } = CryptoJS;
-const { AES_SECRET } = require("./config");
 
 class Crypto {
-  constructor({ AES_SECRET }) {
+  constructor({ AES_SECRET, JWT_SECRET }) {
     this.AES_SECRET = AES_SECRET;
+    this.JWT_SECRET = JWT_SECRET;
   }
   encryptAES(data) {
     return AES.encrypt(JSON.stringify(data), this.AES_SECRET).toString();
@@ -15,6 +17,12 @@ class Crypto {
   encryptSHA1(encryptText) {
     return SHA1(encryptText).toString();
   }
+  jwtSign(data, expiresIn) {
+    return this.encryptAES(jwt.sign(data, this.JWT_SECRET, { expiresIn }));
+  }
+  jwtVerify(token) {
+    return jwt.verify(this.decryptAES(token), this.JWT_SECRET);
+  }
 }
 
-module.exports = new Crypto({ AES_SECRET });
+module.exports = new Crypto({ AES_SECRET, JWT_SECRET });
