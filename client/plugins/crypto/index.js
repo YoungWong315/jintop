@@ -1,4 +1,4 @@
-import Vue from "vue";
-import crypto from "./crypto";
+import Vue from 'vue'
+import crypto from './crypto'
 
-export default () => Vue.use(crypto);
+export default () => Vue.use(crypto)

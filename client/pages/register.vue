@@ -1,18 +1,24 @@
 <template>
   <section class="container">
     <div class="form-container">
-      <el-input
-        type="text"
-        placeholder="用户名"
-        v-model="username"
-        clearable
-        autofocus
-        minlength="14"
-        maxlength="16"
-      ></el-input>
-      <el-input type="text" placeholder="密码" v-model="password" clearable show-password></el-input>
-      <el-input type="text" placeholder="手机号" v-model="phone" clearable></el-input>
-      <el-button type="primary" @click="submit">立即注册</el-button>
+      <el-input type="text"
+                placeholder="用户名"
+                v-model="username"
+                clearable
+                autofocus
+                minlength="14"
+                maxlength="16"></el-input>
+      <el-input type="text"
+                placeholder="密码"
+                v-model="password"
+                clearable
+                show-password></el-input>
+      <el-input type="text"
+                placeholder="手机号"
+                v-model="phone"
+                clearable></el-input>
+      <el-button type="primary"
+                 @click="submit">立即注册</el-button>
     </div>
   </section>
 </template>
@@ -21,49 +27,49 @@
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      phone: ""
-    };
+      username: '',
+      password: '',
+      phone: ''
+    }
   },
-  layout: "default",
+  layout: 'default',
   mounted() {},
   methods: {
     async submit() {
-      const { username, password, phone } = this;
+      const { username, password, phone } = this
       const valiArr = [
         {
-          requirement: "username",
-          key: "username",
+          requirement: 'username',
+          key: 'username',
           value: username
         },
         {
-          requirement: "password",
-          key: "password",
+          requirement: 'password',
+          key: 'password',
           value: password
         },
         {
-          requirement: "phone",
-          key: "phone",
+          requirement: 'phone',
+          key: 'phone',
           value: phone
         }
-      ];
+      ]
       try {
         // 如果reject，会进入catch
-        const { result } = await this.$validateAll(valiArr);
+        const { result } = await this.$validateAll(valiArr)
         if (result) {
           const {
             data: { token }
-          } = await this.$service.register({ username, password, phone });
-          console.log(token);
-          localStorage.setItem("token", token);
+          } = await this.$service.register({ username, password, phone })
+          console.log(token)
+          localStorage.setItem('token', token)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     }
   }
-};
+}
 </script>
 
 <style>
