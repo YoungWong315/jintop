@@ -29,7 +29,10 @@
         <nuxt-link :to="{name: 'login'}">登录</nuxt-link>
       </el-menu-item>
     </el-menu>
-
+    <!-- 
+      1. 需要一个删除，修改用户角色，搜索
+      2. 登录名唯一
+     -->
     <!-- 内容容器 -->
     <table>
       <thead>
