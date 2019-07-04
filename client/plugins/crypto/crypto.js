@@ -4,6 +4,7 @@ const { AES, SHA1 } = CryptoJS
 const crypto = require('../../../modules/crypto/index.js')
 
 console.log(crypto)
+// https://www.cnblogs.com/libin-1/p/7127481.html
 
 /* class Crypto {
   constructor({ AES_SECRET }) {
