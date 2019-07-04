@@ -1,4 +1,4 @@
-const crypto = require('../../modules/crypto/index')
+const crypto = require('../../../modules/crypto')
 const {
   register,
   registerAdmin,

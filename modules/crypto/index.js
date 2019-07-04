@@ -27,4 +27,6 @@ class Crypto {
   }
 }
 
-module.exports = new Crypto({ AES_SECRET, JWT_SECRET })
+const crypto = new Crypto({ AES_SECRET, JWT_SECRET })
+
+module.exports = crypto

@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const koaBody = require('koa-body') // 处理post请求数据
 const jwt = require('jsonwebtoken')
-const crypto = require('../modules/crypto')
+const crypto = require('../../modules/crypto')
 
 // 引入router<-->user处理模块
 const user = require('./user')
