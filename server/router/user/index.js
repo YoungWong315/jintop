@@ -11,8 +11,10 @@ const user = {}
 
 user.inject = router => {
   router.post('/user/register', async ctx => {
-    const { data } = ctx.request.body
-    const result = await register(data)
+    const { username, password, phone } = ctx.request.body.data
+    // const user = await findByUsername(username)
+
+    const result = await register({ username, password, phone })
     const { uid, username, phone, role } = result
 
     let token = crypto.jwtSign({ uid }, '48h')
