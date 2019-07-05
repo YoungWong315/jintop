@@ -5,23 +5,25 @@ const {
   findByUsername,
   findAllUser,
   findByUid,
+  checkUsernameExist,
 } = require('../../database/schema/user')
 
 const user = {}
 
 user.inject = router => {
   router.post('/user/register', async ctx => {
-    const { username, password, phone } = ctx.request.body.data
-    // const user = await findByUsername(username)
+    const { username, password } = ctx.request.body.data
+    if (!(await checkUsernameExist(username))) {
+      const result = await register({ username, password })
+      const { uid, username: uName, role } = result
+      let token = crypto.jwtSign({ uid }, '48h')
 
-    const result = await register({ username, password, phone })
-    const { uid, username, phone, role } = result
-
-    let token = crypto.jwtSign({ uid }, '48h')
-
-    ctx.body = {
-      code: 1,
-      data: { uid, username, phone, role, token },
+      ctx.body = {
+        code: 1,
+        data: { uid, username: uName, role, token },
+      }
+    } else {
+      throw { message: '用户名已被占用' }
     }
   })
 
@@ -41,15 +43,16 @@ user.inject = router => {
 
     if (user) {
       const { password, uid } = user
-      // 响应数据
-      const res = {
-        code: 1,
-        data: { uid, username },
-      }
       if (password === psd) {
-        // 用户密码正确，响应数据中加入token
-        res.data.token = crypto.jwtSign({ uid }, '48h')
-        ctx.body = res
+        // 响应数据
+        ctx.body = {
+          code: 1,
+          data: {
+            uid,
+            username,
+            token: crypto.jwtSign({ uid }, '48h'),
+          },
+        }
       } else {
         throw { message: '用户名或密码错误' } // 抛出的对象，作为err参数，进入到handler的catch中
       }

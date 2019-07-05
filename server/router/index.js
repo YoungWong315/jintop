@@ -29,7 +29,6 @@ const handler = async (ctx, next) => {
     if (data) ctx.request.body.data = crypto.decryptAES(data)
     await next() // next()中的throw错误都会catch到此处
   } catch (err) {
-    console.log(err)
     ctx.status = err.status || 200
     ctx.body = {
       code: 0,

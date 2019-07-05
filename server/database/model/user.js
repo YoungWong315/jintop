@@ -17,7 +17,7 @@ const User = sequelize.define('user', {
   },
   phone: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   role: {
     type: Sequelize.STRING,

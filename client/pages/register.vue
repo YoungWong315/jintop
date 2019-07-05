@@ -13,10 +13,10 @@
                 v-model="password"
                 clearable
                 show-password></el-input>
-      <el-input type="text"
+      <!-- <el-input type="text"
                 placeholder="手机号"
                 v-model="phone"
-                clearable></el-input>
+                clearable></el-input> -->
       <el-button type="primary"
                  @click="submit">立即注册</el-button>
     </div>
@@ -47,22 +47,27 @@ export default {
           requirement: 'password',
           key: 'password',
           value: password
-        },
-        {
+        }
+        /* {
           requirement: 'phone',
           key: 'phone',
           value: phone
-        }
+        } */
       ]
       try {
         // 如果reject，会进入catch
         const { result } = await this.$validateAll(valiArr)
         if (result) {
-          const {
-            data: { token }
-          } = await this.$service.register({ username, password, phone })
-          console.log(token)
-          localStorage.setItem('token', token)
+          const { code, data, err } = await this.$service.register({
+            username,
+            password
+          })
+          if (code === 1) {
+            this.$message.success(`注册成功`)
+            localStorage.setItem('token', data.token)
+          } else {
+            this.$message.error(err.errMsg)
+          }
         }
       } catch (e) {
         console.log(e)
