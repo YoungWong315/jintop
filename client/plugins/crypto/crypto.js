@@ -1,12 +1,7 @@
 const CryptoJS = require('crypto-js')
 const { AES, SHA1 } = CryptoJS
 
-const crypto = require('../../../modules/crypto/index.js')
-
-console.log(crypto)
-// https://www.cnblogs.com/libin-1/p/7127481.html
-
-/* class Crypto {
+class Crypto {
   constructor({ AES_SECRET }) {
     this.AES_SECRET = AES_SECRET
   }
@@ -21,12 +16,10 @@ console.log(crypto)
 
 const secret = {
   AES_SECRET: 'jintop_AES_secret',
-} */
-
-// const crypto = new Crypto(secret)
+}
 
 export default {
   install(Vue) {
-    Vue.prototype.$crypto = crypto
+    Vue.prototype.$crypto = new Crypto(secret)
   },
 }

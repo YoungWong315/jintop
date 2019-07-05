@@ -40,10 +40,9 @@ export default {
   methods: {
     async submit() {
       const { username, psd } = this
-      const {
-        data: { token }
-      } = await this.$service.login({ username, psd })
-      localStorage.setItem('token', token)
+      const { data, err } = await this.$service.login({ username, psd })
+      console.log(data, err)
+      localStorage.setItem('token', data.token)
     }
   }
 }

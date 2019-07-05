@@ -1,4 +1,4 @@
-const crypto = require('../../../modules/crypto')
+const crypto = require('../../modules/crypto')
 const {
   register,
   registerAdmin,
@@ -37,15 +37,23 @@ user.inject = router => {
     const { username, psd } = ctx.request.body.data
     const { password, uid } = await findByUsername(username)
 
+    let res = {}
     let result = { uid, username }
+
     if (password === psd) {
       result.token = crypto.jwtSign({ uid }, '48h')
+      res = {
+        code: 1,
+        data: result,
+      }
+    } else {
+      res = {
+        code: 0,
+        err: '用户名或密码错误',
+      }
     }
 
-    ctx.body = {
-      code: 1,
-      data: result,
-    }
+    ctx.body = res
   })
 
   router.get('/user/findByUsername', async ctx => {
