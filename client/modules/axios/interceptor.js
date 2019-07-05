@@ -53,6 +53,7 @@ class Interceptor {
         console.log('登录失效')
         return {
           code: -1,
+          err: resData.err,
         }
       default:
         // 业务中还会有一些特殊 code 逻辑，在这里做统一处理，也可以下方它们到业务层

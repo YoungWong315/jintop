@@ -35,25 +35,25 @@ user.inject = router => {
 
   router.post('/user/login', async ctx => {
     const { username, psd } = ctx.request.body.data
-    const { password, uid } = await findByUsername(username)
+    const user = await findByUsername(username)
 
-    let res = {}
-    let result = { uid, username }
-
-    if (password === psd) {
-      result.token = crypto.jwtSign({ uid }, '48h')
-      res = {
+    if (user) {
+      const { password, uid } = user
+      // 响应数据
+      const res = {
         code: 1,
-        data: result,
+        data: { uid, username },
+      }
+      if (password === psd) {
+        // 用户密码正确，响应数据中加入token
+        res.data.token = crypto.jwtSign({ uid }, '48h')
+        ctx.body = res
+      } else {
+        throw { message: '用户名或密码错误' } // 抛出的对象，作为err参数，进入到handler的catch中
       }
     } else {
-      res = {
-        code: 0,
-        err: '用户名或密码错误',
-      }
+      throw { message: '用户不存在' }
     }
-
-    ctx.body = res
   })
 
   router.get('/user/findByUsername', async ctx => {

@@ -37,12 +37,17 @@ export default {
   components: {
     Logo
   },
+  mounted() {},
   methods: {
     async submit() {
       const { username, psd } = this
-      const { data, err } = await this.$service.login({ username, psd })
+      const { code, data, err } = await this.$service.login({ username, psd })
       console.log(data, err)
-      localStorage.setItem('token', data.token)
+      if (code === 1) {
+        localStorage.setItem('token', data.token)
+      } else {
+        this.$message.error(err.errMsg)
+      }
     }
   }
 }
