@@ -25,6 +25,7 @@ export default {
       activeIndex: '1'
     }
   },
+  mounted() {},
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath)
