@@ -19,6 +19,8 @@
 </template>
 
 <script>
+const _ = require('lodash')
+
 export default {
   data() {
     return {

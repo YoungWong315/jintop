@@ -46,9 +46,9 @@ const tokenVerifier = async (ctx, next) => {
     header: { authorization },
   } = ctx.request
   // 认证token
-  /* if (url.includes('/user/findAllUser')) {
+  if (url.includes('/user/findAllUser')) {
     const { uid, iat, exp } = crypto.jwtVerify(authorization)
-  } */
+  }
   await next()
 }
 
