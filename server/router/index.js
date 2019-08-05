@@ -5,6 +5,8 @@ const crypto = require('../modules/crypto')
 
 // 引入router<-->user处理模块
 const user = require('./user')
+// 引入需要token校验的接口map
+const tokenMap = require('./tokenMap')
 
 /**
  * 接口统一处理handler:
@@ -45,8 +47,9 @@ const tokenVerifier = async (ctx, next) => {
     url,
     header: { authorization },
   } = ctx.request
+
   // 认证token
-  if (url.includes('/user/findAllUser')) {
+  if (tokenMap.get(url.split('?')[0])) {
     const { uid, iat, exp } = crypto.jwtVerify(authorization)
   }
   await next()
