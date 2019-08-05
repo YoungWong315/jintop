@@ -50,7 +50,12 @@ class Interceptor {
           err: resData.err,
         }
       case -1:
-        console.log('登录失效')
+        this.vm.$message.error('登录失效')
+        if (!process.server) {
+          setTimeout(() => {
+            location.href = '/login'
+          }, 2000)
+        }
         return {
           code: -1,
           err: resData.err,

@@ -33,7 +33,7 @@ const handler = async (ctx, next) => {
   } catch (err) {
     ctx.status = err.status || 200
     ctx.body = {
-      code: 0,
+      code: err.code || 0,
       err: {
         errMsg: err.message,
         errUrl: url,
@@ -50,7 +50,16 @@ const tokenVerifier = async (ctx, next) => {
 
   // 认证token
   if (tokenMap.get(url.split('?')[0])) {
-    const { uid, iat, exp } = crypto.jwtVerify(authorization)
+    try {
+      const { uid, iat, exp } = crypto.jwtVerify(authorization)
+      console.log({ uid, iat, exp })
+    } catch (err) {
+      throw {
+        code: -1,
+        message: `${err.message}, expireAt: ${err.expiredAt}`,
+      }
+    }
+    return
   }
   await next()
 }
