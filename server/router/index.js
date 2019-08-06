@@ -59,7 +59,6 @@ const tokenVerifier = async (ctx, next) => {
         message: `${err.message}, expireAt: ${err.expiredAt}`,
       }
     }
-    return
   }
   await next()
 }

@@ -29,6 +29,10 @@
         <nuxt-link :to="{name: 'login'}">登录</nuxt-link>
       </el-menu-item>
     </el-menu>
+
+    <div>
+      <div>{{ project }}</div>
+    </div>
     <!-- 
       1. 需要一个删除，修改用户角色，搜索
       2. 登录名唯一
@@ -59,7 +63,12 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
+  asyncData(ctx) {
+    return { project: 'asyncData project' }
+  },
   data() {
     return {
       activeIndex: '1',
@@ -77,7 +86,7 @@ export default {
     async findAllUser() {
       const result = await this.$service.findAllUser(0, 10)
       const { code, data } = result
-      console.log(result)
+
       if (code === 1) {
         this.userList = data
       }

@@ -1,87 +1,19 @@
-const crypto = require('../../modules/crypto')
 const {
   register,
   registerAdmin,
+  login,
   findByUsername,
   findAllUser,
-  findByUid,
-  checkUsernameExist,
-} = require('../../database/schema/user')
+} = require('./handler')
 
 const user = {}
 
 user.inject = router => {
-  router.post('/user/register', async ctx => {
-    const { username, password } = ctx.request.body.data
-    if (!(await checkUsernameExist(username))) {
-      const result = await register({ username, password })
-      const { uid, username: uName, role } = result
-      let token = crypto.jwtSign({ uid }, '48h')
-
-      ctx.body = {
-        code: 1,
-        data: { uid, username: uName, role, token },
-      }
-    } else {
-      throw { message: '用户名已被占用' }
-    }
-  })
-
-  router.post('/user/registerAdmin', async ctx => {
-    const { data } = ctx.request.body
-    const result = await registerAdmin(data)
-
-    ctx.body = {
-      code: 1,
-      data: result,
-    }
-  })
-
-  router.post('/user/login', async ctx => {
-    const { username, psd } = ctx.request.body.data
-    const user = await findByUsername(username)
-
-    if (user) {
-      const { password, uid } = user
-      if (password === psd) {
-        // 响应数据
-        ctx.body = {
-          code: 1,
-          data: {
-            uid,
-            username,
-            token: crypto.jwtSign({ uid }, '48h'),
-          },
-        }
-      } else {
-        throw { message: '用户名或密码错误' } // 抛出的对象，作为err参数，进入到handler的catch中
-      }
-    } else {
-      throw { message: '用户不存在' }
-    }
-  })
-
-  router.get('/user/findByUsername', async ctx => {
-    const {
-      data: { username },
-    } = ctx.request.body
-    const res = await findByUsername(username)
-
-    ctx.body = {
-      code: 1,
-      data: res,
-    }
-  })
-
-  router.get('/user/findAllUser', async ctx => {
-    const { page, size } = ctx.query
-    const result = await findAllUser()
-
-    ctx.body = {
-      code: 1,
-      data: result,
-    }
-  })
+  router.post('/user/register', register)
+  router.post('/user/registerAdmin', registerAdmin)
+  router.post('/user/login', login)
+  router.get('/user/findByUsername', findByUsername)
+  router.get('/user/findAllUser', findAllUser)
 }
 
 module.exports = user
