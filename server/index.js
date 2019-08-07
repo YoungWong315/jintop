@@ -60,6 +60,7 @@ const startServer = async () => {
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true,
+    processId: process.pid,
   })
 }
 
