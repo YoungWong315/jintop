@@ -15,7 +15,7 @@ module.exports = {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: '/jt/client/assets/favicon.ico',
+        href: '/favicon.ico',
       },
     ],
   },
