@@ -1,8 +1,14 @@
 <template>
   <section class="container">
     <div>
-      <el-input placeholder="用户名/手机号" v-model="username" clearable autofocus></el-input>
-      <el-input placeholder="密码" v-model="password" clearable show-password></el-input>
+      <el-input placeholder="用户名/手机号"
+                v-model="username"
+                clearable
+                autofocus></el-input>
+      <el-input placeholder="密码"
+                v-model="psd"
+                clearable
+                show-password></el-input>
       <div class="flex-wrap">
         <nuxt-link :to="{name: 'register'}">
           <el-button type="text">忘记密码?</el-button>
@@ -11,34 +17,40 @@
           <el-button type="text">立即注册</el-button>
         </nuxt-link>
       </div>
-      <el-button type="success" @click="submit">登录</el-button>
+      <el-button type="success"
+                 @click="submit">登录</el-button>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
+import Logo from '~/components/Logo.vue'
 
 export default {
   data() {
     return {
-      username: "",
-      password: ""
-    };
+      username: '',
+      psd: ''
+    }
   },
-  layout: "default",
+  layout: 'default',
   components: {
     Logo
   },
+  mounted() {},
   methods: {
     async submit() {
-      console.log(this);
-      const { username, password } = this;
-      const result = await this.$service.login({ username, password });
-      console.log(result);
+      const { username, psd } = this
+      const { code, data, err } = await this.$service.login({ username, psd })
+      console.log(data, err)
+      if (code === 1) {
+        localStorage.setItem('token', data.token)
+      } else {
+        this.$message.error(err.errMsg)
+      }
     }
   }
-};
+}
 </script>
 
 <style>

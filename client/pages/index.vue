@@ -19,18 +19,21 @@
 </template>
 
 <script>
+const _ = require('lodash')
+
 export default {
   data() {
     return {
-      activeIndex: "1"
-    };
+      activeIndex: '1'
+    }
   },
+  mounted() {},
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath)
     }
   }
-};
+}
 </script>
 
 <style>

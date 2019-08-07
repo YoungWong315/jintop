@@ -1,54 +1,19 @@
-const jwt = require("jsonwebtoken"); // 生成accessToken库
-const { register, findByUsername, findAllUser } = require("../../database/schema/user");
+const {
+  register,
+  registerAdmin,
+  login,
+  findByUsername,
+  findAllUser,
+} = require('./handler')
 
-const user = {};
+const user = {}
 
 user.inject = router => {
-  router.post("/user/register", async ctx => {
-    const { data } = ctx.request.body;
-    const result = await register(data);
+  router.post('/user/register', register)
+  router.post('/user/registerAdmin', registerAdmin)
+  router.post('/user/login', login)
+  router.get('/user/findByUsername', findByUsername)
+  router.get('/user/findAllUser', findAllUser)
+}
 
-    ctx.body = {
-      code: 1,
-      data: result
-    };
-  });
-
-  router.post("/user/login", async ctx => {
-    const { data } = ctx.request.body;
-
-    console.log("session ------------<");
-    const session = ctx.session;
-    console.log(ctx);
-
-    ctx.body = {
-      code: 1,
-      data: data
-    };
-  });
-
-  router.get("/user/findByUsername", async ctx => {
-    const {
-      data: { username }
-    } = ctx.request.body;
-    const res = await findByUsername(username);
-
-    ctx.body = {
-      code: 1,
-      data: res
-    };
-  });
-
-  router.get("/user/findAllUser", async ctx => {
-    const { page, size } = ctx.query;
-    console.log("query: ", page, size);
-    const result = await findAllUser();
-
-    ctx.body = {
-      code: 1,
-      data: result
-    };
-  });
-};
-
-module.exports = user;
+module.exports = user
