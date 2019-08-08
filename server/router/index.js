@@ -21,17 +21,15 @@ const tokenMap = require('./tokenMap')
       errUrl: url,       ------------->  (错误接口)
     },
   }
- */
+*/
 const handler = async (ctx, next) => {
   const { url } = ctx.request
   console.log(`request url: ${url}`)
   try {
     ctx.status = 200
     const { data } = ctx.request.body
-    console.log(data)
     if (data) {
       const decryptData = crypto.decryptRSA(data)
-      console.log(decryptData)
       ctx.request.body.data = decryptData
     }
     await next() // next()中的throw错误都会catch到此处
