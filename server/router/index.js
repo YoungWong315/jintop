@@ -28,10 +28,7 @@ const handler = async (ctx, next) => {
   try {
     ctx.status = 200
     const { data } = ctx.request.body
-    if (data) {
-      const decryptData = crypto.decryptRSA(data)
-      ctx.request.body.data = decryptData
-    }
+    if (data) ctx.request.body.data = crypto.decryptRSA(data)
     await next() // next()中的throw错误都会catch到此处
   } catch (err) {
     ctx.status = err.status || 200
