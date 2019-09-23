@@ -15,14 +15,14 @@ class Interceptor {
     }
 
     // aes加密传输数据
-    if (requestObj.hasOwnProperty('data'))
-      requestObj.data = this.vm.$crypto.encryptRSA(requestObj.data)
+    /* if (requestObj.hasOwnProperty('data'))
+      requestObj.data = this.vm.$crypto.encryptRSA(requestObj.data) */
 
     // 格式不可修改，否则后端无法拿到body
     requestObj.data = {
       data: requestObj.data,
     }
-    console.log(requestObj.data)
+    // console.log(requestObj.data)
     return requestObj
   }
 

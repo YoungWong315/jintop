@@ -27,8 +27,8 @@ const handler = async (ctx, next) => {
   console.log(`request url: ${url}`)
   try {
     ctx.status = 200
-    const { data } = ctx.request.body
-    if (data) ctx.request.body.data = crypto.decryptRSA(data)
+    /* const { data } = ctx.request.body
+    if (data) ctx.request.body.data = crypto.decryptRSA(data) */
     await next() // next()中的throw错误都会catch到此处
   } catch (err) {
     ctx.status = err.status || 200
