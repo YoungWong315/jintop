@@ -11,7 +11,7 @@ class Interceptor {
     // RPODCUTION ? "" : console.info("requestInterceptorFunc", `url: ${requestObj.url}`, requestObj);
     // 设置登录header ---> 此处代码会运行在服务端，所以访问不到localStorage
     if (!process.server) {
-      console.log(localStorage.getItem('token'))
+      // console.log(localStorage.getItem('token'))
       requestObj.headers['Authorization'] = localStorage.getItem('token')
     }
 

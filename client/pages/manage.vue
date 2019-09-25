@@ -22,11 +22,11 @@
       </el-submenu>
       <el-menu-item index="3"
                     class="index-register">
-        <nuxt-link :to="{name: 'register'}">注册</nuxt-link>
+        <nuxt-link :to="{name: 'login-register'}">注册</nuxt-link>
       </el-menu-item>
       <el-menu-item index="4"
                     class="index-login">
-        <nuxt-link :to="{name: 'login'}">登录</nuxt-link>
+        <nuxt-link :to="{name: 'login-login'}">登录</nuxt-link>
       </el-menu-item>
     </el-menu>
 
