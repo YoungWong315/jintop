@@ -9,7 +9,7 @@ const {
 } = require('../../database/schema/user')
 
 exports.register = async ctx => {
-  const { username, password } = ctx.request.body.data
+  const { username, psd: password } = ctx.request.body.data
   if (!(await checkUsernameExist(username))) {
     const result = await register({ username, password })
     const { uid, username: uName, role } = result

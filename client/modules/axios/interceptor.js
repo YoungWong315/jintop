@@ -11,6 +11,7 @@ class Interceptor {
     // RPODCUTION ? "" : console.info("requestInterceptorFunc", `url: ${requestObj.url}`, requestObj);
     // 设置登录header ---> 此处代码会运行在服务端，所以访问不到localStorage
     if (!process.server) {
+      console.log(localStorage.getItem('token'))
       requestObj.headers['Authorization'] = localStorage.getItem('token')
     }
 
@@ -53,9 +54,9 @@ class Interceptor {
       case -1:
         this.vm.$message.error('登录失效')
         if (!process.server) {
-          setTimeout(() => {
+          /* setTimeout(() => {
             location.href = '/login'
-          }, 2000)
+          }, 2000) */
         }
         return {
           code: -1,

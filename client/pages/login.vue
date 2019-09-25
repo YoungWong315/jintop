@@ -42,9 +42,10 @@ export default {
     async submit() {
       const { username, psd } = this
       const { code, data, err } = await this.$service.login({ username, psd })
-      console.log(data, err)
       if (code === 1) {
         localStorage.setItem('token', data.token)
+        // console.log(this.$router)
+        this.$router.back()
       } else {
         this.$message.error(err.errMsg)
       }

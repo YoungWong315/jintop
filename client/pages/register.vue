@@ -60,7 +60,7 @@ export default {
         if (result) {
           const { code, data, err } = await this.$service.register({
             username,
-            password
+            psd: password
           })
           if (code === 1) {
             this.$message.success(`注册成功`)
