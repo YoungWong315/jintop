@@ -18,6 +18,25 @@ const postArticle = articleData => {
   })
 }
 
+const getArticleByUserId = async userId => {
+  return Article.findAll({
+    where: { userId },
+  })
+}
+
+const getArticleByArticleId = async articleId => {
+  return Article.findAll({
+    where: { articleId },
+  })
+}
+
+const getArticleAll = () => {
+  return Article.findAll()
+}
+
 module.exports = {
   postArticle,
+  getArticleByUserId,
+  getArticleByArticleId,
+  getArticleAll,
 }

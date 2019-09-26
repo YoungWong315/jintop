@@ -7,49 +7,48 @@ const {
   findByUid,
   checkUsernameExist,
 } = require('../../database/schema/user')
+const { getCtxBody, getCtxQuery, successResponse } = require('../util')
 
 exports.register = async ctx => {
-  const { username, psd: password } = ctx.request.body.data
+  const { username, psd: password } = getCtxBody(ctx)
+  // 检查用户名是否存在
   if (!(await checkUsernameExist(username))) {
     const result = await register({ username, password })
     const { uid, username: uName, role } = result
+    // 发放token
     let token = crypto.jwtSign({ uid }, '48h')
 
-    ctx.body = {
-      code: 1,
-      data: { uid, username: uName, role, token },
+    const data = {
+      uid,
+      username: uName,
+      role,
+      token,
     }
+    successResponse(ctx, data)
   } else {
     throw { message: '用户名已被占用' }
   }
 }
 
 exports.registerAdmin = async ctx => {
-  const { data } = ctx.request.body
-  const result = await registerAdmin(data)
-
-  ctx.body = {
-    code: 1,
-    data: result,
-  }
+  const result = await registerAdmin(getCtxBody(ctx))
+  successResponse(ctx, result)
 }
 
 exports.login = async ctx => {
-  const { username, psd } = ctx.request.body.data
+  const { username, psd } = getCtxBody(ctx)
   const user = await findByUsername(username)
 
   if (user) {
     const { password, uid } = user
     if (password === psd) {
       // 响应数据
-      ctx.body = {
-        code: 1,
-        data: {
-          uid,
-          username,
-          token: crypto.jwtSign({ uid }, '48h'),
-        },
+      const data = {
+        uid,
+        username,
+        token: crypto.jwtSign({ uid }, '48h'),
       }
+      successResponse(ctx, data)
     } else {
       throw { message: '用户名或密码错误' } // 抛出的对象，作为err参数，进入到handler的catch中
     }
@@ -59,23 +58,14 @@ exports.login = async ctx => {
 }
 
 exports.findByUsername = async ctx => {
-  const {
-    data: { username },
-  } = ctx.request.body
+  const { username } = getCtxBody(ctx)
   const res = await findByUsername(username)
-
-  ctx.body = {
-    code: 1,
-    data: res,
-  }
+  successResponse(ctx, res)
 }
 
 exports.findAllUser = async ctx => {
-  const { page, size } = ctx.query
+  const { page, size } = getCtxQuery(ctx)
   const result = await findAllUser()
 
-  ctx.body = {
-    code: 1,
-    data: result,
-  }
+  successResponse(ctx, result)
 }

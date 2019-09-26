@@ -1,16 +1,53 @@
-const { postArticle } = require('../../database/schema/article')
+const {
+  postArticle,
+  getArticleByUserId,
+  getArticleByArticleId,
+  getArticleAll,
+} = require('../../database/schema/article')
+
+const { getCtxBody, getCtxQuery, successResponse } = require('../util')
 
 exports.postArticle = async ctx => {
-  const { userId, content } = ctx.request.body.data
-  if (!userId) {
-    throw { message: 'userId is required' }
-  }
+  const { userId = '', content } = getCtxBody(ctx)
   if (!content) {
     throw { message: 'content cant be blank' }
   }
-  await postArticle({ userId, content })
-  ctx.body = {
-    code: 1,
-    data: { msg: '发布成功' },
+  try {
+    await postArticle({ userId, content })
+    successResponse(ctx, { msg: '发布成功' })
+  } catch (e) {
+    throw { message: e }
+  }
+}
+
+exports.getArticleByUserId = async ctx => {
+  const { userId } = getCtxQuery(ctx)
+  try {
+    const article = await getArticleByUserId(userId)
+    console.log(article)
+    successResponse(ctx, article)
+  } catch (e) {
+    throw { message: e }
+  }
+}
+
+exports.getArticleByArticleId = async ctx => {
+  const { articleId } = getCtxQuery(ctx)
+  try {
+    const article = await getArticleByArticleId(articleId)
+    console.log(article)
+    successResponse(ctx, article)
+  } catch (e) {
+    throw { message: e }
+  }
+}
+
+exports.getArticleAll = async () => {
+  try {
+    const article = await getArticleAll()
+    console.log(article)
+    successResponse(ctx, article)
+  } catch (e) {
+    throw { message: e }
   }
 }

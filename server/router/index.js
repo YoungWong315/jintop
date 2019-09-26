@@ -1,10 +1,11 @@
 const router = require('koa-router')()
 const koaBody = require('koa-body') // 处理post请求数据
-const jwt = require('jsonwebtoken')
 const crypto = require('../modules/crypto')
 
-// 引入router<-->user处理模块
+// 引入router的处理模块
 const user = require('./user')
+const article = require('./article')
+
 // 引入需要token校验的接口map
 const tokenMap = require('./tokenMap')
 
@@ -75,6 +76,8 @@ router
   .use(handler)
   .use(tokenVerifier)
 
+// 注入接口
 user.inject(router)
+article.inject(router)
 
 module.exports = router
