@@ -3,7 +3,7 @@ const shortid = require('shortid')
 const { transTimeStamp } = require('../../modules/util')
 
 const postArticle = articleData => {
-  const { userId, content } = articleData
+  const { uid, content } = articleData
   const { year, month, day, hour, minute, second } = transTimeStamp(
     new Date().getTime(),
   )
@@ -13,14 +13,14 @@ const postArticle = articleData => {
 
   Article.create({
     articleId,
-    userId,
+    uid,
     content,
   })
 }
 
-const getArticleByUserId = async userId => {
+const getArticleByUid = async uid => {
   return Article.findAll({
-    where: { userId },
+    where: { uid },
   })
 }
 
@@ -30,13 +30,13 @@ const getArticleByArticleId = async articleId => {
   })
 }
 
-const getArticleAll = () => {
+const getArticleAll = async () => {
   return Article.findAll()
 }
 
 module.exports = {
   postArticle,
-  getArticleByUserId,
+  getArticleByUid,
   getArticleByArticleId,
   getArticleAll,
 }

@@ -1,6 +1,6 @@
 const {
   postArticle,
-  getArticleByUserId,
+  getArticleByUid,
   getArticleByArticleId,
   getArticleAll,
 } = require('./handler')
@@ -9,9 +9,9 @@ const article = {}
 
 article.inject = router => {
   router.post('/article/post', postArticle)
-  router.get('/article/list/userid', getArticleByUserId)
+  router.get('/article/list/uid', getArticleByUid)
   router.get('/article/list/articleid', getArticleByArticleId)
-  router.get('/article/list', getArticleAll)
+  router.post('/article/list', getArticleAll)
 }
 
 module.exports = article

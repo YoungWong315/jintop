@@ -1,6 +1,6 @@
 const {
   postArticle,
-  getArticleByUserId,
+  getArticleByUid,
   getArticleByArticleId,
   getArticleAll,
 } = require('../../database/schema/article')
@@ -8,22 +8,24 @@ const {
 const { getCtxBody, getCtxQuery, successResponse } = require('../util')
 
 exports.postArticle = async ctx => {
-  const { userId = '', content } = getCtxBody(ctx)
+  const { uid = '', content } = getCtxBody(ctx)
+  console.log(uid, content)
   if (!content) {
     throw { message: 'content cant be blank' }
   }
   try {
-    await postArticle({ userId, content })
+    const result = await postArticle({ uid, content })
+    console.log(result)
     successResponse(ctx, { msg: '发布成功' })
   } catch (e) {
     throw { message: e }
   }
 }
 
-exports.getArticleByUserId = async ctx => {
-  const { userId } = getCtxQuery(ctx)
+exports.getArticleByUid = async ctx => {
+  const { uid } = getCtxQuery(ctx)
   try {
-    const article = await getArticleByUserId(userId)
+    const article = await getArticleByUid(uid)
     console.log(article)
     successResponse(ctx, article)
   } catch (e) {
@@ -42,7 +44,8 @@ exports.getArticleByArticleId = async ctx => {
   }
 }
 
-exports.getArticleAll = async () => {
+exports.getArticleAll = async ctx => {
+  console.log(ctx)
   try {
     const article = await getArticleAll()
     console.log(article)

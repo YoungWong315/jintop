@@ -7,7 +7,7 @@ const Article = sequelize.define('article', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  userId: {
+  uid: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -16,6 +16,6 @@ const Article = sequelize.define('article', {
     allowNull: false,
   },
 })
-User.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
+Article.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
 
 module.exports = Article
