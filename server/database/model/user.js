@@ -1,11 +1,13 @@
 const Database = require('../index')
-const db = new Database()
+const db = Database.getSingletonInstance()
 const { Sequelize, sequelize } = db
 
 const User = sequelize.define('user', {
   uid: {
     type: Sequelize.STRING,
     allowNull: false,
+    primaryKey: true,
+    unique: true,
   },
   username: {
     type: Sequelize.STRING,

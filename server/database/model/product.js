@@ -2,22 +2,27 @@ const Database = require('../index')
 const db = Database.getSingletonInstance()
 const { Sequelize, sequelize } = db
 
-const Article = sequelize.define('article', {
-  articleId: {
+const Product = sequelize.define('product', {
+  uniqueId: {
     type: Sequelize.STRING,
     allowNull: false,
     primaryKey: true,
     unique: true,
   },
-  uid: {
+  pid: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  content: {
+  title: {
     type: Sequelize.STRING,
-    allowNull: false,
+  },
+  imgurl: {
+    type: Sequelize.STRING,
+  },
+  plink: {
+    type: Sequelize.STRING,
   },
 })
-Article.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
+Product.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
 
-module.exports = Article
+module.exports = Product

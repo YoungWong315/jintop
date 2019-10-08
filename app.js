@@ -1,6 +1,6 @@
 // 链接数据库
 const Database = require('./server/database')
-const db = new Database()
+const db = Database.getSingletonInstance()
 db.connect()
 
 // 打开集群
@@ -32,5 +32,4 @@ const startServer = require('./server')
 startServer()
 
 // start crawler
-const startCrawler = require('./server/crawler')
-// startCrawler();
+require('./server/crawler')

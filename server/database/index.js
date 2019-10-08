@@ -4,12 +4,19 @@ const { db_config } = require('../../nuxt.config.js')
 
 class Database {
   constructor() {
+    this.instance = null
     this.Sequelize = Sequelize
     this.sequelize = new Sequelize(
       `${db_config.dialect}://${db_config.username}:${db_config.password}@${
         db_config.host
       }:${db_config.port}/${db_config.dbName}`,
     )
+  }
+  static getSingletonInstance() {
+    if (!this.instance) {
+      this.instance = new Database()
+    }
+    return this.instance
   }
   connect() {
     const { dialect, username, password, host, port, dbName } = db_config
