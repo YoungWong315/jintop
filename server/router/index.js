@@ -5,6 +5,7 @@ const crypto = require('../modules/crypto')
 // 引入router的处理模块
 const user = require('./user')
 const article = require('./article')
+const product = require('./product')
 
 // 引入需要token校验的接口map
 const tokenMap = require('./tokenMap')
@@ -79,5 +80,6 @@ router
 // 注入接口
 user.inject(router)
 article.inject(router)
+product.inject(router)
 
 module.exports = router

@@ -4,7 +4,7 @@
  * return: timeStamp代表的 "年、月、日、时、分、秒"
  */
 const transTimeStamp = timeStamp => {
-  const getRightTimeFormat = time => (time < 10 ? '0' + time : time)
+  const padTimeWithZero = time => (time < 10 ? '0' + time : time)
 
   const dateTemp = new Date(timeStamp)
   const y = dateTemp.getFullYear(),
@@ -15,11 +15,11 @@ const transTimeStamp = timeStamp => {
     s = dateTemp.getSeconds()
   return {
     year: y,
-    month: getRightTimeFormat(m),
-    day: getRightTimeFormat(d),
-    hour: getRightTimeFormat(h),
-    minute: getRightTimeFormat(min),
-    second: getRightTimeFormat(s),
+    month: padTimeWithZero(m),
+    day: padTimeWithZero(d),
+    hour: padTimeWithZero(h),
+    minute: padTimeWithZero(min),
+    second: padTimeWithZero(s),
   }
 }
 
@@ -36,7 +36,7 @@ const upsertWithModel = Model => {
     const uniqueId = data[primaryKey]
     const result = await model.findOne({ where: { uniqueId } })
     if (result) {
-      return model.update(data)
+      return model.update(data, { where: { uniqueId } })
     }
     return model.create(data)
   }

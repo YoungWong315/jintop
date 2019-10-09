@@ -1,9 +1,9 @@
-const { postArticle } = require('./handler')
+const { getProductAll } = require('./handler')
 
 const article = {}
 
 article.inject = router => {
-  router.get('/product/list', postArticle)
+  router.post('/product/list', getProductAll)
 }
 
 module.exports = article
