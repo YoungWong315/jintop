@@ -22,14 +22,7 @@ const startCrawler = async () => {
 
 class Crawler {
   constructor({ uri }) {
-    this.instance = null
     this.options = { uri, transform: body => cheerio.load(body) }
-  }
-  static getSingletonInstance({ uri }) {
-    if (!this.instance) {
-      this.instance = new Crawler({ uri })
-    }
-    return this.instance
   }
   async start() {
     return rp(this.options)

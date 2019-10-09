@@ -1,30 +1,55 @@
 const Crawler = require('../crawler')
 
 const baseUrl = 'https://www.gucci.cn'
-const crawler = Crawler.getSingletonInstance({
-  uri: `${baseUrl}/zh/ca/men/bags/messenger?pn=1`,
-})
+const crawler = new Crawler({ uri: baseUrl })
 
 const { putInProduct } = require('../../database/schema/product')
 
 const crawGucci = async () => {
   try {
     const $ = await crawler.start()
-    const alist = $('#pdlist .spice-item-grid')
-    const imglist = $('#pdlist .spice-item-grid img')
+    const nav = $('.navi_seo li')
+    const nav_link = $('.navi_seo li a')
 
-    // alist imglist 应该是同样长度的数组
-    for (let i = 0; i < alist.length; i++) {
-      let product = {}
+    for (let i = 0; i < nav.length; i++) {
+      const productTag = $(nav[i]).attr('title')
+      const productLink = $(nav_link[i]).attr('href')
 
-      const href = $(alist[i]).attr('href')
-      product.plink = baseUrl + href
-      product.title = $(imglist[i]).attr('alt')
-      product.imgurl = $(imglist[i]).attr('src')
-      product.pid = href.split('?')[0].split('/')[3]
+      const crawlerInner = async uri => {
+        const crawler = new Crawler({ uri })
 
-      await putInProduct(product)
-      product = null
+        const $ = await crawler.start()
+        const alist = $('#pdlist .spice-item-grid')
+        const imglist = $('#pdlist .spice-item-grid img')
+
+        // ----------------------------- 还有问题 需要优化 --------------------------------<
+        if (alist.length > 0) {
+          console.log(
+            uri + '------------inner crawler --------------' + alist.length,
+          )
+          console.log(alist)
+        }
+
+        // alist imglist 应该是同样长度的数组
+        for (let j = 0; j < alist.length; j++) {
+          let product = {}
+
+          const href = $(alist[j]).attr('href')
+          product.plink = baseUrl + href
+          product.title = $(imglist[j]).attr('alt')
+          product.imgurl = $(imglist[j]).attr('src')
+          product.pid = href.split('?')[0].split('/')[3]
+
+          console.log('product --------------------------__<')
+          console.log(product)
+          // await putInProduct(product)
+          product = null
+        }
+      }
+
+      if (productLink) {
+        crawlerInner(baseUrl + productLink)
+      }
     }
   } catch (e) {
     console.log(e)
