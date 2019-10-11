@@ -22,6 +22,9 @@ const Product = sequelize.define('product', {
   plink: {
     type: Sequelize.STRING,
   },
+  category: {
+    type: Sequelize.STRING,
+  },
 })
 Product.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
 
