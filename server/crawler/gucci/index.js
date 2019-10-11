@@ -15,6 +15,8 @@ const crawGucci = async () => {
       const productTag = $(nav[i]).attr('title')
       const productLink = $(nav_link[i]).attr('href')
 
+      console.log(`tag: ${productTag} ---> link: ${baseUrl + productLink}`)
+
       const crawlerInner = async uri => {
         const crawler = new Crawler({ uri })
 
@@ -22,32 +24,27 @@ const crawGucci = async () => {
         const alist = $('#pdlist .spice-item-grid')
         const imglist = $('#pdlist .spice-item-grid img')
 
-        // ----------------------------- 还有问题 需要优化 --------------------------------<
-        if (alist.length > 0) {
-          console.log(
-            uri + '------------inner crawler --------------' + alist.length,
-          )
-          console.log(alist)
-        }
-
         // alist imglist 应该是同样长度的数组
-        for (let j = 0; j < alist.length; j++) {
-          let product = {}
+        if (alist.length) {
+          for (let j = 0; j < alist.length; j++) {
+            let product = {}
 
-          const href = $(alist[j]).attr('href')
-          product.plink = baseUrl + href
-          product.title = $(imglist[j]).attr('alt')
-          product.imgurl = $(imglist[j]).attr('src')
-          product.pid = href.split('?')[0].split('/')[3]
+            const href = $(alist[j]).attr('href')
+            product.plink = baseUrl + href
+            product.title = $(imglist[j]).attr('alt')
+            product.imgurl = $(imglist[j]).attr('src')
+            product.pid = href.split('?')[0].split('/')[3]
+            product.tag = productTag
 
-          console.log('product --------------------------__<')
-          console.log(product)
-          // await putInProduct(product)
-          product = null
+            console.log('>-------------------- product --------------------<')
+            console.log(product)
+            // await putInProduct(product)
+            product = null
+          }
         }
       }
 
-      if (productLink) {
+      if (productTag && productLink) {
         crawlerInner(baseUrl + productLink)
       }
     }
