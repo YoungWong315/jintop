@@ -1,42 +1,41 @@
-const Article = require('../model/article')
 const shortid = require('shortid')
 const { transTimeStamp } = require('../../modules/util')
 
-const postArticle = articleData => {
-  const { uid, content } = articleData
-  const { year, month, day, hour, minute, second } = transTimeStamp(
-    new Date().getTime(),
-  )
+class ArticleSchema {
+  constructor(model) {
+    this.model = model
+  }
+  postArticle(articleData) {
+    const { uid, content } = articleData
+    const { year, month, day, hour, minute, second } = transTimeStamp(
+      new Date().getTime(),
+    )
 
-  const articleId =
-    year + month + day + hour + minute + second + shortid.generate()
+    const articleId =
+      year + month + day + hour + minute + second + shortid.generate()
 
-  Article.create({
-    articleId,
-    uid,
-    content,
-  })
+    this.model.create({
+      articleId,
+      uid,
+      content,
+    })
+  }
+
+  async getArticleByUid(uid) {
+    return this.model.findAll({
+      where: { uid },
+    })
+  }
+
+  async getArticleByArticleId(articleId) {
+    return this.model.findAll({
+      where: { articleId },
+    })
+  }
+
+  async getArticleAll() {
+    return this.model.findAll()
+  }
 }
 
-const getArticleByUid = async uid => {
-  return Article.findAll({
-    where: { uid },
-  })
-}
-
-const getArticleByArticleId = async articleId => {
-  return Article.findAll({
-    where: { articleId },
-  })
-}
-
-const getArticleAll = async () => {
-  return Article.findAll()
-}
-
-module.exports = {
-  postArticle,
-  getArticleByUid,
-  getArticleByArticleId,
-  getArticleAll,
-}
+module.exports = ArticleSchema

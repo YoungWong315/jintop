@@ -1,31 +1,29 @@
-const Database = require('../index')
-const db = Database.getSingletonInstance()
-const { Sequelize, sequelize } = db
+// 定义 Model 并返回 Model实例
+const defineProduct = (sequelize, dataType) => {
+  return sequelize.define('product', {
+    uniqueId: {
+      type: dataType.STRING,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
+    },
+    pid: {
+      type: dataType.STRING,
+      allowNull: false,
+    },
+    title: {
+      type: dataType.STRING,
+    },
+    imgurl: {
+      type: dataType.STRING,
+    },
+    plink: {
+      type: dataType.STRING,
+    },
+    category: {
+      type: dataType.STRING,
+    },
+  })
+}
 
-const Product = sequelize.define('product', {
-  uniqueId: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
-    unique: true,
-  },
-  pid: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  title: {
-    type: Sequelize.STRING,
-  },
-  imgurl: {
-    type: Sequelize.STRING,
-  },
-  plink: {
-    type: Sequelize.STRING,
-  },
-  category: {
-    type: Sequelize.STRING,
-  },
-})
-Product.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
-
-module.exports = Product
+module.exports = defineProduct

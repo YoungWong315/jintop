@@ -24,7 +24,7 @@ const crawGucci = async () => {
        *
        * 所以此处还要做商品分类的入库
        */
-      console.log(`tag: ${productCategory} ---> link: ${baseUrl + productLink}`)
+      // console.log(`tag: ${productCategory} ---> link: ${baseUrl + productLink}`)
 
       const crawlerInner = async uri => {
         const crawler = new Crawler({ uri })
@@ -45,8 +45,8 @@ const crawGucci = async () => {
             product.pid = href.split('?')[0].split('/')[3]
             product.category = productCategory
 
-            console.log('>-------------------- product --------------------<')
-            console.log(product)
+            // console.log('>-------------------- product --------------------<')
+            // console.log(product)
 
             // 商品入库
             // await putInProduct(product)

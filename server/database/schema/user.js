@@ -1,50 +1,43 @@
-const User = require('../model/user')
 const uuidv1 = require('uuid/v1')
 
-const register = async userData => {
-  const { username, password, phone } = userData
+class UserSchema {
+  constructor(model) {
+    this.model = model
+  }
 
-  return User.create({
-    uid: uuidv1(),
-    username,
-    password,
-    phone,
-    role: 'default',
-  })
+  async register(userData) {
+    const { username, password, phone } = userData
+
+    return this.model.create({
+      uid: uuidv1(),
+      username,
+      password,
+      phone,
+      role: 'default',
+    })
+  }
+  async registerAdmin(userData) {
+    const { username, password, phone } = userData
+    return this.model.create({
+      uid: uuidv1(),
+      username,
+      password,
+      phone,
+      role: 'admin',
+    })
+  }
+  async findByUsername(username) {
+    return this.model.findOne({ where: { username: username } })
+  }
+  async findByUid(uid) {
+    return this.model.findOne({ where: { uid: uid } })
+  }
+  async findAllUser() {
+    return this.model.findAll()
+  }
+  async checkUsernameExist(username) {
+    return !!(await this.findByUsername(username))
+  }
 }
 
-const registerAdmin = async userData => {
-  const { username, password, phone } = userData
-  return User.create({
-    uid: uuidv1(),
-    username,
-    password,
-    phone,
-    role: 'admin',
-  })
-}
-
-const findByUsername = async username => {
-  return User.findOne({ where: { username: username } })
-}
-
-const findByUid = async uid => {
-  return User.findOne({ where: { uid: uid } })
-}
-
-const findAllUser = async () => {
-  return User.findAll()
-}
-
-const checkUsernameExist = async username => {
-  return !!(await findByUsername(username))
-}
-
-module.exports = {
-  register,
-  registerAdmin,
-  findByUsername,
-  findByUid,
-  findAllUser,
-  checkUsernameExist,
-}
+module.exports = UserSchema

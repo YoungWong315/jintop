@@ -1,31 +1,29 @@
-const Database = require('../index')
-const db = Database.getSingletonInstance()
-const { Sequelize, sequelize } = db
+// 定义 Model 并返回 Model实例
+const defineUser = (sequelize, dataType) => {
+  return sequelize.define('user', {
+    uid: {
+      type: dataType.STRING,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
+    },
+    username: {
+      type: dataType.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: dataType.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: dataType.STRING,
+      allowNull: true,
+    },
+    role: {
+      type: dataType.STRING,
+      allowNull: false,
+    },
+  })
+}
 
-const User = sequelize.define('user', {
-  uid: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
-    unique: true,
-  },
-  username: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  phone: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  role: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-})
-User.sync({ alter: true }) // 同步表结构(alter:true,同步新字段)
-
-module.exports = User
+module.exports = defineUser

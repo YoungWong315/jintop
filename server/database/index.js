@@ -1,15 +1,23 @@
 const consola = require('consola')
 const Sequelize = require('sequelize')
-const { db_config } = require('../../nuxt.config.js')
+const {
+  db_config: { dialect, username, password, host, port, dbName },
+} = require('../../nuxt.config.js')
 
+const { getFilenameInSpecificDir } = require('../modules/util')
+
+/**
+ * schema 和 model的文件名需一一对应，初始化数据时依赖这个关系
+ */
 class Database {
   constructor() {
     this.instance = null
     this.Sequelize = Sequelize
-    this.sequelize = new Sequelize(
-      `${db_config.dialect}://${db_config.username}:${db_config.password}@${
-        db_config.host
-      }:${db_config.port}/${db_config.dbName}`,
+    // 根据 model 目录下的文件 初始化 modelList
+    this.modelList = getFilenameInSpecificDir(`${__dirname}/model`)
+    this.schemaMap = new Map()
+    this.sql = new Sequelize(
+      `${dialect}://${username}:${password}@${host}:${port}/${dbName}`,
     )
   }
   static getSingletonInstance() {
@@ -18,29 +26,40 @@ class Database {
     }
     return this.instance
   }
-  connect() {
-    const { dialect, username, password, host, port, dbName } = db_config
-    const sequelize = new Sequelize(
-      `${dialect}://${username}:${password}@${host}:${port}/${dbName}`,
-    )
+  async connect() {
+    const sql = this.sql
+    try {
+      await sql.authenticate()
+      this.defineModels()
+      // 同步所有模型(alter:true,同步新字段)
+      sql.sync({ alter: true })
+      consola.success({
+        message: `mysql connection has been established successfully, database: ${dbName}`,
+        badge: true,
+      })
+    } catch (err) {
+      consola.error({
+        message: `Unable to connect to the database: ${err}`,
+        badge: true,
+      })
+    }
+  }
+  defineModels() {
+    this.modelList.forEach(modelName => {
+      const defineModel = require(`./model/${modelName}`)
+      // 定义Model
+      const Model = defineModel(this.sql, this.Sequelize)
 
-    sequelize
-      .authenticate()
-      .then(() => {
-        // 同步所有模型
-        sequelize.sync()
-        consola.success({
-          message: `mysql connection has been established successfully, database: ${dbName}`,
-          badge: true,
-        })
-      })
-      .catch(err => {
-        consola.error({
-          message: `Unable to connect to the database: ${err}`,
-          badge: true,
-        })
-      })
+      // 根据Model，初始化对应的Schema
+      const Schema = require(`./schema/${modelName}`)
+      const schema = new Schema(Model)
+      console.log(schema)
+      this.schemaMap.set(modelName, schema)
+    })
+  }
+  getSchema(schemaType) {
+    return this.schemaMap.get(schemaType)
   }
 }
 
-module.exports = Database
+module.exports = Database.getSingletonInstance()

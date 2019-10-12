@@ -1,19 +1,15 @@
 const crypto = require('../../modules/crypto')
-const {
-  register,
-  registerAdmin,
-  findByUsername,
-  findAllUser,
-  findByUid,
-  checkUsernameExist,
-} = require('../../database/schema/user')
+
+const dbInstance = require('../../database')
+const userSchema = dbInstance.getSchema('user')
+
 const { getCtxBody, getCtxQuery, successResponse } = require('../util')
 
 exports.register = async ctx => {
   const { username, psd: password } = getCtxBody(ctx)
   // 检查用户名是否存在
-  if (!(await checkUsernameExist(username))) {
-    const result = await register({ username, password })
+  if (!(await userSchema.checkUsernameExist(username))) {
+    const result = await userSchema.register({ username, password })
     const { uid, username: uName, role } = result
     // 发放token
     let token = crypto.jwtSign({ uid }, '48h')
@@ -31,13 +27,13 @@ exports.register = async ctx => {
 }
 
 exports.registerAdmin = async ctx => {
-  const result = await registerAdmin(getCtxBody(ctx))
+  const result = await userSchema.registerAdmin(getCtxBody(ctx))
   successResponse(ctx, result)
 }
 
 exports.login = async ctx => {
   const { username, psd } = getCtxBody(ctx)
-  const user = await findByUsername(username)
+  const user = await userSchema.findByUsername(username)
 
   if (user) {
     const { password, uid } = user
@@ -59,13 +55,13 @@ exports.login = async ctx => {
 
 exports.findByUsername = async ctx => {
   const { username } = getCtxBody(ctx)
-  const res = await findByUsername(username)
+  const res = await userSchema.findByUsername(username)
   successResponse(ctx, res)
 }
 
 exports.findAllUser = async ctx => {
   const { page, size } = getCtxQuery(ctx)
-  const result = await findAllUser()
+  const result = await userSchema.findAllUser()
 
   successResponse(ctx, result)
 }
