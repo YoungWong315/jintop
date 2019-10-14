@@ -49,7 +49,7 @@ const upsertWithModel = Model => {
  * level: 目录层级(level为0, 表示初始目录，pathRoot = '/', 其次level都为上层目录名, pathRoot = path.basename(targetPath))
  * return: 目录下所有文件的地址的数组(深层文件，返回的是相对path目录的内层路径)
  */
-const getFilenameInSpecificDir = (targetPath, level = 0) => {
+const getFilenamesInSpecificDir = (targetPath, level = 0) => {
   const path = require('path')
   const fs = require('fs')
   const files = fs.readdirSync(targetPath)
@@ -60,7 +60,7 @@ const getFilenameInSpecificDir = (targetPath, level = 0) => {
     const statPath = path.join(targetPath, filename)
     const stats = fs.statSync(statPath)
     if (stats.isDirectory()) {
-      nextLevelFilesArr = getFilenameInSpecificDir(statPath, level + 1)
+      nextLevelFilesArr = getFilenamesInSpecificDir(statPath, level + 1)
       return false
     }
     return true

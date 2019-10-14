@@ -15,7 +15,7 @@ class Database {
     this.instance = null
     this.Sequelize = Sequelize
     // 根据 model 目录下的文件 初始化 modelList, modelList存储的是所有 model的相对路径(针对当前目录)
-    this.modelList = getFilenameInSpecificDir(`${__dirname}/model`)
+    this.modelList = getFilenamesInSpecificDir(`${__dirname}/model`)
     // model的操作函数集合
     this.schemaMap = new Map()
     this.sql = new Sequelize(
