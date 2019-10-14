@@ -1,5 +1,4 @@
-const shortid = require('shortid')
-const { transTimeStamp } = require('../../modules/util')
+const { generateId } = require('../../modules/util')
 
 class ArticleSchema {
   constructor(model) {
@@ -7,15 +6,9 @@ class ArticleSchema {
   }
   postArticle(articleData) {
     const { uid, content } = articleData
-    const { year, month, day, hour, minute, second } = transTimeStamp(
-      new Date().getTime(),
-    )
-
-    const articleId =
-      year + month + day + hour + minute + second + shortid.generate()
 
     this.model.create({
-      articleId,
+      articleId: generateId(),
       uid,
       content,
     })

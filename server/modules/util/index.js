@@ -72,8 +72,21 @@ const getFilenamesInSpecificDir = (targetPath, level = 0) => {
   return alterFilesArr.map(filename => path.join(pathRoot, filename))
 }
 
+/**
+ * 生成除userId外的所有id方法，
+ * return: 前14位是日期+时间，后面是shortid生成的唯一标识
+ */
+const generateId = () => {
+  const shortid = require('shortid')
+  const { year, month, day, hour, minute, second } = transTimeStamp(
+    new Date().getTime(),
+  )
+  return year + month + day + hour + minute + second + shortid.generate()
+}
+
 module.exports = {
   transTimeStamp,
   upsertWithModel,
   getFilenamesInSpecificDir,
+  generateId,
 }

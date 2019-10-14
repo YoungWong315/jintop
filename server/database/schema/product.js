@@ -1,5 +1,4 @@
-const shortid = require('shortid')
-const { transTimeStamp, upsertWithModel } = require('../../modules/util')
+const { upsertWithModel, generateId } = require('../../modules/util')
 
 class ProductSchema {
   constructor(model) {
@@ -7,12 +6,9 @@ class ProductSchema {
   }
   async putInProduct(productData) {
     const { title, imgurl, plink, pid: uniqueId } = productData
-    const { year, month, day, hour, minute, second } = transTimeStamp(
-      new Date().getTime(),
-    )
 
     const data = {
-      pid: shortid.generate() + year + month + day + hour + minute + second,
+      pid: generateId(),
       uniqueId,
       title,
       imgurl,
