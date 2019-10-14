@@ -1,5 +1,6 @@
 const consola = require('consola')
 const Sequelize = require('sequelize')
+const path = require('path')
 const {
   db_config: { dialect, username, password, host, port, dbName },
 } = require('../../nuxt.config.js')
@@ -13,8 +14,9 @@ class Database {
   constructor() {
     this.instance = null
     this.Sequelize = Sequelize
-    // 根据 model 目录下的文件 初始化 modelList
+    // 根据 model 目录下的文件 初始化 modelList, modelList存储的是所有 model的相对路径(针对当前目录)
     this.modelList = getFilenameInSpecificDir(`${__dirname}/model`)
+    // model的操作函数集合
     this.schemaMap = new Map()
     this.sql = new Sequelize(
       `${dialect}://${username}:${password}@${host}:${port}/${dbName}`,
@@ -45,16 +47,15 @@ class Database {
     }
   }
   defineModels() {
-    this.modelList.forEach(modelName => {
-      const defineModel = require(`./model/${modelName}`)
+    this.modelList.forEach(modelPath => {
+      const defineModel = require(`./model${modelPath}`)
       // 定义Model
       const Model = defineModel(this.sql, this.Sequelize)
 
       // 根据Model，初始化对应的Schema
-      const Schema = require(`./schema/${modelName}`)
+      const Schema = require(`./schema${modelPath}`)
       const schema = new Schema(Model)
-      console.log(schema)
-      this.schemaMap.set(modelName, schema)
+      this.schemaMap.set(path.basename(modelPath, '.js'), schema)
     })
   }
   getSchema(schemaType) {

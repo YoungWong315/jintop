@@ -45,17 +45,33 @@ const upsertWithModel = Model => {
 /**
  * 读取文件名(使用fs模块)
  * 用于依据 文件名 读取内容或进行初始化
- * path: 目录路径
- * withSuffix: 返回值是否带文件后缀名，默认false
- * return: 目录下所有文件的名字(只读取一层，若里面有更深的文件夹还未做处理)
+ * targetPath: 目录路径
+ * level: 目录层级(递归调用使用的参数)
+ * return: 目录下所有文件的地址的数组(深层文件，返回的是相对path目录的内层路径)
  */
-const getFilenameInSpecificDir = (path, withSuffix = false) => {
+const getFilenameInSpecificDir = (targetPath, level = 0) => {
+  const path = require('path')
   const fs = require('fs')
-  const dirs = fs.readdirSync(path)
-  if (withSuffix) {
-    return dirs
-  }
-  return dirs.map(filename => filename.split('.')[0])
+  const files = fs.readdirSync(targetPath)
+  const sep = path.sep
+
+  let nextLevelFilesArr = []
+
+  const filesArr = files.filter(filename => {
+    const statPath = targetPath + sep + filename
+    const stats = fs.statSync(statPath)
+    // 如果filename是文件夹
+    if (stats.isDirectory()) {
+      nextLevelFilesArr = getFilenameInSpecificDir(statPath, level + 1)
+      return false
+    }
+    return true
+  })
+
+  const alterFilesArr = [...filesArr, ...nextLevelFilesArr]
+  const pathArr = level === 0 ? [] : targetPath.split(sep).slice(-1) // 拿到目录不同层级的相对路径名
+
+  return alterFilesArr.map(filename => pathArr.join(sep) + sep + filename)
 }
 
 module.exports = {
