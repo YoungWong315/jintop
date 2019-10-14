@@ -5,7 +5,7 @@ const {
   db_config: { dialect, username, password, host, port, dbName },
 } = require('../../nuxt.config.js')
 
-const { getFilenameInSpecificDir } = require('../modules/util')
+const { getFilenamesInSpecificDir } = require('../modules/util')
 
 /**
  * schema 和 model的文件名需一一对应，初始化数据时依赖这个关系

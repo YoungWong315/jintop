@@ -75,5 +75,5 @@ const getFilenamesInSpecificDir = (targetPath, level = 0) => {
 module.exports = {
   transTimeStamp,
   upsertWithModel,
-  getFilenameInSpecificDir,
+  getFilenamesInSpecificDir,
 }
