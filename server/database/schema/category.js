@@ -5,14 +5,7 @@ class CategorySchema {
     this.model = model
   }
   postCategory(categoryData) {
-    const { name, parent, root } = categoryData
-
-    this.model.create({
-      articleId: generateId(),
-      parentId: '',
-      rootId: '',
-      name: '',
-    })
+    // 批量入库
   }
 
   async getCategoryByCategoryId(categoryId) {
