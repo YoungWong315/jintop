@@ -2,22 +2,21 @@ const Crawler = require('../crawler')
 
 const baseUrl = 'https://www.gucci.cn'
 const crawler = new Crawler({ uri: baseUrl })
+let $ = null // 全局的cheerio对象
 
 const { putInProduct } = require('../../database/schema/product')
-
 const { generateId } = require('../../modules/util')
 
-let $ = null
 const crawGucci = async () => {
   try {
     $ = await crawler.start()
     //首页导航栏
     const categoryArr = cheerioToArrOfObjectsWithFormat(
-      $('.navi_seo > li'),
+      $('.spice-nav-menu'),
       genCategoryObj,
     )
     // 根据 "数据结构"，对非一级分类进行赋值，此时categoryArr为合理的分类数据格式
-    let rootCategory = null
+    /* let rootCategory = {}
     categoryArr.reduce((pre, cur) => {
       // 上一个是一级分类, 直到出现下一个一级分类为止，中间的分类全是子分类(由gucci网页的格式决定这样处理)
       if (pre.isRootLevel) {
@@ -30,8 +29,10 @@ const crawGucci = async () => {
       }
 
       return cur
-    })
-    console.log(categoryArr)
+    }) */
+
+    // gucci的seo分类整理完，but发现他们网页里有更全面的分类。。。。。。。
+    // console.log(categoryArr)
 
     /* for (let i = 0; i < nav.length; i++) {
       const category = $(nav[i]).attr('title')
@@ -77,34 +78,70 @@ const crawGucci = async () => {
 
 // >------------------------------- 业务函数 ----------------------------------<
 /**
- * 接收一个cheerio对象，返回一个category所需格式的对象
+ * 接收一个cheerio对象，解析这个对象，整理成 一级分类/二级分类/三级分类 的对象
  */
 const genCategoryObj = elem => {
-  elem = $(elem)
-  const name = elem.attr('title')
-  const href = elem.attr('href')
-  const isRootLevel = Boolean(href)
-  const categoryId = generateId()
+  const categoryArr = []
 
-  let anchorHref = ''
-  if (!href) {
-    anchorHref = elem.find('a').attr('href')
-  }
-
-  const category = {
-    name,
-    categoryId,
-    parentId: isRootLevel ? categoryId : '',
+  // >--------------------------- 一级分类 ---------------------------------<
+  const menuAnchor = $(elem).find('a')
+  const rootId = generateId()
+  const category_root = {
+    href: menuAnchor.attr('href'),
+    name: menuAnchor.text(),
+    categoryId: rootId,
+    parentId: rootId,
+    rootId: rootId,
     children: [],
-    href: href || anchorHref,
-    isRootLevel,
+    isRootLevel: true,
   }
+  console.log(category_root)
 
-  if (category.name && category.href) {
-    return category
-  } else {
-    return false
-  }
+  // >---------------------------- 二级分类 .spice-sub-menu .spice-header-menu-container-scroll  ----------------------------------<
+  // const subMenu = $(elem).find('.spice-sub-menu')
+  // gucci这里的html是js动态加载的，所以爬不到!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const subMenu = $('.spice-nav-menu .spice-menu-list-item')
+  /* const subMenu = $(
+    '.spice-navbar-menu.e-navbar-menu .spice-nav.spice-nav-pills .spice-sub-menu',
+  ) */
+  console.log(subMenu.length)
+
+  subMenu.each((index, item) => {
+    const subMenuAnchor = $($(item).children('a'))
+    const category_sub = {
+      href: subMenuAnchor.attr('href'),
+      name: subMenuAnchor.text(),
+      categoryId: generateId(),
+      parentId: category_root.categoryId,
+      rootId: category_root.rootId,
+      children: [],
+      isRootLevel: false,
+    }
+    console.log(category_sub)
+    category_root.children.push(category_sub)
+
+    // >---------------------------- 三级分类 --------------------------------<
+    const thirdMenu = $($(item).children('.spice-sub-menu a'))
+    thirdMenu.each((index, element) => {
+      thirdMenuAnchor = $(element)
+      const href = thirdMenuAnchor.attr('a')
+      // 没有链接的分类丢弃
+      if (href) {
+        const category_third = {
+          href: thirdMenuAnchor.attr('href'),
+          name: thirdMenuAnchor.text(),
+          categoryId: generateId(),
+          parentId: category_sub.categoryId,
+          rootId: category_sub.rootId,
+          children: [],
+          isRootLevel: false,
+        }
+        category_sub.children.push(category_third)
+      }
+    })
+  })
+
+  return category_root
 }
 
 // >------------------------------- 工具函数 ----------------------------------<
@@ -125,10 +162,7 @@ const cheerioToArrOfObjectsWithFormat = (cheerioList, formatFn) => {
 
   const arr = []
   cheerioList.each((index, elem) => {
-    const formatedObj = formatFn(elem)
-    if (formatedObj) {
-      arr.push(formatedObj)
-    }
+    arr.push(formatFn(elem))
   })
   return arr
 }
