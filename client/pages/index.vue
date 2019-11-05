@@ -19,7 +19,7 @@
 </template>
 
 <script>
-const _ = require('lodash')
+/* const _ = require('lodash')
 
 const defineReactive = obj => {
   // obj属性如果仍是对象，需要递归将其代理才可生效
@@ -51,7 +51,7 @@ const test = {
     return msg + this.c
   },
   arr: [1, 2, 3]
-}
+} */
 /* const proxy = defineReactive(test)
 proxy.c = 3
 console.log(proxy.c)
@@ -62,14 +62,14 @@ const proxyDate = defineReactive(date)
 console.log(proxyDate)
 console.log(proxyDate.getTime()) */
 
-const proxyArr = defineReactive(test.arr)
+/* const proxyArr = defineReactive(test.arr)
 // 使用数组方法时会触发两次set，一次方法(push...)，一次修改length
 proxyArr.push(7)
 proxyArr[8] = 8
 proxyArr.shift()
 proxyArr.forEach(elem => {
   console.log(elem)
-})
+}) */
 
 export default {
   data() {
