@@ -1,20 +1,21 @@
 <template>
-  <section class="wrap flex">
+  <section id="index"
+           class="wrap flex">
     <div class="flex crawler-cell">
-      <div>
-        <input class="crawler-input"
-               type="text"
-               placeholder="爬虫地址">
-        <div>提交</div>
+      <div class="flex crawler-input-wrap">
+        <el-input placeholder="爬虫地址"
+                  class="crawler-input"
+                  v-model="keyword"
+                  clearable
+                  autofocus>
+        </el-input>
+        <el-button @click="submit"
+                   type="text">文字按钮</el-button>
       </div>
     </div>
-    <div class="splitLine"></div>
     <div class="flex crawler-cell">
-      <textarea class=""
-                cols="30"
-                rows="10"></textarea>
+      <div class="crawler-result">{{ keyword }}</div>
     </div>
-
   </section>
 </template>
 
@@ -74,19 +75,21 @@ proxyArr.forEach(elem => {
 export default {
   data() {
     return {
-      activeIndex: '1',
+      keyword: '111',
     }
   },
   mounted() {},
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath)
+    submit() {
+      console.log(this.keyword)
     },
   },
 }
 </script>
 
 <style>
+@import '../assets/css/reset';
+
 .wrap {
   width: 100vw;
   height: 100vh;
@@ -96,22 +99,26 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.crawler-input {
-  margin-right: 20px;
-  width: 400px;
-  height: 50px;
-  font-size: 16px;
-  text-indent: 1em;
-  border-radius: 50px;
-  border: 1px solid #666;
-}
 .crawler-cell {
   width: 50%;
-}
-.splitLine {
-  width: 1px;
   height: 100%;
-  background: #d5d5d5;
+}
+.crawler-input-wrap {
+  margin-bottom: 200px;
+}
+.crawler-result {
+  width: 90%;
+  height: 90%;
+  border: 1px solid #666;
+  border-radius: 5px;
+}
+.crawler-input {
+  margin-right: 20px;
+}
+.crawler-input input {
+  width: 400px;
+  height: 50px;
+  border-radius: 50px;
 }
 </style>
 
