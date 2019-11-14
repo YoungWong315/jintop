@@ -32,7 +32,7 @@ const startApp = async () => {
   await startServer()
 
   // start crawler
-  require('./server/crawler')
+  // require('./server/crawler')
 }
 
 startApp()
