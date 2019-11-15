@@ -1,7 +1,7 @@
 <template>
   <section id="index"
            class="wrap flex">
-    <div class="flex crawler-cell">
+    <div class="flex crawler-cell1">
       <div class="flex crawler-input-wrap">
         <el-input placeholder="爬虫地址"
                   class="crawler-input"
@@ -13,8 +13,8 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <div class="flex crawler-cell">
-      <div class="crawler-result">{{ link }}</div>
+    <div class="flex crawler-cell2">
+      <pre class="crawler-result">{{ html }}</pre>
     </div>
   </section>
 </template>
@@ -72,17 +72,43 @@ proxyArr.forEach(elem => {
   console.log(elem)
 }) */
 
+import beautify from 'js-beautify'
+
 export default {
   data() {
     return {
       link: '',
+      html: '',
     }
   },
   mounted() {},
   methods: {
     async submit() {
-      const res = await this.$service.crawlByLink(encodeURIComponent(this.link))
-      console.log(res)
+      const { code, data } = await this.$service.crawlByLink(
+        encodeURIComponent(this.link),
+      )
+      if (code === 1) {
+        const options = {
+          indent_size: '2',
+          indent_char: ' ',
+          max_preserve_newlines: '5',
+          preserve_newlines: true,
+          keep_array_indentation: false,
+          break_chained_methods: false,
+          indent_scripts: 'normal',
+          brace_style: 'collapse',
+          space_before_conditional: true,
+          unescape_strings: false,
+          jslint_happy: false,
+          end_with_newline: false,
+          wrap_line_length: '0',
+          indent_inner_html: false,
+          comma_first: false,
+          e4x: false,
+          indent_empty_lines: false,
+        }
+        this.html = beautify.html(data, options)
+      }
     },
   },
 }
@@ -100,8 +126,12 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.crawler-cell {
-  width: 50%;
+.crawler-cell1 {
+  width: 40%;
+  height: 100%;
+}
+.crawler-cell2 {
+  width: 60%;
   height: 100%;
 }
 .crawler-input-wrap {
@@ -113,6 +143,7 @@ export default {
   height: 90%;
   border: 1px solid #666;
   border-radius: 5px;
+  overflow: auto;
 }
 .crawler-input {
   margin-right: 20px;

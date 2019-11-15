@@ -7,7 +7,7 @@ const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
 exports.crawl = async ctx => {
   const { link } = getCtxQuery(ctx)
   const crawler = new Crawler({ uri: link })
-  const $ = await crawler.start()
-  console.log($('body'))
-  successResponse(ctx, $('body'))
+  const res = await crawler.request()
+  // console.log(res.text)
+  successResponse(ctx, res.text)
 }
