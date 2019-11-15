@@ -5,16 +5,16 @@
       <div class="flex crawler-input-wrap">
         <el-input placeholder="爬虫地址"
                   class="crawler-input"
-                  v-model="keyword"
+                  v-model="link"
                   clearable
                   autofocus>
         </el-input>
         <el-button @click="submit"
-                   type="text">文字按钮</el-button>
+                   type="text">提交</el-button>
       </div>
     </div>
     <div class="flex crawler-cell">
-      <div class="crawler-result">{{ keyword }}</div>
+      <div class="crawler-result">{{ link }}</div>
     </div>
   </section>
 </template>
@@ -75,13 +75,14 @@ proxyArr.forEach(elem => {
 export default {
   data() {
     return {
-      keyword: '111',
+      link: '',
     }
   },
   mounted() {},
   methods: {
-    submit() {
-      console.log(this.keyword)
+    async submit() {
+      const res = await this.$service.crawlByLink(encodeURIComponent(this.link))
+      console.log(res)
     },
   },
 }
@@ -107,6 +108,7 @@ export default {
   margin-bottom: 200px;
 }
 .crawler-result {
+  padding: 20px;
   width: 90%;
   height: 90%;
   border: 1px solid #666;

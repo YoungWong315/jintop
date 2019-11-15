@@ -43,33 +43,29 @@ const upsertWithModel = Model => {
 }
 
 /**
- * 读取文件名(使用fs模块)
+ * 读取文件名(使用fs模块) 没有解决同级有多个目录的情况
  * 用于依据 文件名 读取内容或进行初始化
  * targetPath: 目录路径
- * level: 目录层级(level为0, 表示初始目录，pathRoot = '/', 其次level都为上层目录名, pathRoot = path.basename(targetPath))
- * return: 目录下所有文件的地址的数组(深层文件，返回的是相对path目录的内层路径)
+ * return: 目录下所有文件的地址的数组(绝对路径)
  */
-const getFilenamesInSpecificDir = (targetPath, level = 0) => {
+const getFilenamesInSpecificDir = (targetPath) => {
   const path = require('path')
   const fs = require('fs')
+
+  let results = []
+
   const files = fs.readdirSync(targetPath)
-
-  let nextLevelFilesArr = []
-
-  const filesArr = files.filter(filename => {
-    const statPath = path.join(targetPath, filename)
-    const stats = fs.statSync(statPath)
+  files.forEach(file => {
+    file = path.join(targetPath, file)
+    const stats = fs.statSync(file)
     if (stats.isDirectory()) {
-      nextLevelFilesArr = getFilenamesInSpecificDir(statPath, level + 1)
-      return false
+      results = results.concat(getFilenamesInSpecificDir(file))
+    } else {
+      results.push(file);
     }
-    return true
   })
 
-  const alterFilesArr = [...filesArr, ...nextLevelFilesArr]
-  const pathRoot = level === 0 ? '/' : path.basename(targetPath) // 拿到目录不同层级的相对路径名
-
-  return alterFilesArr.map(filename => path.join(pathRoot, filename))
+  return results
 }
 
 /**

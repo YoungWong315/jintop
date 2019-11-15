@@ -1,7 +1,7 @@
-const dbInstance = require('../../database')
+const dbInstance = require('../../../database')
 const productSchema = dbInstance.getSchema('product')
 
-const { getCtxBody, getCtxQuery, successResponse } = require('../util')
+const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
 
 exports.getProductAll = async ctx => {
   try {

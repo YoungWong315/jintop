@@ -2,11 +2,6 @@ const router = require('koa-router')()
 const koaBody = require('koa-body') // 处理post请求数据
 const crypto = require('../modules/crypto')
 
-// 引入router的处理模块
-const user = require('./user')
-const article = require('./article')
-const product = require('./product')
-
 // 引入需要token校验的接口map
 const tokenMap = require('./tokenMap')
 
@@ -77,9 +72,20 @@ router
   .use(handler)
   .use(tokenVerifier)
 
-// 注入接口
-user.inject(router)
-article.inject(router)
-product.inject(router)
+// 引入router的处理模块, 注入接口
+const injectRouter = () => {
+  const { sep } = require('path') // 不同系统的文件分割线
+  const { getFilenamesInSpecificDir } = require('../modules/util')
+  const routerList = getFilenamesInSpecificDir(`${__dirname}/routers`) // 获取目录下所有文件的绝对路径
+
+  routerList.forEach(path => {
+    // 删除文件名，使用require读取默认module
+    path = path.split(sep)
+    path.pop()
+    const routerFile = require(path.join(sep))
+    routerFile.inject(router)
+  })
+}
+injectRouter()
 
 module.exports = router

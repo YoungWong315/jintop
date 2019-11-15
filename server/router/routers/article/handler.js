@@ -1,7 +1,7 @@
-const dbInstance = require('../../database')
+const dbInstance = require('../../../database')
 const articleSchema = dbInstance.getSchema('article')
 
-const { getCtxBody, getCtxQuery, successResponse } = require('../util')
+const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
 
 exports.postArticle = async ctx => {
   const { uid = '', content } = getCtxBody(ctx)

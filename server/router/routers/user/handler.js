@@ -1,9 +1,9 @@
-const crypto = require('../../modules/crypto')
+const crypto = require('../../../modules/crypto')
 
-const dbInstance = require('../../database')
+const dbInstance = require('../../../database')
 const userSchema = dbInstance.getSchema('user')
 
-const { getCtxBody, getCtxQuery, successResponse } = require('../util')
+const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
 
 exports.register = async ctx => {
   const { username, psd: password } = getCtxBody(ctx)
