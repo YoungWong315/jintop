@@ -1,7 +1,7 @@
 <template>
   <section id="index"
-           class="wrap flex">
-    <div class="flex crawler-cell1">
+           class="wrap">
+    <div class="flex cell">
       <div class="flex crawler-input-wrap">
         <el-input placeholder="爬虫地址"
                   class="crawler-input"
@@ -13,8 +13,17 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <div class="flex crawler-cell2">
-      <pre class="crawler-result">{{ html }}</pre>
+    <div class="flex cell">
+      <div class="result-cell flex">
+        <pre class="crawler-result">{{ html }}</pre>
+      </div>
+      <div class="result-cell flex">
+        <div class="crawler-img">
+          <img v-for="(item, index) in imgs"
+               :src="item"
+               :key="index">
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -79,6 +88,7 @@ export default {
     return {
       link: '',
       html: '',
+      imgs: [],
     }
   },
   mounted() {},
@@ -107,7 +117,9 @@ export default {
           e4x: false,
           indent_empty_lines: false,
         }
-        this.html = beautify.html(data, options)
+        const { text, imgs } = data
+        this.html = beautify.html(text, options)
+        this.imgs = imgs
       }
     },
   },
@@ -126,13 +138,9 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.crawler-cell1 {
-  width: 40%;
-  height: 100%;
-}
-.crawler-cell2 {
-  width: 60%;
-  height: 100%;
+.cell {
+  width: 100vw;
+  height: 100vh;
 }
 .crawler-input-wrap {
   margin-bottom: 200px;
@@ -152,6 +160,10 @@ export default {
   width: 400px;
   height: 50px;
   border-radius: 50px;
+}
+.result-cell {
+  width: 50%;
+  height: 100%;
 }
 </style>
 

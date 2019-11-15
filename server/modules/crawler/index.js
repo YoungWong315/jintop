@@ -19,7 +19,7 @@ class Crawler {
   // return dom
   async load (html, dangerously = false) {
     // return cheerio.load(html)
-    return new JSDOM(html, { runScripts: dangerously ? 'dangerously' : '' })
+    return new JSDOM(html, { runScripts: dangerously ? 'dangerously' : undefined })
   }
 }
 
