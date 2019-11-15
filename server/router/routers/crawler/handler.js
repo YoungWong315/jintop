@@ -8,7 +8,5 @@ exports.crawl = async ctx => {
   const { link } = getCtxQuery(ctx)
   const crawler = new Crawler({ uri: link })
   const { text } = await crawler.request()
-  const res = crawler.load(text, true)
-  console.log(res)
   successResponse(ctx, text)
 }

@@ -107,8 +107,7 @@ export default {
           e4x: false,
           indent_empty_lines: false,
         }
-        console.log(data)
-        // this.html = beautify.html(data, options)
+        this.html = beautify.html(data, options)
       }
     },
   },
