@@ -6,8 +6,8 @@ import Interceptor from './interceptor'
 // 默认配置
 const axiosInstance = axios.create({
   baseURL: 'http://127.0.0.1:9999',
-  timeout: 20000,
-  maxContentLength: 2000,
+  timeout: 60000,
+  maxContentLength: 10000,
   /*允许携带cookie*/
   withCredentials: true, // 表示跨域请求时是否需要使用凭证, 默认false
   headers: {

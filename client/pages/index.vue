@@ -1,7 +1,7 @@
 <template>
   <section id="index"
            class="wrap">
-    <div class="flex cell">
+    <div class="flex crawler-input-container">
       <div class="flex crawler-input-wrap">
         <el-input placeholder="爬虫地址"
                   class="crawler-input"
@@ -13,7 +13,7 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <div class="flex cell">
+    <div class="flex">
       <div class="result-cell flex">
         <pre class="crawler-result">{{ html }}</pre>
       </div>
@@ -82,6 +82,10 @@ proxyArr.forEach(elem => {
 }) */
 
 import beautify from 'js-beautify'
+import { Loading } from 'element-ui'
+
+const loadingOption = { text: '拼命加载中' }
+let loadingIns = {}
 
 export default {
   data() {
@@ -94,9 +98,11 @@ export default {
   mounted() {},
   methods: {
     async submit() {
+      loadingIns = Loading.service(loadingOption)
       const { code, data } = await this.$service.crawlByLink(
         encodeURIComponent(this.link),
       )
+      loadingIns.close()
       if (code === 1) {
         const options = {
           indent_size: '2',
@@ -131,7 +137,7 @@ export default {
 
 .wrap {
   width: 100vw;
-  height: 100vh;
+  padding-bottom: 100px;
 }
 .flex {
   display: flex;
@@ -140,15 +146,17 @@ export default {
 }
 .cell {
   width: 100vw;
-  height: 100vh;
+}
+.crawler-input-container {
+  padding-top: 0.1px;
 }
 .crawler-input-wrap {
-  margin-bottom: 200px;
+  margin: 100px auto;
 }
 .crawler-result {
+  min-height: 100vh;
   padding: 20px;
   width: 90%;
-  height: 90%;
   border: 1px solid #666;
   border-radius: 5px;
   overflow: auto;
@@ -164,6 +172,18 @@ export default {
 .result-cell {
   width: 50%;
   height: 100%;
+}
+.crawler-img {
+  min-height: 100vh;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #666;
+  border-radius: 5px;
+  overflow: auto;
+}
+.crawler-img > img {
+  width: 200px;
 }
 </style>
 
