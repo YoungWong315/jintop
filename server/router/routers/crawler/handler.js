@@ -11,7 +11,6 @@ exports.crawl = async ctx => {
   const $ = await crawler.phantomCrawl()
   const { text } = await crawler.request()
 
-  console.log(text)
   const imgNodeList = $('img')
 
   let imgs = []
@@ -26,5 +25,6 @@ exports.crawl = async ctx => {
 
 exports.crawlMeizitu = async ctx => {
   const crawlMeizitu = require('../../../crawler/meizitu')
-  crawlMeizitu()
+  await crawlMeizitu()
+  successResponse(ctx)
 }

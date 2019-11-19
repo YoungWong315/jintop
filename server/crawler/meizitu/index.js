@@ -1,6 +1,9 @@
 const Crawler = require('../../modules/crawler')
+const superagent = require('superagent')
+const fs = require('fs')
+const { mkdirSync } = require('../../modules/util')
 
-const baseUrl = 'http://www.meizitu.net.cn/'
+const baseUrl = 'http://www.meizitu.net.cn/page/2/'
 const crawler = new Crawler({ uri: baseUrl })
 
 let $ = null
@@ -12,7 +15,15 @@ const crawMeizitu = async () => {
       $('img'),
       getImgSrc,
     )
-    console.log(imgArr)
+    const filePath = `${__dirname}/downloadImgs`
+    mkdirSync(filePath) // 创建文件夹
+    imgArr.forEach(elem => {
+      const filename = elem.split('/').pop() // 获取文件名
+      const writePath = filePath + '/' + filename // 写入路径 + 文件名
+      if (!fs.existsSync(writePath)) {
+        superagent.get(elem).pipe(fs.createWriteStream(writePath)) // 下载文件，并写入在指定路径
+      }
+    })
 
   } catch (e) {
     console.log(e)

@@ -69,6 +69,20 @@ const getFilenamesInSpecificDir = (targetPath) => {
 }
 
 /**
+ *
+*/
+function mkdirSync (dirname) {
+  const fs = require('fs')
+  if (fs.existsSync(dirname)) {
+    return true
+  } else {
+    fs.mkdirSync(dirname)
+    return true
+  }
+  return false
+}
+
+/**
  * 生成除userId外的所有id方法，
  * return: 前14位是日期+时间，后面是shortid生成的唯一标识
  */
@@ -85,4 +99,5 @@ module.exports = {
   upsertWithModel,
   getFilenamesInSpecificDir,
   generateId,
+  mkdirSync
 }
