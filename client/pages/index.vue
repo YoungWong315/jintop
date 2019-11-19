@@ -13,7 +13,7 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <div class="flex">
+    <div class="flex options-wrap">
       <el-button @click="crawlMeizitu"
                  type="text">妹子图</el-button>
     </div>
@@ -166,7 +166,7 @@ export default {
   padding-top: 0.1px;
 }
 .crawler-input-wrap {
-  margin: 100px auto;
+  margin-top: 100px;
 }
 .result-wrap {
   align-items: flex-start;
@@ -202,5 +202,8 @@ export default {
 }
 .crawler-img > img {
   width: 200px;
+}
+.options-wrap {
+  padding: 50px;
 }
 </style>
