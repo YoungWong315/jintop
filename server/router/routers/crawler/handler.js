@@ -8,9 +8,10 @@ exports.crawl = async ctx => {
   const { link } = getCtxQuery(ctx)
   const crawler = new Crawler({ uri: link })
 
-  const $ = await crawler.crawl()
+  const $ = await crawler.phantomCrawl()
   const { text } = await crawler.request()
 
+  console.log(text)
   const imgNodeList = $('img')
 
   let imgs = []
@@ -21,4 +22,9 @@ exports.crawl = async ctx => {
   successResponse(ctx, {
     text, imgs
   })
+}
+
+exports.crawlMeizitu = async ctx => {
+  const crawlMeizitu = require('../../../crawler/meizitu')
+  crawlMeizitu()
 }

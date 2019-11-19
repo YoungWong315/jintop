@@ -14,6 +14,10 @@
       </div>
     </div>
     <div class="flex">
+      <el-button @click="crawlMeizitu"
+                 type="text">妹子图</el-button>
+    </div>
+    <div class="flex result-wrap">
       <div class="result-cell flex">
         <pre class="crawler-result">{{ html }}</pre>
       </div>
@@ -125,8 +129,19 @@ export default {
         }
         const { text, imgs } = data
         this.html = beautify.html(text, options)
+
+        const { origin } = new URL(this.link)
+        imgs.forEach(elem => {
+          if (elem.startsWith('//')) {
+            elem = origin + elem
+            console.log(elem)
+          }
+        })
         this.imgs = imgs
       }
+    },
+    async crawlMeizitu() {
+      const result = await this.$service.crawlMeizitu()
     },
   },
 }
@@ -152,6 +167,9 @@ export default {
 }
 .crawler-input-wrap {
   margin: 100px auto;
+}
+.result-wrap {
+  align-items: flex-start;
 }
 .crawler-result {
   min-height: 100vh;

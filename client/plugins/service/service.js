@@ -8,6 +8,7 @@ class Service {
   login = bodyData => axios.post('/user/login', bodyData)
 
   crawlByLink = link => axios.post(`/crawler/crawl?link=${link}`)
+  crawlMeizitu = () => axios.post(`/crawler/meizitu`)
 }
 const myService = new Service()
 

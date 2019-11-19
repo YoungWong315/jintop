@@ -5,29 +5,29 @@ const phantom = require('phantom')
 class Crawler {
   constructor({ uri }) {
     this.url = uri
-    this.options = { uri, transform: body => cheerio.load(body) }
+    this.header = {
+      // 'Host': uri, 带上这个会请求不同
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+    }
   }
-  async crawl () {
-    const instance = await phantom.create();
-    const page = await instance.createPage();
-    const status = await page.open(this.url);
+  async phantomCrawl () {
+    const instance = await phantom.create()
+    const page = await instance.createPage()
+    const status = await page.open(this.url)
     const content = await page.property('content')
-
-    console.log(content)
 
     return this.cheerioLoad(content)
   }
   async cheerioCrawl () {
-    return superagent.get(this.options)
-      .then($ => $)
-      .catch(err => console.log(err))
+    const { text } = await superagent.get(this.url).set(this.header)
+    return await this.cheerioLoad(text)
   }
   // return html text
   async request () {
-    return superagent.get(this.url)
+    return superagent.get(this.url).set(this.header)
   }
   // return dom
-  async cheerioLoad (html, dangerously = false) {
+  async cheerioLoad (html) {
     return cheerio.load(html)
     // return new JSDOM(html, { runScripts: dangerously ? 'dangerously' : undefined })
   }
