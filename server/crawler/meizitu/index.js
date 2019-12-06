@@ -3,11 +3,15 @@ const superagent = require('superagent')
 const fs = require('fs')
 const { mkdirSync } = require('../../modules/util')
 
-const baseUrl = 'http://www.meizitu.net.cn/page/2/'
-const crawler = new Crawler({ uri: baseUrl })
+// a/list_1_${index}.html
+const getMeizituUrlByPage = (index) => `https://www.meizitu.com/`
+const crawler = new Crawler()
 
 let $ = null
 const crawMeizitu = async () => {
+  // for (let i = 1; i <= 60; i++) {
+  crawler.url = getMeizituUrlByPage(1)
+  console.log(crawler)
   try {
     $ = await crawler.cheerioCrawl()
     //首页导航栏
@@ -15,6 +19,7 @@ const crawMeizitu = async () => {
       $('img'),
       getImgSrc,
     )
+    console.log(imgArr)
     const filePath = `${__dirname}/downloadImgs`
     mkdirSync(filePath) // 创建文件夹
     imgArr.forEach(elem => {
@@ -28,6 +33,7 @@ const crawMeizitu = async () => {
   } catch (e) {
     console.log(e)
   }
+  // }
 }
 
 // >------------------------------- 业务函数 ----------------------------------<
@@ -55,7 +61,7 @@ const cheerioToArrOfObjectsWithFormat = (cheerioList, formatFn) => {
   }
 
   const arr = []
-  console.log(cheerioList)
+  // console.log(cheerioList)
   cheerioList.each((index, elem) => {
     const formatedObj = formatFn(elem)
     if (formatedObj) {

@@ -24,7 +24,7 @@ exports.crawl = async ctx => {
 }
 
 exports.crawlMeizitu = async ctx => {
-  const crawlMeizitu = require('../../../crawler/meizitu')
+  const crawlMeizitu = require('../../../crawler/meizitu/index.js')
   await crawlMeizitu()
   successResponse(ctx)
 }

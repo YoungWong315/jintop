@@ -3,11 +3,14 @@ const superagent = require('superagent')
 const phantom = require('phantom')
 
 class Crawler {
-  constructor({ uri }) {
-    this.url = uri
+  constructor(props = {}) {
+    this.url = props.uri
     this.header = {
-      // 'Host': uri, 带上这个会请求不同
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36',
+      // 'Host': props.uri, //带上这个会请求不同
+      'user-agent': 'Baiduspider',
+      'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+      'cookie': 'Hm_lvt_dbc355aef238b6c32b43eacbbf161c3c=1575616400,1575617421;Hm_lpvt_dbc355aef238b6c32b43eacbbf161c3c=1575617430',
+      'Referer': 'https://www.meizitu.com/'
     }
   }
   async phantomCrawl () {
