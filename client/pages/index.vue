@@ -13,10 +13,10 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <div class="flex options-wrap">
+    <!-- <div class="flex options-wrap">
       <el-button @click="crawlMeizitu"
                  type="text">妹子图</el-button>
-    </div>
+    </div> -->
     <div class="flex result-wrap">
       <div class="result-cell flex">
         <pre class="crawler-result">{{ html }}</pre>
@@ -28,6 +28,10 @@
                :key="index">
         </div>
       </div>
+    </div>
+    <div class="beian">
+      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
+         target="blank">沪ICP备19009188号-1</a>
     </div>
   </section>
 </template>
@@ -96,7 +100,7 @@ export default {
     return {
       link: '',
       html: '',
-      imgs: [],
+      imgs: []
     }
   },
   mounted() {},
@@ -104,7 +108,7 @@ export default {
     async submit() {
       loadingIns = Loading.service(loadingOption)
       const { code, data } = await this.$service.crawlByLink(
-        encodeURIComponent(this.link),
+        encodeURIComponent(this.link)
       )
       loadingIns.close()
       if (code === 1) {
@@ -125,7 +129,7 @@ export default {
           indent_inner_html: false,
           comma_first: false,
           e4x: false,
-          indent_empty_lines: false,
+          indent_empty_lines: false
         }
         const { text, imgs } = data
         this.html = beautify.html(text, options)
@@ -142,8 +146,8 @@ export default {
     },
     async crawlMeizitu() {
       const result = await this.$service.crawlMeizitu()
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -164,6 +168,7 @@ export default {
 }
 .crawler-input-container {
   padding-top: 0.1px;
+  margin-bottom: 30px;
 }
 .crawler-input-wrap {
   margin-top: 100px;
@@ -205,5 +210,15 @@ export default {
 }
 .options-wrap {
   padding: 50px;
+}
+.beian {
+  margin-top: 30px;
+  text-align: center;
+  color: #898989;
+  font-size: 12px;
+}
+.beian a:link,
+.beian a:visited {
+  color: #898989;
 }
 </style>
