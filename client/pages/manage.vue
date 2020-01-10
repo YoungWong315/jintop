@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      userList: []
+      userList: [],
     }
   },
   created() {
@@ -90,12 +90,12 @@ export default {
       if (code === 1) {
         this.userList = data
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style>
+<style scoped>
 .index-login,
 .index-register {
   float: right !important;

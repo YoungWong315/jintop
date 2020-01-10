@@ -1,12 +1,7 @@
 <template>
   <section class="wrap">
     <div class="content">
-      <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
-      <nuxt-link :to="{path: '/toolkit/crawler'}">crawler</nuxt-link>
-    </div>
-    <div class="beian">
-      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
-         target="blank">沪ICP备19009188号-1</a>
+      css toolkit
     </div>
   </section>
 </template>
@@ -22,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/reset';
+@import '../../assets/css/reset';
 
 .wrap {
   display: flex;
@@ -47,20 +42,5 @@ export default {
   margin-right: 30px;
   font-size: 18px;
   color: blueviolet;
-}
-.beian {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  margin-top: 30px;
-  text-align: center;
-  color: #898989;
-  font-size: 12px;
-}
-.beian a:link,
-.beian a:visited {
-  color: #898989;
 }
 </style>
