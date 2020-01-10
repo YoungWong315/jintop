@@ -40,13 +40,13 @@ export default {
 
   width: 80vw;
   height: 80vh;
-  border: 1px solid lightblue;
+  /* border: 1px solid lightblue; */
   border-radius: 5px;
 }
 .content a {
   margin-right: 30px;
   font-size: 18px;
-  color: blueviolet;
+  color: #1989fa;
 }
 .beian {
   position: absolute;

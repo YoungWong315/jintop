@@ -1,8 +1,8 @@
 <template>
   <section id="index"
-           class="wrap">
-    <div class="flex crawler-input-container">
-      <div class="flex crawler-input-wrap">
+           class="crawler-wrap">
+    <div class="crawler-flex crawler-input-container">
+      <div class="crawler-flex crawler-input-wrap">
         <el-input placeholder="爬虫地址"
                   class="crawler-input"
                   v-model="link"
@@ -13,25 +13,21 @@
                    type="text">提交</el-button>
       </div>
     </div>
-    <!-- <div class="flex options-wrap">
+    <!-- <div class="crawler-flex options-wrap">
       <el-button @click="crawlMeizitu"
                  type="text">妹子图</el-button>
     </div> -->
-    <div class="flex result-wrap">
-      <div class="result-cell flex">
+    <div class="crawler-flex result-wrap">
+      <div class="result-cell crawler-flex">
         <pre class="crawler-result">{{ html }}</pre>
       </div>
-      <div class="result-cell flex">
+      <div class="result-cell crawler-flex">
         <div class="crawler-img">
           <img v-for="(item, index) in imgs"
                :src="item"
                :key="index">
         </div>
       </div>
-    </div>
-    <div class="beian">
-      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
-         target="blank">沪ICP备19009188号-1</a>
     </div>
   </section>
 </template>
@@ -154,11 +150,11 @@ export default {
 <style>
 @import '../../assets/css/reset';
 
-.wrap {
+.crawler-wrap {
   width: 100vw;
   padding-bottom: 100px;
 }
-.flex {
+.crawler-flex {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,15 +206,5 @@ export default {
 }
 .options-wrap {
   padding: 50px;
-}
-.beian {
-  margin-top: 30px;
-  text-align: center;
-  color: #898989;
-  font-size: 12px;
-}
-.beian a:link,
-.beian a:visited {
-  color: #898989;
 }
 </style>
