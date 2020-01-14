@@ -156,25 +156,71 @@
             </div>
           </div>
         </el-collapse-item>
-        <el-collapse-item title="效率 Efficiency"
+        <el-collapse-item title="background gradient"
                           name="3">
-          <div>简化流程：设计简洁直观的操作流程；</div>
-          <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-          <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-        </el-collapse-item>
-        <el-collapse-item title="可控 Controllability"
-                          name="4">
-          <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-          <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+          <div class="config-place">
+            <div>
+              <div class="config-title">gradient type: </div>
+              <el-switch v-model="gradient_type"
+                         active-text="linear"
+                         inactive-text="radial">
+              </el-switch>
+            </div>
+            <div class="gradient-type-wrap"
+                 v-if="gradient_type">
+              <div>
+                <div class="config-title">angle: </div>
+                <el-slider v-model="gradient_angle"
+                           :min="0"
+                           :max="360"
+                           show-input>
+                </el-slider>
+              </div>
+            </div>
+            <div class="gradient-type-wrap"
+                 v-else>
+              <div>
+                <div class="config-title">radial type: </div>
+                <el-switch v-model="gradient_radial_type"
+                           active-text="ellipse"
+                           inactive-text="circle">
+                </el-switch>
+              </div>
+            </div>
+            <div class="gradient-color-wrap">
+              <div class="color-list">
+                <div v-for="(item, index) in gradient_color_list"
+                     :key="index">
+                  <div class="color-list-show"
+                       :style="{ background: `${item.color}` }"></div>
+                  <el-input placeholder="color-stop"
+                            v-model="item.color"
+                            clearable>
+                  </el-input>
+                  <el-input placeholder="length or percentage"
+                            v-model="item.length"
+                            clearable>
+                  </el-input>
+                  <el-button v-if="gradient_color_list.length > 2"
+                             @click="() => removeColor(index)"
+                             plain>delete</el-button>
+                </div>
+              </div>
+              <el-button @click="addColor"
+                         type="primary">add color</el-button>
+            </div>
+          </div>
         </el-collapse-item>
       </el-collapse>
-
-      <div class="show-place"
-           :style="{
-             width: `${sliderMax}px`, height: `${sliderMax}px`,
-             borderRadius: `${top_left_horizontal_value}px ${top_right_horizontal_value}px ${bottom_left_horizontal_value}px ${bottom_right_horizontal_value}px / ${top_left_vertical_value}px ${top_right_vertical_value}px ${bottom_left_vertical_value}px ${bottom_right_vertical_value}px`,
-             boxShadow: `${horizontal_length}px ${vertical_length}px ${blur_radius}px ${spread_radius}px rgba(${shadow_color_r}, ${shadow_color_g}, ${shadow_color_b}, ${shadow_opacity}) ${shadow_inset ? 'inset' : ''}`,
-           }"></div>
+      <div class="show-place-wrap">
+        <div class="show-place"
+             :style="{
+              width: `${(!gradient_type && gradient_radial_type) ? sliderMax+100 : sliderMax}px`, height: `${sliderMax}px`,
+              borderRadius: `${top_left_horizontal_value}px ${top_right_horizontal_value}px ${bottom_left_horizontal_value}px ${bottom_right_horizontal_value}px / ${top_left_vertical_value}px ${top_right_vertical_value}px ${bottom_left_vertical_value}px ${bottom_right_vertical_value}px`,
+              boxShadow: `${horizontal_length}px ${vertical_length}px ${blur_radius}px ${spread_radius}px rgba(${shadow_color_r}, ${shadow_color_g}, ${shadow_color_b}, ${shadow_opacity}) ${shadow_inset ? 'inset' : ''}`,
+              background: `${gradient_type ? 'linear-gradient' : 'radial-gradient'}(${gradient_type ? gradient_angle+'deg' : (gradient_radial_type ? 'ellipse' : 'circle')}, ${gradient_color_list.map(item => item.color+' '+item.length).join(',')})`,
+            }"></div>
+      </div>
     </div>
   </section>
 </template>
@@ -206,10 +252,27 @@ export default {
       shadow_color_b: 0,
       shadow_opacity: 1,
       shadow_inset: false,
+
+      // background gradient
+      gradient_type: true, // true --> linear-gradient, false --> radial-gradient
+      gradient_angle: 135,
+      gradient_radial_type: true,
+      gradient_color_list: [
+        { color: '#ead6ee', length: '80px' },
+        { color: 'rgb(160,241,234)', length: '300px' },
+      ],
     }
   },
   mounted() {},
-  methods: {},
+  methods: {
+    addColor() {
+      this.gradient_color_list.push({})
+    },
+    removeColor(index) {
+      // 使用 vm.$set 和 vm.$delete 修改对象或数组元素，保持页面同步
+      this.$delete(this.gradient_color_list, index)
+    },
+  },
   watch: {},
 }
 </script>
@@ -230,11 +293,17 @@ export default {
   padding: 200px 20px 20px 20px;
 }
 .config-place {
-  width: 500px;
+  width: 100%;
   padding-left: 20px;
 }
-.show-place {
+.show-place-wrap {
+  display: flex;
+  justify-content: center;
+
+  width: 400px;
   margin-left: 200px;
+}
+.show-place {
   background: palevioletred;
 }
 .config-title {
@@ -243,6 +312,33 @@ export default {
   color: #1989fa;
 }
 .el-collapse {
-  width: 500px;
+  width: 550px;
+}
+.gradient-type-wrap {
+  margin-top: 10px;
+}
+.gradient-color-wrap {
+  margin-top: 20px;
+}
+.color-list {
+  margin-bottom: 20px;
+}
+.color-list > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.color-list-show {
+  flex-shrink: 0;
+  margin-right: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+}
+.el-input {
+  margin-right: 20px;
+}
+.el-switch {
+  margin-top: 10px;
 }
 </style>
