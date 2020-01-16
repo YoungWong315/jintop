@@ -10,10 +10,10 @@
                 clearable
                 show-password></el-input>
       <div class="flex-wrap">
-        <nuxt-link :to="{name: 'register'}">
+        <nuxt-link :to="{path: '/login/register'}">
           <el-button type="text">忘记密码?</el-button>
         </nuxt-link>
-        <nuxt-link :to="{name: 'register'}">
+        <nuxt-link :to="{path: '/login/register'}">
           <el-button type="text">立即注册</el-button>
         </nuxt-link>
       </div>
@@ -30,12 +30,12 @@ export default {
   data() {
     return {
       username: '',
-      psd: ''
+      psd: '',
     }
   },
   layout: 'default',
   components: {
-    Logo
+    Logo,
   },
   mounted() {},
   methods: {
@@ -49,8 +49,8 @@ export default {
       } else {
         this.$message.error(err.errMsg)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
