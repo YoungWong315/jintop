@@ -1,29 +1,37 @@
 <template>
   <section class="wrap">
-    <div class="content">
-      <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
-      <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
-      <!-- <nuxt-link :to="{path: '/toolkit/crawler'}">crawler</nuxt-link> -->
-    </div>
-    <div class="beian">
-      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
-         target="blank">沪ICP备19009188号-1</a>
+    <login v-if="!login"
+           :login="loginCb" />
+    <div v-else>
+      已登录
     </div>
   </section>
 </template>
 
 <script>
+import Login from '~/components/login/login'
+
 export default {
   data() {
-    return {}
+    return {
+      login: false,
+    }
+  },
+  components: {
+    Login,
   },
   mounted() {},
-  methods: {},
+  methods: {
+    loginCb(e) {
+      console.log(e)
+      this.login = true
+    },
+  },
 }
 </script>
 
 <style scoped>
-@import '../assets/css/reset';
+@import '../../assets/css/reset';
 
 .wrap {
   display: flex;
