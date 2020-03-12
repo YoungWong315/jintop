@@ -1,5 +1,5 @@
 const consola = require('consola')
-const Sequelize = require('./node_modules/sequelize')
+const Sequelize = require('sequelize')
 const path = require('path')
 const {
   db_config: { dialect, username, password, host, port, dbName },

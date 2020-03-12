@@ -52,16 +52,20 @@ const getFilenamesInSpecificDir = (targetPath) => {
   const path = require('path')
   const fs = require('fs')
 
+  const ignoreFiles = ['.DS_Store']
   let results = []
 
   const files = fs.readdirSync(targetPath)
   files.forEach(file => {
-    file = path.join(targetPath, file)
-    const stats = fs.statSync(file)
-    if (stats.isDirectory()) {
-      results = results.concat(getFilenamesInSpecificDir(file))
-    } else {
-      results.push(file);
+    const noIgnoreFile = ignoreFiles.every(item => file.indexOf(item) === -1)
+    if (noIgnoreFile) {
+      file = path.join(targetPath, file)
+      const stats = fs.statSync(file)
+      if (stats.isDirectory()) {
+        results = results.concat(getFilenamesInSpecificDir(file))
+      } else {
+        results.push(file);
+      }
     }
   })
 
