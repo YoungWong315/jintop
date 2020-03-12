@@ -4,11 +4,11 @@ class CategorySchema {
   constructor(model) {
     this.model = model
   }
-  postCategory(categoryData) {
+  postCategory (categoryData) {
     // 批量入库
   }
 
-  async getCategoryByCategoryId(categoryId) {
+  getCategoryByCategoryId (categoryId) {
     return this.model.findAll({
       where: { categoryId },
     })

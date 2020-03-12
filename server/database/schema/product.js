@@ -4,7 +4,7 @@ class ProductSchema {
   constructor(model) {
     this.model = model
   }
-  async putInProduct(productData) {
+  putInProduct (productData) {
     const { title, imgurl, plink, pid: uniqueId } = productData
 
     const data = {
@@ -19,7 +19,7 @@ class ProductSchema {
     upsertProduct('uniqueId', data)
   }
 
-  async getProductAll() {
+  getProductAll () {
     return this.model.findAll()
   }
 }
