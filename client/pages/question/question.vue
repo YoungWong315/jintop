@@ -1,30 +1,41 @@
 <template>
   <section>
-    <div class="wrap"
+    <div class="login-wrap"
          v-if="!login">
       <login @login="loginCb" />
     </div>
-    <div v-else>
+    <div class="content-wrap"
+         v-else>
       <el-menu :default-active="activeIndex"
                class="el-menu"
                mode="horizontal"
                @select="handleSelect">
         <el-menu-item index="1">创建问卷</el-menu-item>
         <el-menu-item index="2">我的问卷</el-menu-item>
-        <el-menu-item index="3">问题反馈</el-menu-item>
-        <el-menu-item index="4"
+        <el-menu-item index="3"
                       class="section-logout">
           <div>{{ userInfo.username }}</div>
           <div class="line-vertical"></div>
           <div @click="logout">退出</div>
         </el-menu-item>
       </el-menu>
+      <!-- el-menu显示内容 -->
+      <div class="el-menu-content"
+           v-show="activeIndex === '1'">
+        <Create />
+      </div>
+      <div class="el-menu-content"
+           v-show="activeIndex === '2'">
+        <MyQuestions />
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 import Login from '~/components/login/login'
+import Create from '~/components/question/create'
+import MyQuestions from '~/components/question/myquestions'
 
 export default {
   data() {
@@ -36,6 +47,8 @@ export default {
   },
   components: {
     Login,
+    Create,
+    MyQuestions,
   },
   mounted() {
     const loginInfo = this.$util.getLoginInfo()
@@ -60,7 +73,7 @@ export default {
 <style scoped>
 @import '../../assets/css/reset';
 
-.wrap {
+.login-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,10 +81,17 @@ export default {
   width: 100vw;
   height: 100vh;
 }
+.content-wrap {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+}
 .el-menu {
-  margin: 0 auto;
+  width: 100%;
   border-left: 200px solid transparent;
   border-right: 200px solid transparent;
+  box-sizing: border-box;
 }
 .el-menu-item {
   display: flex;
@@ -88,5 +108,11 @@ export default {
   width: 2px;
   height: 15px;
   background: #e6e6e6;
+}
+.el-menu-content {
+  display: flex;
+  justify-content: center;
+
+  flex-grow: 1;
 }
 </style>
