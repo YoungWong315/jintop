@@ -39,10 +39,12 @@ exports.login = async ctx => {
     const { password, uid } = user
     if (password === psd) {
       // 响应数据
+      const tokenExpires = 48
       const data = {
         uid,
         username,
-        token: crypto.jwtSign({ uid }, '48h'),
+        token: crypto.jwtSign({ uid }, `${tokenExpires}h`),
+        expires: new Date().getTime() + tokenExpires * 60 * 60 * 1000 // token过期时间
       }
       successResponse(ctx, data)
     } else {

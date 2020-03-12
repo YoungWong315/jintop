@@ -1,9 +1,24 @@
 <template>
-  <section class="wrap">
-    <login v-if="!login"
-           :login="loginCb" />
+  <section>
+    <div class="wrap"
+         v-if="!login">
+      <login @login="loginCb" />
+    </div>
     <div v-else>
-      已登录
+      <el-menu :default-active="activeIndex"
+               class="el-menu"
+               mode="horizontal"
+               @select="handleSelect">
+        <el-menu-item index="1">创建问卷</el-menu-item>
+        <el-menu-item index="2">我的问卷</el-menu-item>
+        <el-menu-item index="3">问题反馈</el-menu-item>
+        <el-menu-item index="4"
+                      class="section-logout">
+          <div>{{ userInfo.username }}</div>
+          <div class="line-vertical"></div>
+          <div @click="logout">退出</div>
+        </el-menu-item>
+      </el-menu>
     </div>
   </section>
 </template>
@@ -15,16 +30,28 @@ export default {
   data() {
     return {
       login: false,
+      activeIndex: '1',
+      userInfo: null,
     }
   },
   components: {
     Login,
   },
-  mounted() {},
+  mounted() {
+    const loginInfo = this.$util.getLoginInfo()
+    this.login = loginInfo.validationCheck
+    this.userInfo = loginInfo
+  },
   methods: {
     loginCb(e) {
-      console.log(e)
-      this.login = true
+      this.login = e
+    },
+    logout() {
+      this.$util.logout()
+      this.login = false
+    },
+    handleSelect(key, keyPath) {
+      this.activeIndex = key
     },
   },
 }
@@ -41,35 +68,25 @@ export default {
   width: 100vw;
   height: 100vh;
 }
-.content {
+.el-menu {
+  margin: 0 auto;
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+}
+.el-menu-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-
-  width: 80vw;
-  height: 80vh;
-  /* border: 1px solid lightblue; */
-  border-radius: 5px;
+  margin-right: 50px;
 }
-.content a {
-  margin-right: 30px;
-  font-size: 18px;
-  color: #1989fa;
-}
-.beian {
+.section-logout {
   position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  margin-top: 30px;
-  text-align: center;
-  color: #898989;
-  font-size: 12px;
+  right: 0;
 }
-.beian a:link,
-.beian a:visited {
-  color: #898989;
+.line-vertical {
+  margin: 0 10px;
+  width: 2px;
+  height: 15px;
+  background: #e6e6e6;
 }
 </style>

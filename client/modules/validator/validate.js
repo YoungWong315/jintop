@@ -2,7 +2,7 @@ const patterns = require('./pattern.js')
 const validatesArr = patterns.patternArr()
 
 // 按序认证
-function validate(validates) {
+function validate (validates) {
   // validates参数合法性(认证参数)
   if (!(validates instanceof Array)) {
     console.error('parameter error: first parameter should be an Array')
@@ -41,7 +41,7 @@ function validate(validates) {
 
 // 一次性认证全部，返回错误参数key值
 let validateAll_Arr = []
-function validateAll(validates) {
+function validateAll (validates) {
   // validates参数合法性(认证参数)
   if (!(validates instanceof Array)) {
     console.error('parameter error: parameter should be an Array')
@@ -85,8 +85,6 @@ function validateAll(validates) {
 }
 
 export default {
-  install(Vue) {
-    Vue.prototype.$validate = validate
-    Vue.prototype.$validateAll = validateAll
-  },
+  validate,
+  validateAll
 }

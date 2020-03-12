@@ -7,27 +7,7 @@
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b">
-      <el-menu-item index="1">处理中心</el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">用户列表</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="3"
-                    class="index-register">
-        <nuxt-link :to="{name: 'login-register'}">注册</nuxt-link>
-      </el-menu-item>
-      <el-menu-item index="4"
-                    class="index-login">
-        <nuxt-link :to="{name: 'login-login'}">登录</nuxt-link>
-      </el-menu-item>
+      <el-menu-item index="1">用户管理</el-menu-item>
     </el-menu>
 
     <div>
@@ -38,10 +18,10 @@
       2. 登录名唯一
      -->
     <!-- 内容容器 -->
-    <table>
+    <table class="table">
       <thead>
         <tr>
-          <td>id</td>
+          <td>index</td>
           <td>uid</td>
           <td>username</td>
           <td>password</td>
@@ -51,7 +31,7 @@
       <tbody>
         <tr v-for="(item, index) in userList"
             :key="index">
-          <td>{{ item.id }}</td>
+          <td>{{ index + 1 }}</td>
           <td>{{ item.uid }}</td>
           <td>{{ item.username }}</td>
           <td>{{ item.password }}</td>
@@ -77,16 +57,13 @@ export default {
   },
   created() {
     this.findAllUser()
-    // console.log(this.$crypto);
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath)
+      this.activeIndex = key
     },
     async findAllUser() {
-      const result = await this.$service.findAllUser(0, 10)
-      const { code, data } = result
-
+      const { code, data } = await this.$service.findAllUser(0, 10)
       if (code === 1) {
         this.userList = data
       }
@@ -96,12 +73,9 @@ export default {
 </script>
 
 <style scoped>
-.index-login,
-.index-register {
-  float: right !important;
-}
-.index-login a,
-.index-register a {
-  text-decoration: none !important;
+td {
+  padding: 10px 20px;
+  border: 1px solid #333;
+  text-align: center;
 }
 </style>

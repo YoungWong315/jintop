@@ -45,10 +45,10 @@ module.exports = {
     extend (config, ctx) { },
   },
   plugins: [
-    '~/plugins/validator/index.js',
     '~/plugins/element-ui.js',
     '~/plugins/service/index.js',
     '~/plugins/crypto/index.js',
+    '~/plugins/utils/index.js'
   ],
   server: {
     host: '127.0.0.1',
