@@ -1,4 +1,4 @@
-const { generateId } = require('../../modules/util')
+const { generateId } = require('../../../modules/util')
 
 class QuestionSchema {
   constructor(model) {

@@ -27,10 +27,10 @@ class UserSchema {
     })
   }
   findByUsername (username) {
-    return this.model.findOne({ where: { username: username } })
+    return this.model.findOne({ where: { username } })
   }
   findByUid (uid) {
-    return this.model.findOne({ where: { uid: uid } })
+    return this.model.findOne({ where: { uid } })
   }
   findAllUser () {
     return this.model.findAll()
