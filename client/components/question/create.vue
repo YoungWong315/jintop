@@ -3,34 +3,42 @@
     <div class="question-options height-100-percent">
       <div class="question-type">
         <el-button type="info"
-                   @click="addSingleChoiceQuestion">单选题</el-button>
+                   @click="addChoiceQuestion('single')">单选题</el-button>
       </div>
       <div class="question-type">
         <el-button type="info"
-                   @click="addMultiChoiceQuestion">多选题</el-button>
+                   @click="addChoiceQuestion('multi')">多选题</el-button>
       </div>
     </div>
     <div class="question-content height-100-percent">
-      <div class="questions-wrap"
-           @click="logQuestions">
+      <div class="questions-wrap">
         <div>
           <div v-for="(question, index) in questions"
                :key="index">
-            <div v-if="question.type === 'single'">
-              <div class="questions">
-                <div>
-                  <el-input class="el-input"
-                            v-model="question.label"
-                            placeholder="题目"></el-input>
+            <!-- 单选题 -->
+            <div class="questions">
+              <!-- 题目 -->
+              <div class="question-title">
+                <span>题目</span>
+                <el-input class="el-input"
+                          v-model="question.label"></el-input>
 
-                </div>
-                <div v-for="(option, idx) in question.options"
-                     :key="idx">
-                  <el-input class="el-input"
-                            v-model="option.label"></el-input>
+              </div>
+              <!-- 选项 -->
+              <div class="question-title">
+                <span>选项</span>
+                <div>
+                  <div class="options"
+                       v-for="(option, idx) in question.options"
+                       :key="idx">
+                    <el-input class="el-input"
+                              v-model="option.label"
+                              placeholder="选项"></el-input>
+                  </div>
+                  <el-button class="option-add-btn"
+                             @click="addOption(index)">增加选项</el-button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -46,19 +54,26 @@ export default {
       questions: [],
     }
   },
+  created() {
+    this.questions = this.$util.getStorage('store_questions') || []
+  },
   methods: {
-    logQuestions() {
-      console.log(this.questions)
-    },
-    addSingleChoiceQuestion() {
+    addChoiceQuestion(type) {
       this.questions.push({
-        type: 'single',
+        type,
         label: '',
         options: [{ label: '' }],
       })
     },
-    addMultiChoiceQuestion() {
-      this.questions.push({ type: 'multi', label: '题目', value: '' })
+    addOption(questionIndex) {
+      this.questions[questionIndex].options.push({ label: '' })
+    },
+  },
+  watch: {
+    questions() {
+      if (this.questions.length > 0) {
+        this.$util.setStorage('store_questions', this.questions)
+      }
     },
   },
 }
@@ -102,5 +117,28 @@ export default {
   padding: 20px 100px;
   background: #f6f6f6;
   border: 1px solid #eee;
+}
+.question-title {
+  display: flex;
+  margin-bottom: 10px;
+}
+.question-title > * {
+  flex-grow: 1;
+}
+.question-title > span {
+  margin: 10px 20px 0 0;
+  flex: 0 0 auto;
+}
+.el-input {
+  margin-bottom: 10px;
+}
+.options {
+  display: flex;
+  align-items: center;
+}
+.option-add-btn {
+  width: 100%;
+  margin-top: 5px;
+  background: #f2f2f2;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="!loading">
     <div class="login-wrap"
          v-if="!login">
       <login @login="loginCb" />
@@ -31,16 +31,22 @@
       </div>
     </div>
   </section>
+  <section class="loading-wrap"
+           v-else>
+    <LensLoading />
+  </section>
 </template>
 
 <script>
 import Login from '~/components/login/login'
 import Create from '~/components/question/create'
 import MyQuestions from '~/components/question/myquestions'
+import LensLoading from '~/components/loading/lens'
 
 export default {
   data() {
     return {
+      loading: true,
       login: false,
       activeIndex: '1',
       userInfo: null,
@@ -50,6 +56,12 @@ export default {
     Login,
     Create,
     MyQuestions,
+    LensLoading,
+  },
+  created() {
+    setTimeout(() => {
+      this.loading = false
+    }, 200)
   },
   mounted() {
     const loginInfo = this.$util.getLoginInfo()
@@ -74,6 +86,7 @@ export default {
 <style scoped>
 @import '../../assets/css/reset';
 
+.loading-wrap,
 .login-wrap {
   display: flex;
   align-items: center;
