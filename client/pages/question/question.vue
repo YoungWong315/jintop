@@ -59,9 +59,7 @@ export default {
     LensLoading,
   },
   created() {
-    setTimeout(() => {
-      this.loading = false
-    }, 200)
+    setTimeout(() => (this.loading = false), 200)
   },
   mounted() {
     const loginInfo = this.$util.getLoginInfo()
