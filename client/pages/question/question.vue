@@ -4,12 +4,13 @@
          v-if="!login">
       <login @login="loginCb" />
     </div>
-    <div class="content-wrap"
-         v-else>
+    <!-- class="content-wrap" -->
+    <div v-else>
       <el-menu :default-active="activeIndex"
                class="el-menu"
                mode="horizontal"
                @select="handleSelect">
+        <!-- li高度 60px -->
         <el-menu-item index="1">创建问卷</el-menu-item>
         <el-menu-item index="2">我的问卷</el-menu-item>
         <el-menu-item index="3"
@@ -81,12 +82,12 @@ export default {
   width: 100vw;
   height: 100vh;
 }
-.content-wrap {
+/* .content-wrap {
   display: flex;
   flex-direction: column;
 
   min-height: 100vh;
-}
+} */
 .el-menu {
   width: 100%;
   border-left: 200px solid transparent;
@@ -110,9 +111,15 @@ export default {
   background: #e6e6e6;
 }
 .el-menu-content {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: center;
 
-  flex-grow: 1;
+  /* 撑满剩余空间 */
+  /* flex-grow: 1; */
 }
 </style>
