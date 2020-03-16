@@ -28,7 +28,7 @@ module.exports = {
       // npm install when using new dependencies npm install && 
       // 'npm run build && pm2 reload ecosystem.config.js --env production',
       'post-deploy':
-        'npm run build && pm2 start app.js',
+        'npm run build && pm2 start app.js --name jintop',
       env: { NODE_ENV: 'production' },
     },
   },
