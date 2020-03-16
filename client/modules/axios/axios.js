@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV;
 
 // 默认配置
 const axiosInstance = axios.create({
-  baseURL: env === 'production' ? 'wwww.jintop.cn' : 'http://127.0.0.1:9999',
+  baseURL: env === 'production' ? 'http://wwww.jintop.cn' : 'http://127.0.0.1:9999',
   timeout: 60000,
   maxContentLength: 10000,
   /*允许携带cookie*/
