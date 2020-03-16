@@ -1,29 +1,29 @@
 // 定义 Model 并返回 Model实例
-const defineProduct = (sequelize, dataType) => {
-  return sequelize.define('product', {
-    uniqueId: {
+const defineOptions = (sequelize, dataType) => {
+  return sequelize.define('option', {
+    optionId: {
       type: dataType.STRING,
       allowNull: false,
       primaryKey: true,
       unique: true,
     },
-    pid: {
+    title: {
       type: dataType.STRING,
       allowNull: false,
     },
-    title: {
+    questionId: {
       type: dataType.STRING,
+      allowNull: false,
     },
-    imgurl: {
+    uid: {
       type: dataType.STRING,
+      allowNull: true,
     },
-    plink: {
+    questionnaireId: {
       type: dataType.STRING,
-    },
-    category: {
-      type: dataType.STRING,
+      allowNull: true,
     },
   })
 }
 
-module.exports = defineProduct
+module.exports = defineOptions

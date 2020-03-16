@@ -24,8 +24,6 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
   data() {
     return {
@@ -34,9 +32,7 @@ export default {
     }
   },
   layout: 'default',
-  components: {
-    Logo,
-  },
+  components: {},
   mounted() {},
   methods: {
     async submit() {

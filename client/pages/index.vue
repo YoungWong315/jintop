@@ -2,10 +2,11 @@
   <section class="wrap">
     <div class="content">
       <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
+      <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
       <!-- <nuxt-link :to="{path: '/toolkit/crawler'}">crawler</nuxt-link> -->
     </div>
     <div class="beian">
-      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
+      <a href="http://beian.miit.gov.cn"
          target="blank">沪ICP备19009188号-1</a>
     </div>
   </section>
@@ -15,6 +16,9 @@
 export default {
   data() {
     return {}
+  },
+  mounted() {
+    console.log('https://wj.qq.com/edit.html')
   },
   methods: {},
 }

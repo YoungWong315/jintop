@@ -1,11 +1,9 @@
-const pkg = require('./package')
-
 console.log(process.env.NODE_ENV)
 
 module.exports = {
   mode: 'universal',
   head: {
-    title: pkg.name,
+    title: '个人信息分享',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -45,10 +43,10 @@ module.exports = {
     extend (config, ctx) { },
   },
   plugins: [
-    '~/plugins/validator/index.js',
     '~/plugins/element-ui.js',
     '~/plugins/service/index.js',
     '~/plugins/crypto/index.js',
+    '~/plugins/utils/index.js'
   ],
   server: {
     host: '127.0.0.1',

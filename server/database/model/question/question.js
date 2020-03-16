@@ -1,25 +1,25 @@
 // 定义 Model 并返回 Model实例
-const defineCategory = (sequelize, dataType) => {
-  return sequelize.define('category', {
-    categoryId: {
+const defineQuestion = (sequelize, dataType) => {
+  return sequelize.define('question', {
+    questionId: {
       type: dataType.STRING,
       allowNull: false,
       primaryKey: true,
       unique: true,
     },
-    rootId: {
+    title: {
       type: dataType.STRING,
       allowNull: false,
     },
-    parentId: {
+    questionnaireId: {
       type: dataType.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    name: {
+    uid: {
       type: dataType.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   })
 }
 
-module.exports = defineCategory
+module.exports = defineQuestion

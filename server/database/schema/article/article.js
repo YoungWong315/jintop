@@ -1,10 +1,10 @@
-const { generateId } = require('../../modules/util')
+const { generateId } = require('../../../modules/util')
 
 class ArticleSchema {
   constructor(model) {
     this.model = model
   }
-  postArticle(articleData) {
+  postArticle (articleData) {
     const { uid, content } = articleData
 
     this.model.create({
@@ -14,19 +14,19 @@ class ArticleSchema {
     })
   }
 
-  async getArticleByUid(uid) {
+  getArticleByUid (uid) {
     return this.model.findAll({
       where: { uid },
     })
   }
 
-  async getArticleByArticleId(articleId) {
-    return this.model.findAll({
+  getArticleByArticleId (articleId) {
+    this.model.findAll({
       where: { articleId },
     })
   }
 
-  async getArticleAll() {
+  getArticleAll () {
     return this.model.findAll()
   }
 }

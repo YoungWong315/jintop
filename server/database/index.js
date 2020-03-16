@@ -53,9 +53,10 @@ class Database {
       const Model = defineModel(this.sql, this.Sequelize)
 
       // 根据Model，初始化对应的Schema
-      const modelSplit = modelPath.split('/')
+      /* const modelSplit = modelPath.split('/')
       const modelName = modelSplit[modelSplit.length - 1]
-      const Schema = require(`./schema/${modelName}`)
+      const Schema = require(`./schema/${modelName}`) */
+      const Schema = require(modelPath.replace('model', 'schema'))
       const schema = new Schema(Model)
       this.schemaMap.set(path.basename(modelPath, '.js'), schema)
     })

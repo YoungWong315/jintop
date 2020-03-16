@@ -5,7 +5,7 @@ class UserSchema {
     this.model = model
   }
 
-  async register(userData) {
+  register (userData) {
     const { username, password, phone } = userData
 
     return this.model.create({
@@ -16,7 +16,7 @@ class UserSchema {
       role: 'default',
     })
   }
-  async registerAdmin(userData) {
+  registerAdmin (userData) {
     const { username, password, phone } = userData
     return this.model.create({
       uid: uuidv1(),
@@ -26,16 +26,16 @@ class UserSchema {
       role: 'admin',
     })
   }
-  async findByUsername(username) {
-    return this.model.findOne({ where: { username: username } })
+  findByUsername (username) {
+    return this.model.findOne({ where: { username } })
   }
-  async findByUid(uid) {
-    return this.model.findOne({ where: { uid: uid } })
+  findByUid (uid) {
+    return this.model.findOne({ where: { uid } })
   }
-  async findAllUser() {
+  findAllUser () {
     return this.model.findAll()
   }
-  async checkUsernameExist(username) {
+  async checkUsernameExist (username) {
     return !!(await this.findByUsername(username))
   }
 }

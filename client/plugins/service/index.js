@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import myService from './service'
+import Service from './service'
 
-export default () => Vue.use(myService)
+export default () => Vue.use(Service)
