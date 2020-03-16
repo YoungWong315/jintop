@@ -17,7 +17,9 @@ export default {
   data() {
     return {}
   },
-  mounted() {},
+  mounted() {
+    console.log('https://wj.qq.com/edit.html')
+  },
   methods: {},
 }
 </script>
