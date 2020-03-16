@@ -6,7 +6,7 @@
       <!-- <nuxt-link :to="{path: '/toolkit/crawler'}">crawler</nuxt-link> -->
     </div>
     <div class="beian">
-      <a href="http://beian.miit.gov.cn/state/outPortal/loginPortal.action"
+      <a href="http://beian.miit.gov.cn"
          target="blank">沪ICP备19009188号-1</a>
     </div>
   </section>
