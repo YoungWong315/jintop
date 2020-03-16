@@ -15,7 +15,7 @@ class Util {
   login = (data) => this.setStorage('login', data)
   logout = () => this.setStorage('login', null)
   getLoginInfo = () => {
-    const loginInfo = this.getStorage('login')
+    const loginInfo = this.getStorage('login') || {}
     loginInfo.validationCheck = new Date().getTime() < loginInfo.expires
     return loginInfo
   }
