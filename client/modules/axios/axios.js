@@ -3,6 +3,8 @@ import Interceptor from './interceptor'
 
 const env = process.env.NODE_ENV;
 
+console.log(env)
+
 // 默认配置
 const axiosInstance = axios.create({
   baseURL: env === 'production' ? 'http://wwww.jintop.cn' : 'http://127.0.0.1:9999',

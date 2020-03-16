@@ -27,7 +27,7 @@ module.exports = {
   // 打包目标路径 -----------------------------------------------------<
   buildDir:
     process.env.NODE_ENV === 'production'
-      ? '/www/wwwroot/website/www_jintop_cn/nuxt'
+      ? '/www/wwwroot/website/www_jintop_cn/.nuxt'
       : '.nuxt',
   // ------------------------------------------------------------<
   srcDir: 'client/',
