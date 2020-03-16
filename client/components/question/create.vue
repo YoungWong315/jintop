@@ -19,7 +19,7 @@
             <div class="questions">
               <!-- 题目 -->
               <div class="question-title">
-                <span>题目</span>
+                <span>题目{{ index + 1 }}</span>
                 <el-input class="el-input"
                           v-model="question.label"></el-input>
 
@@ -38,6 +38,13 @@
                   <el-button class="option-add-btn"
                              @click="addOption(index)">增加选项</el-button>
                 </div>
+              </div>
+              <!-- 按键 -->
+              <div class="btn-wrap">
+                <el-button type="warning"
+                           @click="deleteQuestion(index)">删除</el-button>
+                <el-button type="primary"
+                           @click="setOptionToLocal">确定</el-button>
               </div>
             </div>
           </div>
@@ -67,6 +74,12 @@ export default {
     },
     addOption(questionIndex) {
       this.questions[questionIndex].options.push({ label: '' })
+    },
+    deleteQuestion(questionIndex) {
+      this.questions.splice(questionIndex, 1)
+    },
+    setOptionToLocal() {
+      this.$util.setStorage('store_questions', this.questions)
     },
   },
   watch: {
@@ -126,8 +139,12 @@ export default {
   flex-grow: 1;
 }
 .question-title > span {
-  margin: 10px 20px 0 0;
+  margin-right: 20px;
   flex: 0 0 auto;
+  width: 50px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 .el-input {
   margin-bottom: 10px;
@@ -140,5 +157,10 @@ export default {
   width: 100%;
   margin-top: 5px;
   background: #f2f2f2;
+}
+.btn-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>
