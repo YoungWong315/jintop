@@ -22,6 +22,8 @@ const startServer = async () => {
     port = process.env.PORT || 9999,
   } = nuxt.options.server
 
+  console.log(host, port)
+
   // Build in development
   if (config.dev) {
     const builder = new Builder(nuxt)
