@@ -1,11 +1,15 @@
 import axios from 'axios'
 import Interceptor from './interceptor'
 
-// const env = process.env.NODE_ENV;
+const getBaseUrl = () => {
+  return process.env.NODE_ENV === 'production'
+    ? 'http://www.jintop.cn'
+    : 'http://127.0.0.1:9999'
+}
 
 // 默认配置
 const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:9999',
+  baseURL: getBaseUrl(),
   timeout: 60000,
   maxContentLength: 10000,
   /*允许携带cookie*/
