@@ -1,5 +1,3 @@
-console.log(process.env.NODE_ENV)
-
 module.exports = {
   mode: 'universal',
   head: {
@@ -8,7 +6,11 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'keywords', content: 'css, css demo, css演示, css实时工具' },
-      { hid: 'description', name: 'description', content: 'css, css demo, css演示, css实时工具' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'css, css demo, css演示, css实时工具',
+      },
     ],
     link: [
       {
@@ -40,13 +42,13 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) { },
+    extend(config, ctx) {},
   },
   plugins: [
     '~/plugins/element-ui.js',
     '~/plugins/service/index.js',
     '~/plugins/crypto/index.js',
-    '~/plugins/utils/index.js'
+    '~/plugins/utils/index.js',
   ],
   server: {
     host: '127.0.0.1',
