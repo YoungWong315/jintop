@@ -1,12 +1,9 @@
 import axios from 'axios'
 import Interceptor from './interceptor'
 
-console.log('axios', process.env.NODE_ENV)
-const env = 'production'
-
 const getBaseUrl = env => {
-  return env === 'production'
-    ? 'http://wwww.jintop.cn'
+  return process.env.NODE_ENV === 'production'
+    ? 'http://www.jintop.cn'
     : 'http://127.0.0.1:9999'
 }
 
