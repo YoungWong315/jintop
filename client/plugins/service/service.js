@@ -23,7 +23,15 @@ class Service {
 
   /* crawlByLink = link => axios.post(`/crawler/crawl?link=${link}`)
   crawlMeizitu = () => axios.post(`/crawler/meizitu`) */
-  saveQuestionnaire = (questions) => axios.post(`/question/questionnaire/save`, questions)
+  /**
+   * @param {Object} bodyData
+   * {
+   *    question: {Array} 问卷问题数组
+   *    title: {String} 问卷标题
+   *    uid: {String} 用户id
+   * }
+   */
+  saveQuestionnaire = (bodyData) => axios.post(`/question/questionnaire/save`, bodyData)
 }
 
 export default {

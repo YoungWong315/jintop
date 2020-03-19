@@ -11,12 +11,17 @@
       </div>
     </div>
     <div class="question-content height-100-percent">
+      <div class="questionnaire-title">
+        <div>问卷标题</div>
+        <el-input class="el-input"
+                  v-model="title"></el-input>
+      </div>
       <div class="questions-wrap">
         <div>
           <div v-for="(question, index) in questions"
                :key="index">
-            <!-- 单选题 -->
             <div class="questions">
+              <div class="question-title">{{ question.type === 'single' ? '单选题' : '多选题' }}</div>
               <!-- 题目 -->
               <div class="question-title">
                 <span>题目{{ index + 1 }}</span>
@@ -50,6 +55,9 @@
           </div>
         </div>
         <div class="submit-btn">
+          <el-button type="warning"
+                     round
+                     @click="clear">清空</el-button>
           <el-button type="success"
                      round
                      @click="save">提交</el-button>
@@ -63,6 +71,7 @@
 export default {
   data() {
     return {
+      title: '',
       questions: [],
     }
   },
@@ -86,10 +95,29 @@ export default {
     setOptionToLocal() {
       this.$util.setStorage('store_questions', this.questions)
     },
+    clear() {
+      this.$util.setStorage('store_questions', null)
+      this.questions = []
+    },
     save() {
       console.log('提交')
-      console.log(this.questions)
-      this.$service.saveQuestionnaire(this.questions)
+      const { questions, title } = this
+      const { uid } = this.$util.getLoginInfo()
+      if (!title) {
+        this.$message.error('标题不可为空')
+        return
+      }
+      if (questions.length < 1) {
+        this.$message.error('至少添加一道题')
+        return
+      }
+      const data = {
+        questions,
+        title,
+        uid,
+      }
+      console.log(data)
+      this.$service.saveQuestionnaire(data)
     },
   },
   watch: {
@@ -103,6 +131,18 @@ export default {
 </script>
 
 <style scoped>
+.questionnaire-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 30px 0 20px;
+  width: 50%;
+}
+.questionnaire-title > div {
+  flex-shrink: 0;
+  margin-right: 20px;
+}
 .question-create {
   display: flex;
   justify-content: center;
@@ -146,6 +186,7 @@ export default {
 .question-title {
   display: flex;
   margin-bottom: 10px;
+  justify-content: center;
 }
 .question-title > * {
   flex-grow: 1;
@@ -180,8 +221,11 @@ export default {
   bottom: 30px;
   left: 50%;
   transform: translate(-50%, 0);
+
+  display: flex;
+  align-items: center;
 }
 .submit-btn > button {
-  width: 300px;
+  width: 200px;
 }
 </style>

@@ -16,6 +16,7 @@ class Util {
   logout = () => this.setStorage('login', null)
   getLoginInfo = () => {
     const loginInfo = this.getStorage('login') || {}
+    // validationCheck为true，代表登录信息有效
     loginInfo.validationCheck = new Date().getTime() < loginInfo.expires
     return loginInfo
   }

@@ -9,7 +9,7 @@ const defineOptions = (sequelize, dataType) => {
     },
     title: {
       type: dataType.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     questionId: {
       type: dataType.STRING,

@@ -9,11 +9,11 @@ const defineQuestion = (sequelize, dataType) => {
     },
     title: {
       type: dataType.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     questionnaireId: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     uid: {
       type: dataType.STRING,
