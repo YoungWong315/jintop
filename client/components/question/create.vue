@@ -77,6 +77,7 @@ export default {
   },
   created() {
     this.questions = this.$util.getStorage('store_questions') || []
+    this.title = this.$util.getStorage('store_questionnaire_title') || ''
   },
   methods: {
     addChoiceQuestion(type) {
@@ -98,10 +99,14 @@ export default {
     clear() {
       this.$util.setStorage('store_questions', null)
       this.questions = []
+      this.title = ''
     },
     save() {
-      console.log('提交')
       const { questions, title } = this
+      // 保存数据至本地 ------------------------<
+      this.$util.setStorage('store_questions', this.questions)
+      this.$util.setStorage('store_questionnaire_title', this.title)
+      // ---------------------------------------------<
       const { uid } = this.$util.getLoginInfo()
       if (!title) {
         this.$message.error('标题不可为空')
@@ -111,13 +116,15 @@ export default {
         this.$message.error('至少添加一道题')
         return
       }
-      const data = {
+      const jsonBody = {
         questions,
         title,
         uid,
       }
-      console.log(data)
-      this.$service.saveQuestionnaire(data)
+      const { code } = this.$service.saveQuestionnaire(jsonBody)
+      if (code === 1) {
+        this.$message.success('保存成功')
+      }
     },
   },
   watch: {
@@ -125,6 +132,9 @@ export default {
       if (this.questions.length > 0) {
         this.$util.setStorage('store_questions', this.questions)
       }
+    },
+    title() {
+      this.$util.setStorage('store_questionnaire_title', this.title)
     },
   },
 }

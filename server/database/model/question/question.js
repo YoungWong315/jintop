@@ -11,13 +11,17 @@ const defineQuestion = (sequelize, dataType) => {
       type: dataType.STRING,
       allowNull: true,
     },
+    type: {
+      type: dataType.STRING,
+      allowNull: false
+    },
     questionnaireId: {
       type: dataType.STRING,
       allowNull: false,
     },
     uid: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   })
 }

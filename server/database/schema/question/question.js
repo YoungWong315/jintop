@@ -5,10 +5,11 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createQuestion ({ questionnaireId, title, uid }) {
+  createQuestion ({ questionnaireId, title, uid, type }) {
     return this.model.create({
       questionId: generateId(),
       title,
+      type,
       questionnaireId,
       uid
     })

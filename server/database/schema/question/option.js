@@ -5,7 +5,7 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createOptions ({ questionId, title, uid, questionnaireId }) {
+  createOption ({ questionId, title, uid, questionnaireId }) {
     return this.model.create({
       optionId: generateId(),
       title,

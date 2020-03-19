@@ -17,11 +17,11 @@ const defineOptions = (sequelize, dataType) => {
     },
     uid: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     questionnaireId: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
   })
 }
