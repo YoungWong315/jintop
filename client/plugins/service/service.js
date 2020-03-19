@@ -10,13 +10,20 @@ class Service {
     }
     return this.instance
   }
+  /**
+   * @param {Object} bodyData
+   * {
+   *    
+   * }
+   */
   register = bodyData => axios.post('/user/register', bodyData)
+  login = bodyData => axios.post('/user/login', bodyData)
   findAllUser = (page, size) =>
     axios.get(`/user/findAllUser?page=${page}&size=${size}`)
-  login = bodyData => axios.post('/user/login', bodyData)
 
-  crawlByLink = link => axios.post(`/crawler/crawl?link=${link}`)
-  crawlMeizitu = () => axios.post(`/crawler/meizitu`)
+  /* crawlByLink = link => axios.post(`/crawler/crawl?link=${link}`)
+  crawlMeizitu = () => axios.post(`/crawler/meizitu`) */
+  saveQuestionnaire = (questions) => axios.post(`/question/questionnaire/save`, questions)
 }
 
 export default {

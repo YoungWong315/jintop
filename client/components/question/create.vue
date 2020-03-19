@@ -33,7 +33,7 @@
                        :key="idx">
                     <el-input class="el-input"
                               v-model="option.label"
-                              placeholder="选项"></el-input>
+                              :placeholder="'选项' + (idx+1)"></el-input>
                   </div>
                   <el-button class="option-add-btn"
                              @click="addOption(index)">增加选项</el-button>
@@ -41,13 +41,18 @@
               </div>
               <!-- 按键 -->
               <div class="btn-wrap">
-                <el-button type="warning"
+                <el-button type="danger"
                            @click="deleteQuestion(index)">删除</el-button>
                 <el-button type="primary"
                            @click="setOptionToLocal">确定</el-button>
               </div>
             </div>
           </div>
+        </div>
+        <div class="submit-btn">
+          <el-button type="success"
+                     round
+                     @click="save">提交</el-button>
         </div>
       </div>
     </div>
@@ -80,6 +85,11 @@ export default {
     },
     setOptionToLocal() {
       this.$util.setStorage('store_questions', this.questions)
+    },
+    save() {
+      console.log('提交')
+      console.log(this.questions)
+      this.$service.saveQuestionnaire(this.questions)
     },
   },
   watch: {
@@ -120,9 +130,11 @@ export default {
   width: 200px;
 }
 .questions-wrap {
+  position: relative;
   margin: 0 auto;
+  padding-bottom: 100px;
   width: 90%;
-  height: 200vh;
+  min-height: 95vh;
   background: #fff;
 }
 .questions {
@@ -162,5 +174,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+.submit-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.submit-btn > button {
+  width: 300px;
 }
 </style>
