@@ -23,7 +23,8 @@
       <!-- el-menu显示内容 -->
       <div class="el-menu-content"
            v-show="activeIndex === '1'">
-        <Create />
+        <Create :store-questions="questions"
+                :store-title="title" />
       </div>
       <div class="el-menu-content"
            v-show="activeIndex === '2'">
@@ -50,6 +51,9 @@ export default {
       login: false,
       activeIndex: '1',
       userInfo: null,
+
+      questions: [],
+      title: '',
     }
   },
   components: {
@@ -65,6 +69,11 @@ export default {
     const loginInfo = this.$util.getLoginInfo()
     this.login = loginInfo.validationCheck
     this.userInfo = loginInfo
+
+    // 子组件数据
+    this.questions = this.$util.getStorage('store_questions') || []
+    this.title = this.$util.getStorage('store_questionnaire_title') || ''
+    this.activeIndex = this.$util.getStorage('store_active_index') || '1'
   },
   methods: {
     loginCb(e) {
@@ -76,6 +85,7 @@ export default {
     },
     handleSelect(key, keyPath) {
       this.activeIndex = key
+      this.$util.setStorage('store_active_index', key)
     },
   },
 }

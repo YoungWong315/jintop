@@ -69,6 +69,10 @@
 
 <script>
 export default {
+  props: {
+    storeQuestions: Array,
+    storeTitle: String,
+  },
   data() {
     return {
       title: '',
@@ -76,9 +80,10 @@ export default {
     }
   },
   created() {
-    this.questions = this.$util.getStorage('store_questions') || []
-    this.title = this.$util.getStorage('store_questionnaire_title') || ''
+    this.questions = this.$props.storeQuestions
+    this.title = this.$props.storeTitle
   },
+  mounted() {},
   methods: {
     addChoiceQuestion(type) {
       this.questions.push({

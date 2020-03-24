@@ -11,7 +11,14 @@ class Util {
     return this.instance
   }
   setStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data))
-  getStorage = (key) => JSON.parse(localStorage.getItem(key))
+  getStorage = (key) => {
+    const value = localStorage.getItem(key)
+    if (value != 'undefined' && value != undefined && value != null) {
+      return JSON.parse(value)
+    } else {
+      return false
+    }
+  }
   login = (data) => this.setStorage('login', data)
   logout = () => this.setStorage('login', null)
   getLoginInfo = () => {
