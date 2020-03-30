@@ -28,9 +28,9 @@ class QuestionSchema {
     )
   }
   // 查
-  getQuestionsByQuestionnaireId (QuestionnaireId) {
+  getQuestionsByQuestionnaireId (questionnaireId) {
     return this.model.findAll({
-      where: { QuestionnaireId },
+      where: { questionnaireId },
     })
   }
 }

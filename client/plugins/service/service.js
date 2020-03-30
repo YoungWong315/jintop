@@ -44,6 +44,11 @@ class Service {
    * @param {String} uid 用户ID
    */
   queryQuestionnaireByUid = (uid) => axios.get(`/question/questionnaire/list?uid=${uid}`)
+  /**
+   * 查询问卷详情
+   * @param {String} questionnaireId
+  */
+  queryQuestionnaireDetail = (questionnaireId) => axios.get(`/question/questionnaire/detail?questionnaireid=${questionnaireId}`)
 }
 
 export default {

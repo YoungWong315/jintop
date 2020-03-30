@@ -31,6 +31,11 @@ class QuestionnaireSchema {
       where: { uid },
     })
   }
+  getQuestionnaireDetail (questionnaireId) {
+    return this.model.findOne({
+      where: { questionnaireId },
+    })
+  }
 }
 
 module.exports = QuestionnaireSchema

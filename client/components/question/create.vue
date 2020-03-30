@@ -26,7 +26,7 @@
               <div class="question-title">
                 <span>题目{{ index + 1 }}</span>
                 <el-input class="el-input"
-                          v-model="question.label"></el-input>
+                          v-model="question.title"></el-input>
 
               </div>
               <!-- 选项 -->
@@ -37,7 +37,7 @@
                        v-for="(option, idx) in question.options"
                        :key="idx">
                     <el-input class="el-input"
-                              v-model="option.label"
+                              v-model="option.title"
                               :placeholder="'选项' + (idx+1)"></el-input>
                   </div>
                   <el-button class="option-add-btn"
@@ -88,12 +88,12 @@ export default {
     addChoiceQuestion(type) {
       this.questions.push({
         type,
-        label: '',
-        options: [{ label: '' }],
+        title: '',
+        options: [{ title: '' }],
       })
     },
     addOption(questionIndex) {
-      this.questions[questionIndex].options.push({ label: '' })
+      this.questions[questionIndex].options.push({ title: '' })
     },
     deleteQuestion(questionIndex) {
       this.questions.splice(questionIndex, 1)
@@ -106,7 +106,7 @@ export default {
       this.questions = []
       this.title = ''
     },
-    save() {
+    async save() {
       const { questions, title } = this
       // 保存数据至本地 ------------------------<
       this.$util.setStorage('store_questions', this.questions)
@@ -126,7 +126,7 @@ export default {
         title,
         uid,
       }
-      const { code } = this.$service.saveQuestionnaire(jsonBody)
+      const { code, data } = await this.$service.saveQuestionnaire(jsonBody)
       if (code === 1) {
         this.$message.success('保存成功')
       }
@@ -214,16 +214,19 @@ export default {
   line-height: 40px;
   text-align: center;
 }
-.el-input {
+/* .el-input {
   margin-bottom: 10px;
-}
+} */
 .options {
   display: flex;
   align-items: center;
 }
+.options + .options {
+  margin-top: 5px;
+}
 .option-add-btn {
   width: 100%;
-  margin-top: 5px;
+  margin-top: 10px;
   background: #f2f2f2;
 }
 .btn-wrap {

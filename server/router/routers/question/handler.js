@@ -3,7 +3,7 @@ const questionnaireSchema = dbInstance.getSchema('questionnaire')
 const questionSchema = dbInstance.getSchema('question')
 const optionSchema = dbInstance.getSchema('option')
 
-const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
+const { getCtxBody, getCtxQuery, successResponse, convertSequelizeObject } = require('../../util')
 
 // 获取问卷列表
 const queryQuestinnarieList = async ctx => {
@@ -12,24 +12,34 @@ const queryQuestinnarieList = async ctx => {
   successResponse(ctx, questionnaire)
 }
 
+// 查询问卷详情
+const queryQuestinnarieDetail = async ctx => {
+  const { questionnaireid } = getCtxQuery(ctx)
+  const questionnaire = convertSequelizeObject(await questionnaireSchema.getQuestionnaireDetail(questionnaireid))
+  const questions = convertSequelizeObject(await questionSchema.getQuestionsByQuestionnaireId(questionnaireid))
+  // forEach + async/await 会有问题，得到的 opiton 无法保存在 question 上，不晓得为什么 ----------<
+  for (let question of questions) {
+    const options = convertSequelizeObject(await optionSchema.getOptionsByQuestionId(question.questionId))
+    question.options = options
+  }
+  questionnaire.questions = questions
+  successResponse(ctx, { questionnaire })
+}
+
 // 保存问卷
 const saveQuestionnaire = async ctx => {
   try {
     const { title, questions, uid } = getCtxBody(ctx)
     const questionnaire = await questionnaireSchema.createQuestionnaire({ uid, title })
-    console.log(questionnaire)
     questions.forEach(async question => {
-      // TODO: 创建问题
+      // 创建问题
       const { questionnaireId } = questionnaire
       const { title, type } = question
       const questionData = await questionSchema.createQuestion({ questionnaireId, uid, title, type })
-      console.log(questionData)
-      // TODO: 创建选项
+      // 创建选项
+      const { questionId } = questionData
       question.options.forEach(async option => {
-        const { questionId } = questionData
-        const { title } = option
-        const optionData = await optionSchema.createOption({ questionId, title, uid, questionnaireId })
-        console.log(optionData)
+        await optionSchema.createOption({ questionId, title: option.title, uid, questionnaireId })
       })
     })
     successResponse(ctx, questionnaire)
@@ -40,5 +50,6 @@ const saveQuestionnaire = async ctx => {
 
 module.exports = {
   saveQuestionnaire,
-  queryQuestinnarieList
+  queryQuestinnarieList,
+  queryQuestinnarieDetail
 }

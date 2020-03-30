@@ -24,12 +24,17 @@ export default {
   mounted() {
     // 获取问卷id
     const questionnaireId = this.$route.query.questionnaireid
-    console.log(questionnaireId)
-    // 子组件数据
-    this.questions = this.$util.getStorage('store_questions') || []
-    this.title = this.$util.getStorage('store_questionnaire_title') || ''
+    this.queryQuestionnaireDetail(questionnaireId)
   },
-  methods: {},
+  methods: {
+    // 获取帖子详情
+    async queryQuestionnaireDetail(questionnaireId) {
+      const result = await this.$service.queryQuestionnaireDetail(
+        questionnaireId,
+      )
+      console.log(result)
+    },
+  },
 }
 </script>
 
