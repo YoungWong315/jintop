@@ -23,6 +23,10 @@ const defineOptions = (sequelize, dataType) => {
       type: dataType.STRING,
       allowNull: false,
     },
+    index: {
+      type: dataType.STRING,
+      allowNull: true,
+    }
   })
 }
 

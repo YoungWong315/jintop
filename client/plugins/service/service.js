@@ -49,6 +49,11 @@ class Service {
    * @param {String} questionnaireId
   */
   queryQuestionnaireDetail = (questionnaireId) => axios.get(`/question/questionnaire/detail?questionnaireid=${questionnaireId}`)
+  /**
+   * 删除问卷
+   * @param {String} questionnaireId
+  */
+  deleteQuestionnaire = (questionnaireId) => axios.post(`/question/questionnaire/delete?questionnaireid=${questionnaireId}`)
 }
 
 export default {

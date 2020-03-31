@@ -39,6 +39,9 @@
                     <el-input class="el-input"
                               v-model="option.title"
                               :placeholder="'选项' + (idx+1)"></el-input>
+                    <img src="../../assets/icons/del.png"
+                         alt="del"
+                         @click="deleteOption(index, idx)">
                   </div>
                   <el-button class="option-add-btn"
                              @click="addOption(index)">增加选项</el-button>
@@ -95,8 +98,11 @@ export default {
     addOption(questionIndex) {
       this.questions[questionIndex].options.push({ title: '' })
     },
+    deleteOption(questionIndex, optionIndex) {
+      this.$delete(this.questions[questionIndex].options, optionIndex)
+    },
     deleteQuestion(questionIndex) {
-      this.questions.splice(questionIndex, 1)
+      this.$delete(this.questions, questionIndex)
     },
     setOptionToLocal() {
       this.$util.setStorage('store_questions', this.questions)
@@ -129,6 +135,7 @@ export default {
       const { code, data } = await this.$service.saveQuestionnaire(jsonBody)
       if (code === 1) {
         this.$message.success('保存成功')
+        this.$emit('success')
       }
     },
   },
@@ -218,8 +225,17 @@ export default {
   margin-bottom: 10px;
 } */
 .options {
+  position: relative;
   display: flex;
   align-items: center;
+}
+.options > img {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translate(0, -50%);
+  width: 20px;
+  height: 20px;
 }
 .options + .options {
   margin-top: 5px;

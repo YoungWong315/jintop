@@ -14,14 +14,14 @@
                     :label="option.title"></el-radio>
         </el-radio-group>
         <el-checkbox-group v-if="question.type === 'multi'"
-                           v-model="question.checked"
-                           @change="handleCheckbox">
+                           v-model="question.checked">
           <el-checkbox v-for="(option, idx) in question.options"
                        :key="idx"
                        :label="option.title"></el-checkbox>
         </el-checkbox-group>
       </div>
     </div>
+
   </section>
 </template>
 

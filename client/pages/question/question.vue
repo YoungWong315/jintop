@@ -24,11 +24,13 @@
       <div class="el-menu-content"
            v-show="activeIndex === '1'">
         <Create :store-questions="questions"
-                :store-title="title" />
+                :store-title="title"
+                @success="onCreateQuestion" />
       </div>
       <div class="el-menu-content"
            v-show="activeIndex === '2'">
-        <MyQuestions />
+        <MyQuestions v-if="questionnaires.length > 0"
+                     :questionnaires="questionnaires" />
       </div>
     </div>
   </section>
@@ -54,6 +56,7 @@ export default {
 
       questions: [],
       title: '',
+      questionnaires: [],
     }
   },
   components: {
@@ -70,12 +73,24 @@ export default {
     this.login = loginInfo.validationCheck
     this.userInfo = loginInfo
 
-    // 子组件数据
-    this.questions = this.$util.getStorage('store_questions') || []
-    this.title = this.$util.getStorage('store_questionnaire_title') || ''
-    this.activeIndex = this.$util.getStorage('store_active_index') || '1'
+    // 初始化子组件数据
+    this.initData()
   },
   methods: {
+    initData() {
+      this.questions = this.$util.getStorage('store_questions') || []
+      this.title = this.$util.getStorage('store_questionnaire_title') || ''
+      this.activeIndex = this.$util.getStorage('store_active_index') || '1'
+
+      this.queryQuestionnaireList()
+    },
+    async queryQuestionnaireList() {
+      const { uid } = this.$util.getLoginInfo()
+      const { code, data } = await this.$service.queryQuestionnaireByUid(uid)
+      if (code === 1) {
+        this.questionnaires = data
+      }
+    },
     loginCb(e) {
       this.login = e
     },
@@ -86,6 +101,9 @@ export default {
     handleSelect(key, keyPath) {
       this.activeIndex = key
       this.$util.setStorage('store_active_index', key)
+    },
+    onCreateQuestion() {
+      this.queryQuestionnaireList()
     },
   },
 }

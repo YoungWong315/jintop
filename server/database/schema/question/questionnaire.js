@@ -29,11 +29,17 @@ class QuestionnaireSchema {
   getQuestionnaireByUId (uid) {
     return this.model.findAll({
       where: { uid },
+      order: [
+        ['index', 'ASC']
+      ]
     })
   }
   getQuestionnaireDetail (questionnaireId) {
     return this.model.findOne({
       where: { questionnaireId },
+      order: [
+        ['index', 'ASC']
+      ]
     })
   }
 }

@@ -5,11 +5,15 @@
         <el-col v-for="(item, index) in questionnaires"
                 :key="index"
                 :span="8">
-          <div @click="navigate(item.questionnaireId)">
+          <div class="card-wrap"
+               @click="navigate(item.questionnaireId)">
             <el-card shadow="hover"
                      class="myquestion-cell">
               {{ item.title }}
             </el-card>
+            <img src="../../assets/icons/del.png"
+                 @click.stop="deleteQuestion(index)"
+                 alt="del">
           </div>
         </el-col>
       </el-row>
@@ -20,20 +24,20 @@
 <script>
 export default {
   data() {
-    return {
-      questionnaires: [],
-    }
+    return {}
   },
-  mounted() {
-    this.queryQuestionnaireList()
+  props: {
+    questionnaires: Array,
   },
   methods: {
-    async queryQuestionnaireList() {
-      const { uid } = this.$util.getLoginInfo()
-      const { code, data } = await this.$service.queryQuestionnaireByUid(uid)
+    async deleteQuestion(questionnaireIndex) {
+      const questionnaire = this.questionnaires
+      // 删除问卷
+      const { code, data } = await this.$service.deleteQuestionnaire(
+        questionnaire[questionnaireIndex].questionnaireId,
+      )
       if (code === 1) {
-        console.log(data)
-        this.questionnaires = data
+        this.$delete(questionnaire, questionnaireIndex)
       }
     },
     navigate(questionnaireId) {
@@ -59,6 +63,14 @@ export default {
   box-sizing: border-box;
   border-radius: 5;
 }
+.card-wrap {
+  position: relative;
+}
+.card-wrap > img {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+}
 </style>
-
-

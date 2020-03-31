@@ -40,15 +40,15 @@ const saveQuestionnaire = async ctx => {
   try {
     const { title, questions, uid } = getCtxBody(ctx)
     const questionnaire = await questionnaireSchema.createQuestionnaire({ uid, title })
-    questions.forEach(async question => {
+    questions.forEach(async (question, index) => {
       // 创建问题
       const { questionnaireId } = questionnaire
       const { title, type } = question
-      const questionData = await questionSchema.createQuestion({ questionnaireId, uid, title, type })
+      const questionData = await questionSchema.createQuestion({ questionnaireId, uid, title, type, index })
       // 创建选项
       const { questionId } = questionData
-      question.options.forEach(async option => {
-        await optionSchema.createOption({ questionId, title: option.title, uid, questionnaireId })
+      question.options.forEach(async (option, index) => {
+        await optionSchema.createOption({ questionId, title: option.title, uid, questionnaireId, index })
       })
     })
     successResponse(ctx, questionnaire)
@@ -57,8 +57,24 @@ const saveQuestionnaire = async ctx => {
   }
 }
 
+// 删除问卷
+const deleteQuestionnaire = async ctx => {
+  try {
+    const { questionnaireid } = getCtxQuery(ctx)
+    const result = await questionnaireSchema.deleteQuestionnaire(questionnaireid)
+    if (result === 1) {
+      successResponse(ctx, true)
+    } else {
+      throw { message: 'error' }
+    }
+  } catch (e) {
+    throw { message: e }
+  }
+}
+
 module.exports = {
   saveQuestionnaire,
   queryQuestinnarieList,
-  queryQuestinnarieDetail
+  queryQuestinnarieDetail,
+  deleteQuestionnaire
 }
