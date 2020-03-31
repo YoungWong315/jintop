@@ -19,11 +19,20 @@ const queryQuestinnarieDetail = async ctx => {
   const questions = convertSequelizeObject(await questionSchema.getQuestionsByQuestionnaireId(questionnaireid))
   // forEach + async/await 会有问题，得到的 opiton 无法保存在 question 上，不晓得为什么 ----------<
   for (let question of questions) {
-    const options = convertSequelizeObject(await optionSchema.getOptionsByQuestionId(question.questionId))
+    const { type, questionId } = question
+    switch (type) {
+      case 'single':
+        question.checked = null
+        break;
+      case 'multi':
+        question.checked = []
+        break;
+    }
+    const options = convertSequelizeObject(await optionSchema.getOptionsByQuestionId(questionId))
     question.options = options
   }
   questionnaire.questions = questions
-  successResponse(ctx, { questionnaire })
+  successResponse(ctx, questionnaire)
 }
 
 // 保存问卷

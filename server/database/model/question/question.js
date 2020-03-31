@@ -23,6 +23,10 @@ const defineQuestion = (sequelize, dataType) => {
       type: dataType.STRING,
       allowNull: false,
     },
+    checked: {
+      type: dataType.STRING,
+      allowNull: true
+    }
   })
 }
 

@@ -1,22 +1,23 @@
 <template>
-  <section>
-    <Create :store-questions="questions"
-            :store-title="title" />
+  <section class="questionnaire-wrap">
+    <div class="questionnaire-preview"
+         v-if="questionnaire != null">
+      <Preview :questionnaire="questionnaire" />
+    </div>
   </section>
 </template>
 
 <script>
-import Create from '~/components/question/create'
+import Preview from '~/components/question/preview'
 
 export default {
   data() {
     return {
-      questions: [],
-      title: '',
+      questionnaire: null,
     }
   },
   components: {
-    Create,
+    Preview,
   },
   created() {
     setTimeout(() => (this.loading = false), 200)
@@ -29,65 +30,29 @@ export default {
   methods: {
     // 获取帖子详情
     async queryQuestionnaireDetail(questionnaireId) {
-      const result = await this.$service.queryQuestionnaireDetail(
+      const { code, data } = await this.$service.queryQuestionnaireDetail(
         questionnaireId,
       )
-      console.log(result)
+      if (code === 1) {
+        console.log(data)
+        this.questionnaire = data
+      }
     },
   },
 }
 </script>
 
 <style scoped>
-@import '../../assets/css/reset';
-
-.loading-wrap,
-.login-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100vw;
-  height: 100vh;
-}
-/* .content-wrap {
-  display: flex;
-  flex-direction: column;
-
-  min-height: 100vh;
-} */
-.el-menu {
-  width: 100%;
-  border-left: 200px solid transparent;
-  border-right: 200px solid transparent;
-  box-sizing: border-box;
-}
-.el-menu-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 50px;
-}
-.section-logout {
-  position: absolute;
-  right: 0;
-}
-.line-vertical {
-  margin: 0 10px;
-  width: 2px;
-  height: 15px;
+.questionnaire-wrap {
   background: #e6e6e6;
 }
-.el-menu-content {
-  position: fixed;
-  top: 60px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-
-  /* 撑满剩余空间 */
-  /* flex-grow: 1; */
+.questionnaire-preview {
+  margin: 0 auto;
+  padding: 30px;
+  width: 800px;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #fff;
+  overflow-y: scroll;
 }
 </style>

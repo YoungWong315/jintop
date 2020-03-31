@@ -5,13 +5,14 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createQuestion ({ questionnaireId, title, uid, type }) {
+  createQuestion ({ questionnaireId, title, uid, type, checked = '' }) {
     return this.model.create({
       questionId: generateId(),
       title,
       type,
       questionnaireId,
-      uid
+      uid,
+      checked
     })
   }
   // 删
