@@ -104,6 +104,7 @@ export default {
     },
     onCreateQuestion() {
       this.queryQuestionnaireList()
+      this.activeIndex = 1
     },
   },
 }
