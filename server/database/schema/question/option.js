@@ -5,13 +5,14 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createOptions ({ questionId, title, uid, questionnaireId }) {
+  createOption ({ questionId, title, uid, questionnaireId, index = 0 }) {
     return this.model.create({
       optionId: generateId(),
       title,
       questionId,
       uid,
       questionnaireId,
+      index
     })
   }
   // 删
@@ -31,6 +32,9 @@ class QuestionSchema {
   getOptionsByQuestionId (questionId) {
     return this.model.findAll({
       where: { questionId },
+      order: [
+        ['index', 'ASC']
+      ]
     })
   }
 }

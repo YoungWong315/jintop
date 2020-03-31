@@ -5,12 +5,15 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createQuestion ({ questionnaireId, title, uid }) {
+  createQuestion ({ questionnaireId, title, uid, type, checked = '', index = 0 }) {
     return this.model.create({
       questionId: generateId(),
       title,
+      type,
       questionnaireId,
-      uid
+      uid,
+      checked,
+      index
     })
   }
   // 删
@@ -27,9 +30,12 @@ class QuestionSchema {
     )
   }
   // 查
-  getQuestionsByQuestionnaireId (QuestionnaireId) {
+  getQuestionsByQuestionnaireId (questionnaireId) {
     return this.model.findAll({
-      where: { QuestionnaireId },
+      where: { questionnaireId },
+      order: [
+        ['index', 'ASC']
+      ]
     })
   }
 }

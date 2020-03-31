@@ -44,19 +44,49 @@ export default {
   components: {},
   mounted() {},
   methods: {
+    emitLogin(loginData) {
+      this.$util.login(loginData)
+      this.$emit('login', true)
+    },
     async login() {
       const { username, psd } = this
       const { code, data, err } = await this.$service.login({ username, psd })
       if (code === 1) {
-        this.$util.login(data)
-        this.$emit('login', true)
+        this.emitLogin(data)
       } else {
         this.$emit('login', false)
         this.$message.error(err.errMsg)
       }
     },
     async register() {
-      console.log('register')
+      const { username, psd } = this
+      const valiArr = [
+        {
+          requirement: 'username',
+          key: 'username',
+          value: username,
+        },
+        {
+          requirement: 'password',
+          key: 'password',
+          value: psd,
+        },
+      ]
+      try {
+        const { result } = await this.$validateAll(valiArr)
+        if (result) {
+          const registerData = { username, psd }
+          const { code, data, err } = await this.$service.register()
+          if (code === 1) {
+            this.$message.success(`注册成功`)
+            this.emitLogin(data)
+          } else {
+            this.$message.error(err.errMsg)
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }

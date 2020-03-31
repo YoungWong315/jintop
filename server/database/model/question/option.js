@@ -9,7 +9,7 @@ const defineOptions = (sequelize, dataType) => {
     },
     title: {
       type: dataType.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     questionId: {
       type: dataType.STRING,
@@ -17,12 +17,16 @@ const defineOptions = (sequelize, dataType) => {
     },
     uid: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     questionnaireId: {
       type: dataType.STRING,
-      allowNull: true,
+      allowNull: false,
     },
+    index: {
+      type: dataType.STRING,
+      allowNull: true,
+    }
   })
 }
 

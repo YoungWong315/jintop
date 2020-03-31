@@ -14,6 +14,10 @@ const defineQuestionnaire = (sequelize, dataType) => {
     uid: {
       type: dataType.STRING,
       allowNull: false,
+    },
+    index: {
+      type: dataType.STRING,
+      allowNull: true,
     }
   })
 }

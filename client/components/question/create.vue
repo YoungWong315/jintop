@@ -11,17 +11,22 @@
       </div>
     </div>
     <div class="question-content height-100-percent">
+      <div class="questionnaire-title">
+        <div>问卷标题</div>
+        <el-input class="el-input"
+                  v-model="title"></el-input>
+      </div>
       <div class="questions-wrap">
         <div>
           <div v-for="(question, index) in questions"
                :key="index">
-            <!-- 单选题 -->
             <div class="questions">
+              <div class="question-title">{{ question.type === 'single' ? '单选题' : '多选题' }}</div>
               <!-- 题目 -->
               <div class="question-title">
                 <span>题目{{ index + 1 }}</span>
                 <el-input class="el-input"
-                          v-model="question.label"></el-input>
+                          v-model="question.title"></el-input>
 
               </div>
               <!-- 选项 -->
@@ -32,8 +37,11 @@
                        v-for="(option, idx) in question.options"
                        :key="idx">
                     <el-input class="el-input"
-                              v-model="option.label"
-                              placeholder="选项"></el-input>
+                              v-model="option.title"
+                              :placeholder="'选项' + (idx+1)"></el-input>
+                    <img src="../../assets/icons/del.png"
+                         alt="del"
+                         @click="deleteOption(index, idx)">
                   </div>
                   <el-button class="option-add-btn"
                              @click="addOption(index)">增加选项</el-button>
@@ -41,13 +49,21 @@
               </div>
               <!-- 按键 -->
               <div class="btn-wrap">
-                <el-button type="warning"
+                <el-button type="danger"
                            @click="deleteQuestion(index)">删除</el-button>
                 <el-button type="primary"
                            @click="setOptionToLocal">确定</el-button>
               </div>
             </div>
           </div>
+        </div>
+        <div class="submit-btn">
+          <el-button type="warning"
+                     round
+                     @click="clear">清空</el-button>
+          <el-button type="success"
+                     round
+                     @click="save">提交</el-button>
         </div>
       </div>
     </div>
@@ -56,30 +72,71 @@
 
 <script>
 export default {
+  props: {
+    storeQuestions: Array,
+    storeTitle: String,
+  },
   data() {
     return {
+      title: '',
       questions: [],
     }
   },
   created() {
-    this.questions = this.$util.getStorage('store_questions') || []
+    this.questions = this.$props.storeQuestions
+    this.title = this.$props.storeTitle
   },
+  mounted() {},
   methods: {
     addChoiceQuestion(type) {
       this.questions.push({
         type,
-        label: '',
-        options: [{ label: '' }],
+        title: '',
+        options: [{ title: '' }],
       })
     },
     addOption(questionIndex) {
-      this.questions[questionIndex].options.push({ label: '' })
+      this.questions[questionIndex].options.push({ title: '' })
+    },
+    deleteOption(questionIndex, optionIndex) {
+      this.$delete(this.questions[questionIndex].options, optionIndex)
     },
     deleteQuestion(questionIndex) {
-      this.questions.splice(questionIndex, 1)
+      this.$delete(this.questions, questionIndex)
     },
     setOptionToLocal() {
       this.$util.setStorage('store_questions', this.questions)
+    },
+    clear() {
+      this.$util.setStorage('store_questions', null)
+      this.questions = []
+      this.title = ''
+    },
+    async save() {
+      const { questions, title } = this
+      // 保存数据至本地 ------------------------<
+      this.$util.setStorage('store_questions', this.questions)
+      this.$util.setStorage('store_questionnaire_title', this.title)
+      // ---------------------------------------------<
+      const { uid } = this.$util.getLoginInfo()
+      if (!title) {
+        this.$message.error('标题不可为空')
+        return
+      }
+      if (questions.length < 1) {
+        this.$message.error('至少添加一道题')
+        return
+      }
+      const jsonBody = {
+        questions,
+        title,
+        uid,
+      }
+      const { code, data } = await this.$service.saveQuestionnaire(jsonBody)
+      if (code === 1) {
+        this.$message.success('保存成功')
+        this.$emit('success')
+      }
     },
   },
   watch: {
@@ -88,11 +145,26 @@ export default {
         this.$util.setStorage('store_questions', this.questions)
       }
     },
+    title() {
+      this.$util.setStorage('store_questionnaire_title', this.title)
+    },
   },
 }
 </script>
 
 <style scoped>
+.questionnaire-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 30px 0 20px;
+  width: 50%;
+}
+.questionnaire-title > div {
+  flex-shrink: 0;
+  margin-right: 20px;
+}
 .question-create {
   display: flex;
   justify-content: center;
@@ -120,9 +192,11 @@ export default {
   width: 200px;
 }
 .questions-wrap {
+  position: relative;
   margin: 0 auto;
+  padding-bottom: 100px;
   width: 90%;
-  height: 200vh;
+  min-height: 95vh;
   background: #fff;
 }
 .questions {
@@ -134,6 +208,7 @@ export default {
 .question-title {
   display: flex;
   margin-bottom: 10px;
+  justify-content: center;
 }
 .question-title > * {
   flex-grow: 1;
@@ -146,21 +221,45 @@ export default {
   line-height: 40px;
   text-align: center;
 }
-.el-input {
+/* .el-input {
   margin-bottom: 10px;
-}
+} */
 .options {
+  position: relative;
   display: flex;
   align-items: center;
 }
+.options > img {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translate(0, -50%);
+  width: 20px;
+  height: 20px;
+}
+.options + .options {
+  margin-top: 5px;
+}
 .option-add-btn {
   width: 100%;
-  margin-top: 5px;
+  margin-top: 10px;
   background: #f2f2f2;
 }
 .btn-wrap {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+.submit-btn {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  display: flex;
+  align-items: center;
+}
+.submit-btn > button {
+  width: 200px;
 }
 </style>
