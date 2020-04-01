@@ -1,5 +1,5 @@
 <template>
-  <section class="question-create">
+  <section class="question-create height-100-percent">
     <div class="question-options height-100-percent">
       <div class="question-type">
         <el-button type="info"
@@ -112,7 +112,7 @@ export default {
       this.questions = []
       this.title = ''
     },
-    async save() {
+    save() {
       const { questions, title } = this
       // 保存数据至本地 ------------------------<
       this.$util.setStorage('store_questions', this.questions)
@@ -132,11 +132,7 @@ export default {
         title,
         uid,
       }
-      const { code, data } = await this.$service.saveQuestionnaire(jsonBody)
-      if (code === 1) {
-        this.$message.success('保存成功')
-        this.$emit('success')
-      }
+      this.$emit('save', jsonBody)
     },
   },
   watch: {

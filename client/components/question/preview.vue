@@ -1,7 +1,6 @@
 <template>
   <section>
-    <div class="questionnaire-title"
-         @click="test">{{ questionnaire.title }}</div>
+    <div class="questionnaire-title">{{ questionnaire.title }}</div>
     <div v-for="(question, index) in questionnaire.questions"
          :key="index"
          class="questions">
@@ -21,7 +20,6 @@
         </el-checkbox-group>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -37,8 +35,8 @@ export default {
   },
   mounted() {},
   methods: {
-    test() {
-      console.log(this.questionnaire)
+    modify() {
+      this.$emit('modify')
     },
   },
 }

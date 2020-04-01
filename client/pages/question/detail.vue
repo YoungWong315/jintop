@@ -1,28 +1,35 @@
 <template>
   <section class="questionnaire-wrap">
-    <div class="questionnaire-function">
-      <el-button type="warning"
-                 round
-                 @click="modify">修改</el-button>
-    </div>
-    <div class="questionnaire-preview"
-         v-if="questionnaire != null">
-      <Preview :questionnaire="questionnaire" />
+    <div class="questionnaire-preview">
+      <div class="btn-modify">
+        <el-button type="danger"
+                   @click="() => {this.previewFlag = !this.previewFlag}">{{ previewFlag ? '修改' : '放弃' }}</el-button>
+      </div>
+      <Preview v-if="previewFlag && questionnaire != null"
+               :questionnaire="questionnaire"
+               @modify="() => {this.previewFlag = false;}" />
+      <Create v-if="!previewFlag"
+              :store-questions="questionnaire.questions"
+              :store-title="questionnaire.title"
+              @save="onSave" />
     </div>
   </section>
 </template>
 
 <script>
 import Preview from '~/components/question/preview'
+import Create from '~/components/question/create'
 
 export default {
   data() {
     return {
       questionnaire: null,
+      previewFlag: true,
     }
   },
   components: {
     Preview,
+    Create,
   },
   created() {
     setTimeout(() => (this.loading = false), 200)
@@ -43,9 +50,10 @@ export default {
         this.questionnaire = data
       }
     },
-    // 修改帖子
-    modify() {
-      console.log('modify')
+    // 保存修改
+    async onSave(jsonBody) {
+      // TODO: 让修改后的内容（jsonBody）与修改前的this.questionnaire进行diff。将改变的地方调用不同的接口修改
+      console.log(jsonBody)
     },
   },
 }
@@ -54,26 +62,33 @@ export default {
 <style scoped>
 .questionnaire-wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
   background: #e6e6e6;
 }
 .questionnaire-function {
-  width: 300px;
-  height: 100vh;
-  border-right: 2px solid #e6e6e6;
-  background: #fff;
-  box-sizing: border-box;
+  position: fixed;
+  left: 100px;
+  top: 100px;
 }
 .questionnaire-function > button {
+  display: block;
+  margin: 20px auto;
   width: 200px;
 }
 .questionnaire-preview {
-  padding: 30px;
-  width: 800px;
+  position: relative;
+  padding: 30px 30px 0;
+  min-width: 800px;
   height: 100vh;
   box-sizing: border-box;
   background: #fff;
-  overflow-y: scroll;
+}
+.btn-modify {
+  position: absolute;
+  top: 0;
+  left: -100px;
+}
+.btn-modify > button {
+  width: 100px;
 }
 </style>

@@ -25,7 +25,7 @@
            v-show="activeIndex === '1'">
         <Create :store-questions="questions"
                 :store-title="title"
-                @success="onCreateQuestion" />
+                @save="onSave" />
       </div>
       <div class="el-menu-content"
            v-show="activeIndex === '2'">
@@ -102,9 +102,13 @@ export default {
       this.activeIndex = key
       this.$util.setStorage('store_active_index', key)
     },
-    onCreateQuestion() {
-      this.queryQuestionnaireList()
-      this.activeIndex = 1
+    async onSave(jsonBody) {
+      const { code, data } = await this.$service.saveQuestionnaire(jsonBody)
+      if (code === 1) {
+        this.$message.success('保存成功')
+        this.queryQuestionnaireList()
+        this.activeIndex = 1
+      }
     },
   },
 }
