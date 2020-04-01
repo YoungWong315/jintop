@@ -1,5 +1,10 @@
 <template>
   <section class="questionnaire-wrap">
+    <div class="questionnaire-function">
+      <el-button type="warning"
+                 round
+                 @click="modify">修改</el-button>
+    </div>
     <div class="questionnaire-preview"
          v-if="questionnaire != null">
       <Preview :questionnaire="questionnaire" />
@@ -38,16 +43,32 @@ export default {
         this.questionnaire = data
       }
     },
+    // 修改帖子
+    modify() {
+      console.log('modify')
+    },
   },
 }
 </script>
 
 <style scoped>
 .questionnaire-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #e6e6e6;
 }
+.questionnaire-function {
+  width: 300px;
+  height: 100vh;
+  border-right: 2px solid #e6e6e6;
+  background: #fff;
+  box-sizing: border-box;
+}
+.questionnaire-function > button {
+  width: 200px;
+}
 .questionnaire-preview {
-  margin: 0 auto;
   padding: 30px;
   width: 800px;
   height: 100vh;

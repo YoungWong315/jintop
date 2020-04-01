@@ -63,7 +63,7 @@
                      @click="clear">清空</el-button>
           <el-button type="success"
                      round
-                     @click="save">提交</el-button>
+                     @click="save">保存</el-button>
         </div>
       </div>
     </div>
