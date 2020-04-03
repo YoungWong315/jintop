@@ -1,4 +1,10 @@
-const { saveQuestionnaire, queryQuestinnarieList, queryQuestinnarieDetail, deleteQuestionnaire } = require('./handler')
+const {
+  saveQuestionnaire,
+  queryQuestinnarieList,
+  queryQuestinnarieDetail,
+  deleteQuestionnaire,
+  modifyQuestionnaire
+} = require('./handler')
 
 const article = {}
 
@@ -7,6 +13,7 @@ article.inject = router => {
   router.get('/question/questionnaire/list', queryQuestinnarieList)
   router.get('/question/questionnaire/detail', queryQuestinnarieDetail)
   router.post('/question/questionnaire/delete', deleteQuestionnaire)
+  router.post('/question/questionnaire/modify', modifyQuestionnaire)
 }
 
 module.exports = article

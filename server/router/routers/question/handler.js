@@ -72,9 +72,33 @@ const deleteQuestionnaire = async ctx => {
   }
 }
 
+// 修改问卷
+const modifyQuestionnaire = async ctx => {
+  try {
+    const { questionnaireId, title, questions } = getCtxBody(ctx)
+    // 修改问卷标题
+    const modifyArray = [questionnaireSchema.modifyQuestionnaireTitle(questionnaireId, title)]
+    // 修改问卷问题
+    questions.forEach(question => {
+      const { questionnaireId, title, uid, type, checked, index } = question
+      modifyArray.push(questionSchema.modifyQuestionTitle(questionnaireId, title, uid, type, checked, index))
+      question.options.forEach(option => {
+        const { optionId, title } = option
+        modifyArray.push(optionSchema.modifyOptionTitle(optionId, title))
+      })
+    })
+    const result = await Promise.all(modifyArray)
+    console.log(result)
+    successResponse(ctx, true)
+  } catch (e) {
+    throw { message: e }
+  }
+}
+
 module.exports = {
   saveQuestionnaire,
   queryQuestinnarieList,
   queryQuestinnarieDetail,
-  deleteQuestionnaire
+  deleteQuestionnaire,
+  modifyQuestionnaire
 }

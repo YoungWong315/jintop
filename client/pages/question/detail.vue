@@ -52,8 +52,7 @@ export default {
     },
     // 保存修改
     async onSave(jsonBody) {
-      // TODO: 让修改后的内容（jsonBody）与修改前的this.questionnaire进行diff。将改变的地方调用不同的接口修改
-      console.log(jsonBody)
+      jsonBody.questionnaireId = this.questionnaire.questionnaireId
     },
   },
 }

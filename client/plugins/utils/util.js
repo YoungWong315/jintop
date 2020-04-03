@@ -29,17 +29,21 @@ class Util {
   }
   getValidator = () => validator
   /**
-   * 对比两个obj的不同
-   * @param {Object} objPre 之前的对象
-   * @param {Object} objAft 修改后的对象
-   * @return {Object} 两个对象的区别
-   * key增加，type = 'add'
-   * key减少，type = 'delete'
-   * key不变，内容修改 type = 'modify'
+   * 返回数据类型的名字（字符串）
+   * @param {any} arg 不明确类型的变量
+   * @return {String} 返回变量的数据类型
+   * String: '111'
+   * Number: 111, NaN, Infinity
+   * Boolean: true,
+   * Undefined: undefined,
+   * null: Null,
+   * Array: [1,2,3],
+   * Function: () => {} 函数
+   * Object: { a: 'a', b: 'b' }
   */
-  // 再学一下dom-diff怎么实现的
-  diffObj = (objPre, objAft) => {
-
+  getVariableType = (arg) => {
+    const typeStr = Object.prototype.toString.call(arg)
+    return typeStr.split(' ')[1].replace(']', '')
   }
 }
 
