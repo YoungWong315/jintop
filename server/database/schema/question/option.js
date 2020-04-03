@@ -23,11 +23,13 @@ class QuestionSchema {
     })
   }
   // 改
-  modifyOptionTitle ({ questionId, title, uid, questionnaireId, index = 0, checkedTimes = 0 }) {
+  modifyOptionTitle ({ optionId, title, uid, questionId, index = 0, checkedTimes = 0, questionnaireId }) {
+    console.log({ optionId, title, uid, questionId, index, checkedTimes, questionnaireId })
     return this.model.findOrCreate({
-      where: { questionId },
-      defaults: { title, uid, questionnaireId, index, checkedTimes }
+      where: { optionId },
+      defaults: { optionId: generateId(), title, questionId, uid, questionnaireId, index, checkedTimes }
     }).spread((option, created) => {
+      console.log(option)
       if (!created) {
         option.update(
           { title },

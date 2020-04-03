@@ -54,6 +54,11 @@ class Service {
    * @param {String} questionnaireId
   */
   deleteQuestionnaire = (questionnaireId) => axios.post(`/question/questionnaire/delete?questionnaireid=${questionnaireId}`)
+  /**
+   * 修改问卷
+   * @param {Object} jsonBody 格式同保存问卷，不过需要带上 问卷id/题目id/选项id
+  */
+  modifyQuestionnaire = (jsonBody) => axios.post('/question/questionnaire/modify', jsonBody)
 }
 
 export default {

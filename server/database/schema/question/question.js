@@ -22,11 +22,13 @@ class QuestionSchema {
     })
   }
   // 改
-  modifyQuestionTitle ({ questionnaireId, title, uid, type, index = 0 }) {
+  modifyQuestionTitle ({ questionId, questionnaireId, title, uid, type, index = 0 }) {
+    console.log({ questionId, questionnaireId, title, uid, type, index })
     return this.model.findOrCreate({
       where: { questionId },
-      defaults: { title, type, questionnaireId, uid, index },
+      defaults: { questionId: generateId(), title, type, questionnaireId, uid, index },
     }).spread((question, created) => {
+      console.log(question)
       if (!created) {
         question.update(
           { title },

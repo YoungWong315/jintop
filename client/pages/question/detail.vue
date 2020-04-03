@@ -53,6 +53,8 @@ export default {
     // 保存修改
     async onSave(jsonBody) {
       jsonBody.questionnaireId = this.questionnaire.questionnaireId
+      const result = await this.$service.modifyQuestionnaire(jsonBody)
+      console.log(result)
     },
   },
 }

@@ -80,13 +80,18 @@ const modifyQuestionnaire = async ctx => {
     const modifyArray = [questionnaireSchema.modifyQuestionnaireTitle(questionnaireId, title)]
     // 修改问卷问题
     questions.forEach(question => {
-      const { questionnaireId, title, uid, type, checked, index } = question
-      modifyArray.push(questionSchema.modifyQuestionTitle(questionnaireId, title, uid, type, checked, index))
+      const { questionId, questionnaireId, title, uid, type, index } = question
+      modifyArray.push(questionSchema.modifyQuestionTitle(
+        questionId, questionnaireId, title, uid, type, checked, index
+      ))
       question.options.forEach(option => {
-        const { optionId, title } = option
-        modifyArray.push(optionSchema.modifyOptionTitle(optionId, title))
+        const { optionId, title, uid, index, checkedTimes } = option
+        modifyArray.push(optionSchema.modifyOptionTitle(
+          optionId, title, uid, index, checkedTimes, questionnaireId, questionId
+        ))
       })
     })
+    console.log(modifyArray)
     const result = await Promise.all(modifyArray)
     console.log(result)
     successResponse(ctx, true)
