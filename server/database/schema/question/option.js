@@ -22,9 +22,18 @@ class QuestionSchema {
       where: { optionId }
     })
   }
+  deleteOptionByQuestionId (questionId) {
+    return this.model.destroy({
+      where: { questionId }
+    })
+  }
+  deleteOptionByQuestionnaireId (questionnaireId) {
+    return this.model.destroy({
+      where: { questionnaireId }
+    })
+  }
   // 改
-  modifyOptionTitle ({ optionId, title, uid, questionId, index = 0, checkedTimes = 0, questionnaireId }) {
-    console.log({ optionId, title, uid, questionId, index, checkedTimes, questionnaireId })
+  modifyOptionTitle ({ optionId = '', title, uid, questionId, index = 0, checkedTimes = 0, questionnaireId }) {
     return this.model.findOrCreate({
       where: { optionId },
       defaults: { optionId: generateId(), title, questionId, uid, questionnaireId, index, checkedTimes }

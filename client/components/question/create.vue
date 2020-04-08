@@ -92,22 +92,45 @@ export default {
       this.questions.push({
         type,
         title: '',
+        index: this.questions.length,
         options: [{ title: '' }],
       })
     },
     addOption(questionIndex) {
-      this.questions[questionIndex].options.push({ title: '' })
+      const options = this.questions[questionIndex].options || []
+      options.push({ title: '', index: options.length })
     },
-    deleteOption(questionIndex, optionIndex) {
-      this.$delete(this.questions[questionIndex].options, optionIndex)
+    async deleteOption(questionIndex, optionIndex) {
+      const options = this.questions[questionIndex].options
+      const optionId = options[optionIndex].optionId
+      if (optionId) {
+        const { code, data } = await this.$service.deleteOption(optionId)
+        if (code !== 1 || !data) return
+      }
+      this.$delete(options, optionIndex)
     },
-    deleteQuestion(questionIndex) {
-      this.$delete(this.questions, questionIndex)
+    async deleteQuestion(questionIndex) {
+      const questions = this.questions
+      const questionId = questions[questionIndex].questionId
+      if (questionId) {
+        const { code, data } = await this.$service.deleteQuestion(questionId)
+        if (code !== 1 || !data) return
+      }
+      this.$delete(questions, questionIndex)
     },
     setOptionToLocal() {
       this.$util.setStorage('store_questions', this.questions)
     },
-    clear() {
+    async clear() {
+      const deleteArray = []
+      this.questions.forEach(question => {
+        const { questionId } = question
+        if (questionId)
+          deleteArray.push(this.$service.deleteQuestion(questionId))
+      })
+      if (deleteArray.length > 0) {
+        const result = await Promise.all(deleteArray)
+      }
       this.$util.setStorage('store_questions', null)
       this.questions = []
       this.title = ''

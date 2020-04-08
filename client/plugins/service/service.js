@@ -59,6 +59,14 @@ class Service {
    * @param {Object} jsonBody 格式同保存问卷，不过需要带上 问卷id/题目id/选项id
   */
   modifyQuestionnaire = (jsonBody) => axios.post('/question/questionnaire/modify', jsonBody)
+  /**
+   * @param {String} questionId问题id
+  */
+  deleteQuestion = (questionId) => axios.post(`/question/question/delete?questionid=${questionId}`)
+  /**
+   * @param {String} optionId选项id
+  */
+  deleteOption = (optionId) => axios.post(`/question/option/delete?optionid=${optionId}`)
 }
 
 export default {

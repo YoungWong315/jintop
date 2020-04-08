@@ -21,9 +21,13 @@ class QuestionSchema {
       where: { questionId }
     })
   }
+  deleteQuestionByQuestionnaireId (questionnaireId) {
+    return this.model.destroy({
+      where: { questionnaireId }
+    })
+  }
   // 改
-  modifyQuestionTitle ({ questionId, questionnaireId, title, uid, type, index = 0 }) {
-    console.log({ questionId, questionnaireId, title, uid, type, index })
+  modifyQuestionTitle ({ questionId = '', questionnaireId, title, uid, type, index = 0 }) {
     return this.model.findOrCreate({
       where: { questionId },
       defaults: { questionId: generateId(), title, type, questionnaireId, uid, index },
