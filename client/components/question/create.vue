@@ -279,6 +279,6 @@ export default {
   align-items: center;
 }
 .submit-btn > button {
-  width: 200px;
+  width: 150px;
 }
 </style>

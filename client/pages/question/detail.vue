@@ -1,10 +1,14 @@
 <template>
   <section class="questionnaire-wrap">
+    <div class="btn-modify">
+      <el-button type="danger"
+                 round
+                 @click="() => {this.previewFlag = !this.previewFlag}">{{ this.previewFlag ? '修改' : '返回' }}</el-button>
+      <el-button type="success"
+                 round
+                 @click="publish">发布</el-button>
+    </div>
     <div class="questionnaire-preview">
-      <div class="btn-modify">
-        <el-button type="danger"
-                   @click="() => {this.previewFlag = !this.previewFlag}">{{ previewFlag ? '修改' : '放弃' }}</el-button>
-      </div>
       <Preview v-if="previewFlag && questionnaire != null"
                :questionnaire="questionnaire"
                @modify="() => {this.previewFlag = false;}" />
@@ -46,15 +50,20 @@ export default {
         questionnaireId,
       )
       if (code === 1) {
-        console.log(data)
         this.questionnaire = data
       }
     },
     // 保存修改
     async onSave(jsonBody) {
       jsonBody.questionnaireId = this.questionnaire.questionnaireId
-      const result = await this.$service.modifyQuestionnaire(jsonBody)
-      console.log(result)
+      const { code, data } = await this.$service.modifyQuestionnaire(jsonBody)
+      if (code === 1 && data) {
+        this.previewFlag = true
+      }
+    },
+    // 发布问卷
+    publish() {
+      console.log('publish')
     },
   },
 }
@@ -86,10 +95,16 @@ export default {
 }
 .btn-modify {
   position: absolute;
-  top: 0;
-  left: -100px;
+  top: 50px;
+  right: 50px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .btn-modify > button {
-  width: 100px;
+  width: 150px;
+  margin: 0 auto 20px;
 }
 </style>

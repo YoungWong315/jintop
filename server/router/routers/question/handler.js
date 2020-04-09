@@ -61,13 +61,11 @@ const saveQuestionnaire = async ctx => {
 const deleteQuestionnaire = async ctx => {
   try {
     const { questionnaireid } = getCtxQuery(ctx)
-    const result = await Promise.all([
+    await Promise.all([
       questionnaireSchema.deleteQuestionnaire(questionnaireid),
       questionSchema.deleteQuestionByQuestionnaireId(questionnaireid),
       optionSchema.deleteOptionByQuestionnaireId(questionnaireid)
     ])
-    console.log('delete questionnaire -------------------------------------------<')
-    console.log(result)
     successResponse(ctx, true)
   } catch (e) {
     throw { message: e }
@@ -104,9 +102,7 @@ const modifyQuestionnaire = async ctx => {
         })
       }
     })
-    const result = await Promise.all(modifyArray)
-    console.log('modify questionnaire ----------------------------------------<')
-    console.log(result)
+    await Promise.all(modifyArray)
     successResponse(ctx, true)
   } catch (e) {
     console.log(e)
@@ -117,12 +113,10 @@ const modifyQuestionnaire = async ctx => {
 const deleteQuestion = async ctx => {
   try {
     const { questionid } = getCtxQuery(ctx)
-    const result = await Promise.all([
+    await Promise.all([
       questionSchema.deleteQuestion(questionid),
       optionSchema.deleteOptionByQuestionId(questionid)
     ])
-    console.log('delete question -------------------------------------------<')
-    console.log(result)
     successResponse(ctx, true)
   } catch (e) {
     console.log(e)
@@ -133,9 +127,7 @@ const deleteQuestion = async ctx => {
 const deleteOption = async ctx => {
   try {
     const { optionid } = getCtxQuery(ctx)
-    const result = await optionSchema.deleteOption(optionid)
-    console.log('delete question -------------------------------------------<')
-    console.log(result)
+    await optionSchema.deleteOption(optionid)
     successResponse(ctx, true)
   } catch (e) {
     console.log(e)
