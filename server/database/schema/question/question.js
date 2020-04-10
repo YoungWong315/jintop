@@ -5,14 +5,13 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createQuestion ({ questionnaireId, title, uid, type, checked = '', index = 0 }) {
+  createQuestion ({ questionnaireId, title, uid, type, index = 0 }) {
     return this.model.create({
       questionId: generateId(),
       title,
       type,
       questionnaireId,
       uid,
-      checked,
       index
     })
   }
@@ -22,12 +21,25 @@ class QuestionSchema {
       where: { questionId }
     })
   }
+  deleteQuestionByQuestionnaireId (questionnaireId) {
+    return this.model.destroy({
+      where: { questionnaireId }
+    })
+  }
   // 改
-  modifyQuestionTitle ({ questionId, title }) {
-    return this.model.update(
-      { title },
-      { where: { questionId } }
-    )
+  modifyQuestionTitle ({ questionId = '', questionnaireId, title, uid, type, index = 0 }) {
+    return this.model.findOrCreate({
+      where: { questionId },
+      defaults: { questionId: generateId(), title, type, questionnaireId, uid, index },
+    }).spread((question, created) => {
+      console.log(question)
+      if (!created) {
+        question.update(
+          { title },
+          { where: { questionId } }
+        )
+      }
+    })
   }
   // 查
   getQuestionsByQuestionnaireId (questionnaireId) {

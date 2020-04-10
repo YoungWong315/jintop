@@ -61,13 +61,76 @@ const saveQuestionnaire = async ctx => {
 const deleteQuestionnaire = async ctx => {
   try {
     const { questionnaireid } = getCtxQuery(ctx)
-    const result = await questionnaireSchema.deleteQuestionnaire(questionnaireid)
-    if (result === 1) {
-      successResponse(ctx, true)
-    } else {
-      throw { message: 'error' }
-    }
+    await Promise.all([
+      questionnaireSchema.deleteQuestionnaire(questionnaireid),
+      questionSchema.deleteQuestionByQuestionnaireId(questionnaireid),
+      optionSchema.deleteOptionByQuestionnaireId(questionnaireid)
+    ])
+    successResponse(ctx, true)
   } catch (e) {
+    throw { message: e }
+  }
+}
+
+// 修改问卷
+const modifyQuestionnaire = async ctx => {
+  try {
+    const { questionnaireId, title, questions, uid } = getCtxBody(ctx)
+    // 修改问卷标题
+    const modifyArray = [questionnaireSchema.modifyQuestionnaireTitle({ questionnaireId, title })]
+    // 修改问卷问题
+    questions.forEach(async question => {
+      const { questionId, title, type, index, checked } = question
+      // 该问题存在，修改问题
+      if (questionId) {
+        modifyArray.push(questionSchema.modifyQuestionTitle(
+          { questionId, questionnaireId, title, uid, type, checked, index }
+        ))
+        question.options.forEach(option => {
+          const { optionId, title, index, checkedTimes } = option
+          modifyArray.push(optionSchema.modifyOptionTitle(
+            { optionId, title, uid, index, checkedTimes, questionnaireId, questionId }
+          ))
+        })
+      } else {
+        // 问题不存在，创建问题和选项
+        const questionData = await questionSchema.createQuestion({ questionnaireId, uid, title, type, index })
+        // 创建选项
+        const { questionId } = questionData
+        question.options.forEach(async (option, index) => {
+          await optionSchema.createOption({ questionId, title: option.title, uid, questionnaireId, index })
+        })
+      }
+    })
+    await Promise.all(modifyArray)
+    successResponse(ctx, true)
+  } catch (e) {
+    console.log(e)
+    throw { message: e }
+  }
+}
+// 删除问题
+const deleteQuestion = async ctx => {
+  try {
+    const { questionid } = getCtxQuery(ctx)
+    await Promise.all([
+      questionSchema.deleteQuestion(questionid),
+      optionSchema.deleteOptionByQuestionId(questionid)
+    ])
+    successResponse(ctx, true)
+  } catch (e) {
+    console.log(e)
+    throw { message: e }
+  }
+}
+// 删除选项
+const deleteOption = async ctx => {
+  try {
+    const { optionid } = getCtxQuery(ctx)
+    await optionSchema.deleteOption(optionid)
+    successResponse(ctx, true)
+  } catch (e) {
+    console.log(e)
     throw { message: e }
   }
 }
@@ -76,5 +139,8 @@ module.exports = {
   saveQuestionnaire,
   queryQuestinnarieList,
   queryQuestinnarieDetail,
-  deleteQuestionnaire
+  deleteQuestionnaire,
+  modifyQuestionnaire,
+  deleteQuestion,
+  deleteOption
 }

@@ -28,6 +28,23 @@ class Util {
     return loginInfo
   }
   getValidator = () => validator
+  /**
+   * 返回数据类型的名字（字符串）
+   * @param {any} arg 不明确类型的变量
+   * @return {String} 返回变量的数据类型
+   * String: '111'
+   * Number: 111, NaN, Infinity
+   * Boolean: true,
+   * Undefined: undefined,
+   * null: Null,
+   * Array: [1,2,3],
+   * Function: () => {} 函数
+   * Object: { a: 'a', b: 'b' }
+  */
+  getVariableType = (arg) => {
+    const typeStr = Object.prototype.toString.call(arg)
+    return typeStr.split(' ')[1].replace(']', '')
+  }
 }
 
 

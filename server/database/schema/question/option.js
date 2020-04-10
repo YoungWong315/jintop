@@ -5,14 +5,15 @@ class QuestionSchema {
     this.model = model
   }
   // 增
-  createOption ({ questionId, title, uid, questionnaireId, index = 0 }) {
+  createOption ({ questionId, title, uid, questionnaireId, index = 0, checkedTimes = 0 }) {
     return this.model.create({
       optionId: generateId(),
       title,
       questionId,
       uid,
       questionnaireId,
-      index
+      index,
+      checkedTimes
     })
   }
   // 删
@@ -21,12 +22,30 @@ class QuestionSchema {
       where: { optionId }
     })
   }
+  deleteOptionByQuestionId (questionId) {
+    return this.model.destroy({
+      where: { questionId }
+    })
+  }
+  deleteOptionByQuestionnaireId (questionnaireId) {
+    return this.model.destroy({
+      where: { questionnaireId }
+    })
+  }
   // 改
-  modifyOptionTitle ({ optionId, title }) {
-    return this.model.update(
-      { title },
-      { where: { optionId } }
-    )
+  modifyOptionTitle ({ optionId = '', title, uid, questionId, index = 0, checkedTimes = 0, questionnaireId }) {
+    return this.model.findOrCreate({
+      where: { optionId },
+      defaults: { optionId: generateId(), title, questionId, uid, questionnaireId, index, checkedTimes }
+    }).spread((option, created) => {
+      console.log(option)
+      if (!created) {
+        option.update(
+          { title },
+          { where: { optionId } }
+        )
+      }
+    })
   }
   // 查
   getOptionsByQuestionId (questionId) {
