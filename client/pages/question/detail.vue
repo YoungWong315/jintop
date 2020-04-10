@@ -6,7 +6,7 @@
                  @click="() => {this.previewFlag = !this.previewFlag}">{{ this.previewFlag ? '修改' : '返回' }}</el-button>
       <el-button type="success"
                  round
-                 @click="publish">发布</el-button>
+                 @click="publish">获取连接</el-button>
     </div>
     <div class="questionnaire-preview">
       <Preview v-if="previewFlag && questionnaire != null"
@@ -63,7 +63,10 @@ export default {
     },
     // 发布问卷
     publish() {
-      console.log('publish')
+      this.$router.push({
+        path: '/question/examine',
+        query: { questionnaireid: this.questionnaire.questionnaireId },
+      })
     },
   },
 }
