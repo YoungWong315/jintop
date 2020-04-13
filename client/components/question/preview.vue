@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="preview-wrap">
     <div class="questionnaire-title">{{ questionnaire.title }}</div>
     <div v-for="(question, index) in questionnaire.questions"
          :key="index"
@@ -53,5 +53,8 @@ export default {
 .question-title {
   margin-bottom: 10px;
   font-size: 16px;
+}
+.preview-wrap {
+  padding: 30px 0;
 }
 </style>

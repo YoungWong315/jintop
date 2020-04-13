@@ -2,13 +2,13 @@
   <section class="container">
     <div>
       <div class="input-wrap">
-        <el-input placeholder="用户名/手机号"
+        <el-input placeholder="用户名(2到16位,字母,数字,汉字，下划线,减号)"
                   v-model="username"
                   clearable
                   autofocus></el-input>
       </div>
       <div class="input-wrap">
-        <el-input placeholder="密码"
+        <el-input placeholder="密码(6~18位英文或数字组合)"
                   v-model="psd"
                   clearable
                   show-password></el-input>
@@ -46,7 +46,7 @@ export default {
   methods: {
     emitLogin(loginData) {
       this.$util.login(loginData)
-      this.$emit('login', true)
+      this.$emit('login', loginData)
     },
     async login() {
       const { username, psd } = this
@@ -73,10 +73,10 @@ export default {
         },
       ]
       try {
-        const { result } = await this.$validateAll(valiArr)
+        const { result } = await this.$util.getValidator().validateAll(valiArr)
         if (result) {
           const registerData = { username, psd }
-          const { code, data, err } = await this.$service.register()
+          const { code, data, err } = await this.$service.register(registerData)
           if (code === 1) {
             this.$message.success(`注册成功`)
             this.emitLogin(data)
@@ -86,6 +86,10 @@ export default {
         }
       } catch (e) {
         console.log(e)
+        const { result, errKey } = e
+        if (!result) {
+          errKey.forEach(key => this.$message.error(`${key}格式有误`))
+        }
       }
     },
   },

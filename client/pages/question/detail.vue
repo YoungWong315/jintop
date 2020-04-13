@@ -1,21 +1,25 @@
 <template>
   <section class="questionnaire-wrap">
-    <div class="btn-modify">
-      <el-button type="danger"
-                 round
-                 @click="() => {this.previewFlag = !this.previewFlag}">{{ this.previewFlag ? '修改' : '返回' }}</el-button>
-      <el-button type="success"
-                 round
-                 @click="publish">获取连接</el-button>
-    </div>
     <div class="questionnaire-preview">
-      <Preview v-if="previewFlag && questionnaire != null"
-               :questionnaire="questionnaire"
-               @modify="() => {this.previewFlag = false;}" />
-      <Create v-if="!previewFlag"
-              :store-questions="questionnaire.questions"
-              :store-title="questionnaire.title"
-              @save="onSave" />
+      <div class="btn-modify">
+        <el-button type="danger"
+                   round
+                   class="hover"
+                   @click="() => {this.previewFlag = !this.previewFlag}">{{ this.previewFlag ? '修改' : '返回' }}</el-button>
+        <el-button type="success"
+                   round
+                   class="hover"
+                   @click="publish">获取连接</el-button>
+      </div>
+      <div class="questionnaire-comp-wrap">
+        <Preview v-if="previewFlag && questionnaire != null"
+                 :questionnaire="questionnaire"
+                 @modify="() => {this.previewFlag = false;}" />
+        <Create v-if="!previewFlag"
+                :store-questions="questionnaire.questions"
+                :store-title="questionnaire.title"
+                @save="onSave" />
+      </div>
     </div>
   </section>
 </template>
@@ -90,16 +94,18 @@ export default {
 }
 .questionnaire-preview {
   position: relative;
-  padding: 30px 30px 0;
+  z-index: 1;
+
   min-width: 800px;
   height: 100vh;
-  box-sizing: border-box;
   background: #fff;
 }
 .btn-modify {
   position: absolute;
   top: 50px;
-  right: 50px;
+  left: 100%;
+  transform: translate(-50%, 0);
+  z-index: -1;
 
   display: flex;
   flex-direction: column;
@@ -107,7 +113,20 @@ export default {
   justify-content: center;
 }
 .btn-modify > button {
-  width: 150px;
+  width: 200px;
   margin: 0 auto 20px;
+  text-align: right;
+}
+.hover:hover {
+  width: 250px;
+  transition: all 0.5s;
+}
+.questionnaire-comp-wrap {
+  width: 100%;
+  padding: 0 30px;
+  height: 100vh;
+  box-sizing: border-box;
+  background: #fff;
+  overflow: auto;
 }
 </style>

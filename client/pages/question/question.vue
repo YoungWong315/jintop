@@ -93,10 +93,17 @@ export default {
     },
     loginCb(e) {
       this.login = e
+      this.userInfo = e
+      this.initData()
     },
     logout() {
       this.$util.logout()
       this.login = false
+      this.activeIndex = '1'
+      this.userInfo = null
+      this.questions = []
+      this.title = ''
+      this.questionnaires = []
     },
     handleSelect(key, keyPath) {
       this.activeIndex = key
