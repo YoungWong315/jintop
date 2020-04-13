@@ -114,7 +114,7 @@ export default {
       if (code === 1) {
         this.$message.success('保存成功')
         this.queryQuestionnaireList()
-        this.activeIndex = 1
+        this.activeIndex = '2'
       }
     },
   },
