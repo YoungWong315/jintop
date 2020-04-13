@@ -12,13 +12,13 @@ exports.register = async ctx => {
     const result = await userSchema.register({ username, password })
     const { uid, username: uName, role } = result
     // 发放token
-    let token = crypto.jwtSign({ uid }, '48h')
-
+    const tokenExpires = 48
     const data = {
       uid,
       username: uName,
       role,
-      token,
+      token: crypto.jwtSign({ uid }, `${tokenExpires}h`),
+      expires: new Date().getTime() + tokenExpires * 60 * 60 * 1000 // token过期时间
     }
     successResponse(ctx, data)
   } else {
@@ -36,13 +36,14 @@ exports.login = async ctx => {
   const user = await userSchema.findByUsername(username)
 
   if (user) {
-    const { password, uid } = user
+    const { password, uid, role } = user
     if (password === psd) {
       // 响应数据
       const tokenExpires = 48
       const data = {
         uid,
         username,
+        role,
         token: crypto.jwtSign({ uid }, `${tokenExpires}h`),
         expires: new Date().getTime() + tokenExpires * 60 * 60 * 1000 // token过期时间
       }
