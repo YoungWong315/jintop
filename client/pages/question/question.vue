@@ -75,7 +75,7 @@ export default {
     setTimeout(() => (this.loading = false), 200)
   },
   mounted() {
-    this.activeIndex = this.$route.query.index || '1'
+    this.activeIndex = this.$route.query.index || 1
 
     const loginInfo = this.$util.getLoginInfo()
     this.login = loginInfo.validationCheck
