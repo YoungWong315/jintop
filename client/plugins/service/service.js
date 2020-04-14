@@ -77,9 +77,12 @@ class Service {
   submitQuestionnaire = (userId, questionnaireData) => axios.post(`/question/questionnaire/submit?userid=${userId}`, questionnaireData)
 }
 
+const myService = Service.getSingletonInstance()
+
 export default {
   install (Vue) {
     axios.inject(Vue)
-    Vue.prototype.$service = Service.getSingletonInstance()
+    Vue.prototype.$service = myService
   },
+  service: myService
 }

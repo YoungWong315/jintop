@@ -28,6 +28,9 @@
 import Preview from '~/components/question/preview'
 import Create from '~/components/question/create'
 
+import service from '~/plugins/service/service'
+const $service = service.service
+
 export default {
   data() {
     return {
@@ -40,13 +43,22 @@ export default {
     Preview,
     Create,
   },
+  async asyncData({ query }) {
+    const { questionnaireid } = query
+    const { code, data } = await $service.queryQuestionnaireDetail(
+      questionnaireid,
+    )
+    if (code === 1) {
+      return { questionnaire: data }
+    }
+  },
   created() {
     setTimeout(() => (this.loading = false), 200)
   },
   mounted() {
     // 获取问卷id
     this.questionnaireId = this.$route.query.questionnaireid
-    this.queryQuestionnaireDetail()
+    // this.queryQuestionnaireDetail()
   },
   methods: {
     // 获取帖子详情
