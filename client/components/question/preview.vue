@@ -12,6 +12,7 @@
                     :key="idx"
                     :label="option.title"></el-radio>
         </el-radio-group>
+        <!-- 多选有bug -------------- -->
         <el-checkbox-group v-if="question.type === 'multi'"
                            v-model="question.checked">
           <el-checkbox v-for="(option, idx) in question.options"
@@ -44,6 +45,7 @@ export default {
 
 <style scoped>
 .questionnaire-title {
+  margin-bottom: 20px;
   font-size: 30px;
   text-align: center;
 }

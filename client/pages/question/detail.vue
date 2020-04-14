@@ -31,6 +31,7 @@ import Create from '~/components/question/create'
 export default {
   data() {
     return {
+      questionnaireId: '',
       questionnaire: null,
       previewFlag: true,
     }
@@ -44,14 +45,14 @@ export default {
   },
   mounted() {
     // 获取问卷id
-    const questionnaireId = this.$route.query.questionnaireid
-    this.queryQuestionnaireDetail(questionnaireId)
+    this.questionnaireId = this.$route.query.questionnaireid
+    this.queryQuestionnaireDetail()
   },
   methods: {
     // 获取帖子详情
-    async queryQuestionnaireDetail(questionnaireId) {
+    async queryQuestionnaireDetail() {
       const { code, data } = await this.$service.queryQuestionnaireDetail(
-        questionnaireId,
+        this.questionnaireId,
       )
       if (code === 1) {
         this.questionnaire = data

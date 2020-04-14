@@ -2,6 +2,7 @@ const dbInstance = require('../../../database')
 const questionnaireSchema = dbInstance.getSchema('questionnaire')
 const questionSchema = dbInstance.getSchema('question')
 const optionSchema = dbInstance.getSchema('option')
+const resultSchema = dbInstance.getSchema('result')
 
 const { getCtxBody, getCtxQuery, successResponse, convertSequelizeObject } = require('../../util')
 
@@ -134,6 +135,55 @@ const deleteOption = async ctx => {
     throw { message: e }
   }
 }
+// 保存问卷结果
+const saveQuestionnaireResult = async ctx => {
+  try {
+    const { userid } = getCtxQuery(ctx)
+    const { questionnaireId, title: questionnaireTitle, questions } = getCtxBody(ctx)
+    questions.forEach(async question => {
+      const { questionId, title: questionTitle, type, options, checked } = question
+      if (type === 'single') {
+        options.forEach(async option => {
+          const { optionId, title: optionTitle } = option
+          if (checked === optionTitle) {
+            await resultSchema.createResult({
+              questionnaireId,
+              questionnaireTitle,
+              questionId,
+              questionTitle,
+              type,
+              uid: userid,
+              optionId,
+              optionTitle
+            })
+          }
+        })
+      } else if (type === 'multi') {
+        for (let check of checked) {
+          for (let option of options) {
+            const { title: optionTitle, optionId } = option
+            if (check === optionTitle) {
+              await resultSchema.createResult({
+                questionnaireId,
+                questionnaireTitle,
+                questionId,
+                questionTitle,
+                type,
+                uid: userid,
+                optionId,
+                optionTitle
+              })
+              continue
+            }
+          }
+        }
+      }
+    })
+    successResponse(ctx, true)
+  } catch (e) {
+
+  }
+}
 
 module.exports = {
   saveQuestionnaire,
@@ -142,5 +192,6 @@ module.exports = {
   deleteQuestionnaire,
   modifyQuestionnaire,
   deleteQuestion,
-  deleteOption
+  deleteOption,
+  saveQuestionnaireResult
 }
