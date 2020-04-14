@@ -18,7 +18,7 @@
       </div>
       <div class="questions-wrap">
         <div>
-          <div v-for="(question, index) in questions"
+          <div v-for="(question, index) in storeQuestions"
                :key="index">
             <div class="questions">
               <div class="question-title">{{ question.type === 'single' ? '单选题' : '多选题' }}</div>
@@ -83,22 +83,32 @@ export default {
     }
   },
   created() {
+    /**
+     * 指针直接复制，导致修改 this.question时，数据直接更新到 prop 的数据上，传递到父组件
+     * 实际上，vue不同于微信小程序，vue可以直接修改props，使数据同步到父组件; 小程序则不能这样操作数据流
+     * 此组件，可以优化成直接使用props在页面中修改
+     */
     this.questions = this.$props.storeQuestions
     this.title = this.$props.storeTitle
   },
   mounted() {},
   methods: {
     addChoiceQuestion(type) {
+      /**
+       * created时
+       * 指针直接复制，导致修改 this.question时，数据直接更新到 prop 的数据上，传递到父组件
+       */
       this.questions.push({
         type,
         title: '',
         index: this.questions.length,
-        options: [{ title: '' }],
+        options: [{ title: '', index: 0 }],
+        checked: type === 'multi' ? [] : false,
       })
     },
     addOption(questionIndex) {
       const options = this.questions[questionIndex].options || []
-      options.push({ title: '', index: options.length })
+      options.push({ title: '', index: parseInt(options.length) })
     },
     async deleteOption(questionIndex, optionIndex) {
       const options = this.questions[questionIndex].options

@@ -33,8 +33,7 @@ class Interceptor {
   }
 
   responseSuccessFunc = responseObj => {
-    RPODCUTION ? '' : console.info(responseObj)
-
+    // RPODCUTION ? '' : console.info(responseObj)
     const resData = responseObj.data
     const { code } = resData
 
