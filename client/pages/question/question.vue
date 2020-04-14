@@ -11,8 +11,10 @@
                mode="horizontal"
                @select="handleSelect">
         <!-- li高度 60px -->
-        <el-menu-item index="1">创建问卷</el-menu-item>
-        <el-menu-item index="2">我的问卷</el-menu-item>
+        <el-menu-item index="1">我的问卷</el-menu-item>
+        <el-menu-item index="2">创建问卷</el-menu-item>
+        <el-menu-item index="4">问卷统计</el-menu-item>
+
         <el-menu-item index="3"
                       class="section-logout">
           <div>{{ userInfo.username }}</div>
@@ -22,15 +24,19 @@
       </el-menu>
       <!-- el-menu显示内容 -->
       <div class="el-menu-content"
-           v-show="activeIndex === '1'">
+           v-show="activeIndex == 1">
+        <MyQuestions v-if="questionnaires.length > 0"
+                     :questionnaires="questionnaires" />
+      </div>
+      <div class="el-menu-content"
+           v-show="activeIndex == 2">
         <Create :store-questions="questions"
                 :store-title="title"
                 @save="onSave" />
       </div>
       <div class="el-menu-content"
-           v-show="activeIndex === '2'">
-        <MyQuestions v-if="questionnaires.length > 0"
-                     :questionnaires="questionnaires" />
+           v-show="activeIndex == 4">
+        问卷统计
       </div>
     </div>
   </section>
@@ -51,7 +57,7 @@ export default {
     return {
       loading: true,
       login: false,
-      activeIndex: '1',
+      activeIndex: 1,
       userInfo: null,
 
       questions: [],
@@ -69,6 +75,8 @@ export default {
     setTimeout(() => (this.loading = false), 200)
   },
   mounted() {
+    this.activeIndex = this.$route.query.index || '1'
+
     const loginInfo = this.$util.getLoginInfo()
     this.login = loginInfo.validationCheck
     this.userInfo = loginInfo
@@ -80,7 +88,7 @@ export default {
     initData() {
       this.questions = this.$util.getStorage('store_questions') || []
       this.title = this.$util.getStorage('store_questionnaire_title') || ''
-      this.activeIndex = this.$util.getStorage('store_active_index') || '1'
+      this.activeIndex = this.$util.getStorage('store_active_index') || 1
 
       this.queryQuestionnaireList()
     },

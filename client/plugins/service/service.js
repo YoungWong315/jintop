@@ -31,14 +31,14 @@ class Service {
   crawlMeizitu = () => axios.post(`/crawler/meizitu`) */
   /**
    * 保存问卷
-   * @param {Object} bodyData
+   * @param {Object} questionnaireData
    * {
    *    question: {Array} 问卷问题数组 = { type: '', label: '', options: [{label: ''}] }
    *    title: {String} 问卷标题
    *    uid: {String} 用户id
    * }
    */
-  saveQuestionnaire = (bodyData) => axios.post(`/question/questionnaire/save`, bodyData)
+  saveQuestionnaire = (questionnaireData) => axios.post(`/question/questionnaire/save`, questionnaireData)
   /**
    * 查询问卷列表
    * @param {String} uid 用户ID
@@ -60,13 +60,21 @@ class Service {
   */
   modifyQuestionnaire = (jsonBody) => axios.post('/question/questionnaire/modify', jsonBody)
   /**
+   * 删除问题
    * @param {String} questionId问题id
   */
   deleteQuestion = (questionId) => axios.post(`/question/question/delete?questionid=${questionId}`)
   /**
+   * 删除选项
    * @param {String} optionId选项id
   */
   deleteOption = (optionId) => axios.post(`/question/option/delete?optionid=${optionId}`)
+  /**
+   * 提交问卷结果
+   * @param {String} userId 提交问卷人的用户id
+   * @param {Object} questionnaireData 问卷信息
+  */
+  submitQuestionnaire = (userId, questionnaireData) => axios.post(`/question/questionnaire/submit?userid=${userId}`, questionnaireData)
 }
 
 export default {

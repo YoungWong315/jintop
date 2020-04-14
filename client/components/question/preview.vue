@@ -45,6 +45,7 @@ export default {
 
 <style scoped>
 .questionnaire-title {
+  margin-bottom: 20px;
   font-size: 30px;
   text-align: center;
 }

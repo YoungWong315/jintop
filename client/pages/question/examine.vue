@@ -54,8 +54,23 @@ export default {
       }
     },
     // 提交问卷
-    submit() {
-      alert('submit')
+    async submit() {
+      const { uid = '' } = this.$util.getLoginInfo()
+      const { code, data } = await this.$service.submitQuestionnaire(
+        uid,
+        this.questionnaire,
+      )
+      if (code === 1 && data) {
+        this.$message.success('提交成功')
+        setTimeout(
+          () =>
+            this.$router.push({
+              path: '/question/question',
+              query: { index: 1 },
+            }),
+          500,
+        )
+      }
     },
   },
 }
