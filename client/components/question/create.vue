@@ -10,7 +10,8 @@
                    @click="addChoiceQuestion('multi')">多选题</el-button>
       </div>
     </div>
-    <div class="question-content height-100-percent">
+    <div ref="scroll"
+         class="question-content height-100-percent">
       <div class="questionnaire-title">
         <div>问卷标题</div>
         <el-input class="el-input"
@@ -19,7 +20,8 @@
       <div class="questions-wrap">
         <div>
           <div v-for="(question, index) in storeQuestions"
-               :key="index">
+               :key="index"
+               :id="'anchor'+index">
             <div class="questions">
               <div class="question-title">{{ question.type === 'single' ? '单选题' : '多选题' }}</div>
               <!-- 题目 -->
@@ -94,6 +96,7 @@ export default {
   mounted() {},
   methods: {
     addChoiceQuestion(type) {
+      const index = this.questions.length
       /**
        * created时
        * 指针直接复制，导致修改 this.question时，数据直接更新到 prop 的数据上，传递到父组件
@@ -101,9 +104,13 @@ export default {
       this.questions.push({
         type,
         title: '',
-        index: this.questions.length,
+        index,
         options: [{ title: '', index: 0 }],
         checked: type === 'multi' ? [] : false,
+      })
+      this.$nextTick(() => {
+        const anchor = document.querySelector('#anchor' + index)
+        this.$refs.scroll.scrollTop = anchor.offsetTop
       })
     },
     addOption(questionIndex) {
