@@ -1,4 +1,4 @@
-<template>
+  <template>
   <section class="question-create height-100-percent">
     <div class="question-options height-100-percent">
       <div class="question-type">
