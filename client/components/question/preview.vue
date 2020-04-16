@@ -4,20 +4,26 @@
     <div v-for="(question, index) in questionnaire.questions"
          :key="index"
          class="questions">
-      <div class="question-title">{{ index+1 }}. {{ question.title }}</div>
+      <div class="question-title">{{ index+1 }}. {{ question.title }} (参与人数：{{ question.participantNumber }}人)</div>
       <div class="options">
         <el-radio-group v-if="question.type === 'single'"
                         v-model="question.checked">
-          <el-radio v-for="(option, idx) in question.options"
-                    :key="idx"
-                    :label="option.title"></el-radio>
+          <div v-for="(option, idx) in question.options"
+               :key="idx"
+               class="option-wrap">
+            <el-radio :label="option.title"></el-radio>
+
+            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent.toFixed(2)*100 }}%</div>
+          </div>
         </el-radio-group>
-        <!-- 多选有bug -------------- -->
         <el-checkbox-group v-if="question.type === 'multi'"
                            v-model="question.checked">
-          <el-checkbox v-for="(option, idx) in question.options"
-                       :key="idx"
-                       :label="option.title"></el-checkbox>
+          <div v-for="(option, idx) in question.options"
+               :key="idx"
+               class="option-wrap">
+            <el-checkbox :label="option.title"></el-checkbox>
+            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent.toFixed(2)*100 }}%</div>
+          </div>
         </el-checkbox-group>
       </div>
     </div>
@@ -58,5 +64,14 @@ export default {
 }
 .preview-wrap {
   padding: 30px 0;
+}
+.option-wrap {
+  display: flex;
+  margin-bottom: 10px;
+}
+.percent {
+  /* width: 100px; */
+  font-size: 16px;
+  color: #d63447;
 }
 </style>

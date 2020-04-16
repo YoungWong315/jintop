@@ -32,7 +32,6 @@ class QuestionSchema {
       where: { questionId },
       defaults: { questionId: generateId(), title, type, questionnaireId, uid, index },
     }).spread((question, created) => {
-      console.log(question)
       if (!created) {
         question.update(
           { title },

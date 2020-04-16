@@ -1,7 +1,7 @@
 module.exports = {
   mode: 'universal',
   head: {
-    title: 'WY的网站',
+    title: '大王木一的个人网站',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

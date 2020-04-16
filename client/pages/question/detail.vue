@@ -49,6 +49,7 @@ export default {
       questionnaireid,
     )
     if (code === 1) {
+      console.log(data)
       return { questionnaire: data }
     }
   },
@@ -132,7 +133,7 @@ export default {
 }
 .hover:hover {
   width: 250px;
-  transition: all 0.5s;
+  transition: all 0.2s;
 }
 .questionnaire-comp-wrap {
   width: 100%;

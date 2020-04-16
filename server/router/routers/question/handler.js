@@ -15,9 +15,9 @@ const queryQuestinnarieList = async ctx => {
 
 // 查询问卷详情
 const queryQuestinnarieDetail = async ctx => {
-  const { questionnaireid } = getCtxQuery(ctx)
-  const questionnaire = convertSequelizeObject(await questionnaireSchema.getQuestionnaireDetail(questionnaireid))
-  const questions = convertSequelizeObject(await questionSchema.getQuestionsByQuestionnaireId(questionnaireid))
+  const { questionnaireid: questionnaireId } = getCtxQuery(ctx)
+  const questionnaire = convertSequelizeObject(await questionnaireSchema.getQuestionnaireDetail(questionnaireId))
+  const questions = convertSequelizeObject(await questionSchema.getQuestionsByQuestionnaireId(questionnaireId))
   // forEach + async/await 会有问题，得到的 opiton 无法保存在 question 上，不晓得为什么 ----------<
   for (let question of questions) {
     const { type, questionId } = question
@@ -30,6 +30,21 @@ const queryQuestinnarieDetail = async ctx => {
         break;
     }
     const options = convertSequelizeObject(await optionSchema.getOptionsByQuestionId(questionId))
+    // 在问卷结果库查询统计数据，将每个option的统计结果赋值在option上
+    // 此问卷，此问题共有多少作答
+    const totalOption = convertSequelizeObject(await resultSchema.getResultByQuestionId({ questionnaireId, questionId }))
+    // 该题目参与总人数
+    const participantNumber = totalOption.length
+    for (let option of options) {
+      const { optionId } = option
+      const singleOption = convertSequelizeObject(await resultSchema.getResultByOptionId({ questionnaireId, questionId, optionId }))
+      // 该题目，选择此选项的人数
+      const optionNumber = singleOption.length
+      option.optionNumber = optionNumber
+      // 选择比例
+      option.percent = optionNumber / participantNumber
+    }
+    question.participantNumber = participantNumber
     question.options = options
   }
   questionnaire.questions = questions

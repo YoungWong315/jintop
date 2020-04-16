@@ -20,7 +20,6 @@ class QuestionnaireSchema {
   }
   // 改
   modifyQuestionnaireTitle ({ questionnaireId, title }) {
-    console.log(questionnaireId, title)
     return this.model.update(
       { title },
       { where: { questionnaireId } }

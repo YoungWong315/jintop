@@ -13,7 +13,6 @@
         <!-- li高度 60px -->
         <el-menu-item index="1">我的问卷</el-menu-item>
         <el-menu-item index="2">创建问卷</el-menu-item>
-        <el-menu-item index="4">问卷统计</el-menu-item>
 
         <el-menu-item index="3"
                       class="section-logout">
@@ -33,10 +32,6 @@
         <Create :store-questions="questions"
                 :store-title="title"
                 @save="onSave" />
-      </div>
-      <div class="el-menu-content"
-           v-show="activeIndex == 4">
-        问卷统计
       </div>
     </div>
   </section>
