@@ -31,6 +31,9 @@
 </template>
 
 <script>
+import service from '~/plugins/service/service'
+const $service = service.service
+
 export default {
   data() {
     return {
@@ -38,10 +41,19 @@ export default {
       questionnaire: {},
     }
   },
+  async asyncData({ query }) {
+    const { questionnaireid } = query
+    const { code, data } = await $service.queryQuestionnaireDetail(
+      questionnaireid,
+    )
+    if (code === 1) {
+      return { questionnaire: data }
+    }
+  },
   mounted() {
     // 获取问卷id
     const questionnaireId = this.$route.query.questionnaireid
-    this.queryQuestionnaireDetail(questionnaireId)
+    // this.queryQuestionnaireDetail(questionnaireId)
   },
   methods: {
     // 获取帖子详情

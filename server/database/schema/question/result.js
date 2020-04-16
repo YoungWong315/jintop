@@ -34,28 +34,27 @@ class ResultSchema {
     })
   }
   // 查
-  getResult ({
-    resultId = '',
-    questionnaireId = '',
-    questionnaireTitle = '',
-    questionId = '',
-    questionTitle = '',
-    optionId = '',
-    optionTitle = '',
-    type = '',
-    uid = '',
+  getResultByQuestionId ({
+    questionnaireId = null,
+    questionId = null,
   }) {
     return this.model.findAll({
       where: {
-        resultId,
         questionnaireId,
-        questionnaireTitle,
         questionId,
-        questionTitle,
+      },
+    })
+  }
+  getResultByOptionId ({
+    questionnaireId = null,
+    questionId = null,
+    optionId = null,
+  }) {
+    return this.model.findAll({
+      where: {
+        questionnaireId,
+        questionId,
         optionId,
-        optionTitle,
-        type,
-        uid
       },
     })
   }
