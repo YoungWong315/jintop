@@ -30,14 +30,21 @@ const queryQuestinnarieDetail = async ctx => {
         break;
     }
     const options = convertSequelizeObject(await optionSchema.getOptionsByQuestionId(questionId))
-    // TODO：去问卷结果库，查询统计数据，将每个option的统计结果赋值在option上
+    // 在问卷结果库查询统计数据，将每个option的统计结果赋值在option上
     // 此问卷，此问题共有多少作答
     const totalOption = convertSequelizeObject(await resultSchema.getResultByQuestionId({ questionnaireId, questionId }))
+    // 该题目参与总人数
+    const participantNumber = totalOption.length
     for (let option of options) {
       const { optionId } = option
       const singleOption = convertSequelizeObject(await resultSchema.getResultByOptionId({ questionnaireId, questionId, optionId }))
-      option.percent = singleOption.length / totalOption.length
+      // 该题目，选择此选项的人数
+      const optionNumber = singleOption.length
+      option.optionNumber = optionNumber
+      // 选择比例
+      option.percent = optionNumber / participantNumber
     }
+    question.participantNumber = participantNumber
     question.options = options
   }
   questionnaire.questions = questions
