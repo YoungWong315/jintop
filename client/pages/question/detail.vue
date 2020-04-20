@@ -49,7 +49,6 @@ export default {
       questionnaireid,
     )
     if (code === 1) {
-      console.log(data)
       return { questionnaire: data }
     }
   },
