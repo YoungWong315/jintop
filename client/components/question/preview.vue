@@ -13,7 +13,7 @@
                class="option-wrap">
             <el-radio :label="option.title"></el-radio>
 
-            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent.toFixed(2)*100 }}%</div>
+            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent ? option.percent.toFixed(2)*100 : 0 }}%</div>
           </div>
         </el-radio-group>
         <el-checkbox-group v-if="question.type === 'multi'"
@@ -22,7 +22,7 @@
                :key="idx"
                class="option-wrap">
             <el-checkbox :label="option.title"></el-checkbox>
-            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent.toFixed(2)*100 }}%</div>
+            <div class="percent">人数：{{ option.optionNumber }} &nbsp;&nbsp; 占比：{{ option.percent ? option.percent.toFixed(2)*100 : 0 }}%</div>
           </div>
         </el-checkbox-group>
       </div>
