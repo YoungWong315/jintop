@@ -21,7 +21,7 @@ module.exports = {
     ],
   },
   loading: { color: 'green' },
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  css: ['element-ui/lib/theme-chalk/index.css', 'bootstrap/dist/css/bootstrap.css', 'bootstrap-vue/dist/bootstrap-vue.css'],
   modules: ['@nuxtjs/axios'],
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
@@ -46,6 +46,7 @@ module.exports = {
   },
   plugins: [
     '~/plugins/element-ui.js',
+    '~/plugins/bootstrap.js',
     '~/plugins/service/index.js',
     '~/plugins/crypto/index.js',
     '~/plugins/utils/index.js',
