@@ -4,7 +4,7 @@ module.exports = {
     title: '大王木一的个人网站',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
       { name: 'keywords', content: 'css, css demo, css演示, css实时工具' },
       {
         hid: 'description',

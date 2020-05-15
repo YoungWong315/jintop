@@ -1,19 +1,23 @@
 <template>
-  <!-- <section class="wrap">
-    <div class="content">
-      <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
-      <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
-    </div>
-    <div class="beian">
-      <a href="http://beian.miit.gov.cn"
+  <b-container fluid>
+    <b-row class="b-row-container"
+           align-h="center"
+           align-v="center">
+      <b-col class="b-col"
+             cols="4">
+        <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
+      </b-col>
+      <b-col class="b-col"
+             cols="4">
+        <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
+      </b-col>
+    </b-row>
+    <b-row class="b-row-footer"
+           align-h="center"
+           align-v="center">
+      <a class="beian"
+         href="http://beian.miit.gov.cn"
          target="blank">沪ICP备19009188号-1</a>
-    </div>
-  </section> -->
-  <b-container class="bv-example-row">
-    <b-row>
-      <b-col>1 of 3</b-col>
-      <b-col>2 of 3</b-col>
-      <b-col>3 of 3</b-col>
     </b-row>
   </b-container>
 </template>
@@ -31,45 +35,20 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/reset';
-
-.wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100vw;
-  height: 100vh;
+.b-row-container {
+  height: 90vh;
 }
-.content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-
-  width: 80vw;
-  height: 80vh;
-  /* border: 1px solid lightblue; */
-  border-radius: 5px;
+.b-row-footer {
+  height: 10vh;
 }
-.content a {
-  margin-right: 30px;
-  font-size: 18px;
-  color: #1989fa;
+.b-col {
+  text-align: center;
 }
 .beian {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  margin-top: 30px;
-  text-align: center;
-  color: #898989;
   font-size: 12px;
 }
-.beian a:link,
-.beian a:visited {
+.beian:link,
+.beian:visited {
   color: #898989;
 }
 </style>
