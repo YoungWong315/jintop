@@ -80,6 +80,7 @@ const injectRouter = () => {
 
   routerList.forEach(path => {
     // 删除文件名，使用require读取默认module
+    console.log(path)
     path = path.split(sep)
     path.pop()
     const routerFile = require(path.join(sep))

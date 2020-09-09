@@ -1,10 +1,13 @@
 module.exports = {
   mode: 'universal',
   head: {
-    title: '大王木一的个人网站',
+    title: 'Papa的个人网站',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, shrink-to-fit=no',
+      },
       { name: 'keywords', content: 'css, css demo, css演示, css实时工具' },
       {
         hid: 'description',
@@ -21,7 +24,11 @@ module.exports = {
     ],
   },
   loading: { color: 'green' },
-  css: ['element-ui/lib/theme-chalk/index.css', 'bootstrap/dist/css/bootstrap.css', 'bootstrap-vue/dist/bootstrap-vue.css'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    'bootstrap/dist/css/bootstrap.css',
+    'bootstrap-vue/dist/bootstrap-vue.css',
+  ],
   modules: ['@nuxtjs/axios'],
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
@@ -42,7 +49,7 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) { },
+    extend(config, ctx) {},
   },
   plugins: [
     '~/plugins/element-ui.js',

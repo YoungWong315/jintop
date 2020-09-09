@@ -9,6 +9,10 @@
       </b-col>
       <b-col class="b-col"
              cols="4">
+        <nuxt-link :to="{path: '/toolkit/readdir'}">readLocalDir</nuxt-link>
+      </b-col>
+      <b-col class="b-col"
+             cols="4">
         <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
       </b-col>
     </b-row>
@@ -25,13 +29,13 @@
 <script>
 export default {
   data() {
-    return {}
+    return {};
   },
   mounted() {
-    console.log('https://wj.qq.com/edit.html')
+    console.log('https://wj.qq.com/edit.html');
   },
-  methods: {},
-}
+  methods: {}
+};
 </script>
 
 <style scoped>

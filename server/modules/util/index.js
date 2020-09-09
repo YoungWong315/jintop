@@ -48,34 +48,38 @@ const upsertWithModel = Model => {
  * @param {String} targetPath: 目录路径
  * @return: 目录下所有文件的地址的数组(绝对路径)
  */
-const getFilenamesInSpecificDir = (targetPath) => {
+const getFilenamesInSpecificDir = targetPath => {
   const path = require('path')
   const fs = require('fs')
 
   const ignoreFiles = ['.DS_Store']
   let results = []
 
-  const files = fs.readdirSync(targetPath)
-  files.forEach(file => {
-    const noIgnoreFile = ignoreFiles.every(item => file.indexOf(item) === -1)
-    if (noIgnoreFile) {
-      file = path.join(targetPath, file)
-      const stats = fs.statSync(file)
-      if (stats.isDirectory()) {
-        results = results.concat(getFilenamesInSpecificDir(file))
-      } else {
-        results.push(file);
+  try {
+    const files = fs.readdirSync(targetPath)
+    files.forEach(file => {
+      const noIgnoreFile = ignoreFiles.every(item => file.indexOf(item) === -1)
+      if (noIgnoreFile) {
+        file = path.join(targetPath, file)
+        const stats = fs.statSync(file)
+        if (stats.isDirectory()) {
+          results = results.concat(getFilenamesInSpecificDir(file))
+        } else {
+          results.push(file)
+        }
       }
-    }
-  })
-
-  return results
+    })
+    return results
+  } catch (e) {
+    console.log(e)
+    return e
+  }
 }
 
 /**
  *
-*/
-function mkdirSync (dirname) {
+ */
+function mkdirSync(dirname) {
   const fs = require('fs')
   if (fs.existsSync(dirname)) {
     return true
@@ -103,5 +107,5 @@ module.exports = {
   upsertWithModel,
   getFilenamesInSpecificDir,
   generateId,
-  mkdirSync
+  mkdirSync,
 }
