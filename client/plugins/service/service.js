@@ -97,6 +97,13 @@ class Service {
    * } 问卷信息
    */
   submitPath = data => axios.post(`/readdir`, data)
+  /**
+   * 批量获取小程序码（根据渠道channel）
+   * @param {Object} data = {
+   *   writePath, appId, appSecret, page, channels = []
+   * }
+   */
+  getWxaCodeUnlimit = data => axios.post(`/wechat/getwxacodeunlimit`, data)
 }
 
 const myService = Service.getSingletonInstance()

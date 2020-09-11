@@ -1,13 +1,11 @@
 <template>
   <section class="readdir-wrap">
     <div>
-      <el-input placeholder="请输入目录的绝对路径"
-                v-model="path"
-                clearable>
+      <el-input placeholder="请输入目录的绝对路径" v-model="path" clearable>
       </el-input>
-      <el-button class="submit-btn"
-                 @click="submit"
-                 type="primary">确定</el-button>
+      <el-button class="submit-btn" @click="submit" type="primary"
+        >确定</el-button
+      >
     </div>
   </section>
 </template>
@@ -16,18 +14,18 @@
 export default {
   data() {
     return {
-      path: ''
-    };
+      path: '',
+    }
   },
   mounted() {},
   methods: {
     async submit() {
-      const result = await this.$service.submitPath({ path: this.path });
-      console.log(result);
-    }
+      const result = await this.$service.submitPath({ path: this.path })
+      console.log(result)
+    },
   },
-  watch: {}
-};
+  watch: {},
+}
 </script>
 
 <style>
