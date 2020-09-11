@@ -1,5 +1,6 @@
 const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
 const superagent = require('superagent')
+const axios = require('axios') // 测试使用axios, superagent貌似返回数据格式过多
 
 let access_token = ''
 
