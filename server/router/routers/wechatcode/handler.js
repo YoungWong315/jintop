@@ -1,15 +1,15 @@
 const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
-const superagent = require('superagent')
 const axios = require('axios') // 测试使用axios, superagent貌似返回数据格式过多
+// const sharp = require('sharp')
 
 let access_token = ''
 
 const getWechatToken = async (appId, appSecret) => {
-  const ctx = await superagent.get(
+  const ctx = await axios.get(
     `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appId}&secret=${appSecret}`,
   )
-  const ctxBody = ctx.request.response.body
-  console.log('ctxBody ------------------', ctxBody)
+  const ctxBody = ctx.data
+  console.log('getWechatToken body ------------------', ctxBody)
   if (ctxBody) {
     // 重置access_token
     setTimeout(() => {
@@ -27,16 +27,19 @@ const getWxaCodeUnlimit = async (access_token, options = {}) => {
     width: options.width || 1280,
     auto_color: options.auto_color || false,
     line_color: options.line_color || { r: 0, g: 0, b: 0 },
-    is_hyaline: options.is_hyaline || true,
+    is_hyaline: options.is_hyaline || false,
   }
-  const buffer = await superagent
-    .post(
-      `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`,
-      data,
-    )
-    .set('Accept-Encoding', 'gzip')
+  const ctx = await axios.post(
+    `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`,
+    data,
+    {
+      responseType: 'arraybuffer', // 修改接口默认返回类型（小程序需要buffer类型，自动转换会导致无法生成图片）
+      responseEncoding: null,
+    },
+  )
+  const buffer = ctx.data
   if (buffer) {
-    console.log('qrcode buffer: ', buffer)
+    console.log('getWxaCodeUnlimit buffer: ', ctx)
     return buffer
   } else {
     return null
@@ -58,7 +61,23 @@ exports.getwxacodeunlimit = async ctx => {
     }
     getQrcodePromiseArr.push(getWxaCodeUnlimit(access_token, options))
   })
-  Promise.all(getQrcodePromiseArr)
+
+  const fs = require('fs')
+  const { sep } = require('path')
+
+  const qrcodeBuffers = await Promise.all(getQrcodePromiseArr)
+  qrcodeBuffers.forEach((buffer, index) => {
+    try {
+      // sharp(buffer).toFile(`${path}${sep}${channels[index]}.png`)
+      /* console.log('isBuffer: ', Buffer.isBuffer(buffer))
+      const buffer_img = Buffer.from(buffer)
+      console.log('buffer_img: ', buffer_img) */
+      fs.writeFileSync(`${path}${sep}${channels[index]}.png`, buffer)
+    } catch (e) {
+      console.log(e)
+    }
+  })
+  /* Promise.all(getQrcodePromiseArr)
     .then(qrcodeBuffers => {
       qrcodeBuffers.forEach((buffer, index) => {
         console.log(buffer)
@@ -76,5 +95,5 @@ exports.getwxacodeunlimit = async ctx => {
     })
     .catch(e => {
       console.log(e)
-    })
+    }) */
 }
