@@ -28,10 +28,12 @@ const getWxaCodeUnlimit = async (access_token, options = {}) => {
     line_color: options.line_color || { r: 0, g: 0, b: 0 },
     is_hyaline: options.is_hyaline || true,
   }
-  const buffer = await superagent.post(
-    `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`,
-    data,
-  )
+  const buffer = await superagent
+    .post(
+      `https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=${access_token}`,
+      data,
+    )
+    .set('Accept-Encoding', 'gzip')
   if (buffer) {
     console.log('qrcode buffer: ', buffer)
     return buffer
@@ -48,7 +50,7 @@ exports.getwxacodeunlimit = async ctx => {
   }
 
   let getQrcodePromiseArr = []
-  channels.forEach(async channel => {
+  channels.forEach(channel => {
     const options = {
       scene: `channel=${channel}`,
       page,
@@ -57,12 +59,12 @@ exports.getwxacodeunlimit = async ctx => {
   })
   Promise.all(getQrcodePromiseArr)
     .then(qrcodeBuffers => {
-      console.log(qrcodeBuffers)
-      qrcodeBuffers.forEach(buffer => {
+      qrcodeBuffers.forEach((buffer, index) => {
+        console.log(buffer)
         const fs = require('fs')
         const { sep } = require('path')
         fs.writeFile(
-          `${path}${sep}${channel}.png`,
+          `${path}${sep}${channels[index]}.png`,
           buffer,
           { encoding: 'utf-8', mode: 0666, flag: 'w' },
           err => {
