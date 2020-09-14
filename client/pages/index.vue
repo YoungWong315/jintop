@@ -9,11 +9,11 @@
           >扫描目录(仅限本地启动)</nuxt-link
         > 
       </div> -->
-      <div>
+      <!-- <div>
         <nuxt-link :to="{ path: '/toolkit/wechatqrcode' }"
           >生成小程序码</nuxt-link
         >
-      </div>
+      </div> -->
       <div>
         <nuxt-link :to="{ path: '/question/question' }">问卷调查</nuxt-link>
       </div>
