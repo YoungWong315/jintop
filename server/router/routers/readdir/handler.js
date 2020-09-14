@@ -5,7 +5,7 @@ const readDir = async ctx => {
   try {
     const { path } = getCtxBody(ctx)
     // 检查path是否存在
-    const fs = require('fs')    
+    const fs = require('fs')
     if (!fs.existsSync(path)) {
       throw { message: '目录不存在' }
     }
