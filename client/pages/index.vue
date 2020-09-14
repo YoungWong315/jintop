@@ -1,25 +1,29 @@
 <template>
-  <b-container fluid>
-    <b-row class="b-row-container" align-h="center" align-v="center">
-      <b-col class="b-col" cols="4">
+  <section class="index-wrap">
+    <div class="index-links">
+      <div>
         <nuxt-link :to="{ path: '/toolkit/csstoolkit' }">css toolkit</nuxt-link>
-      </b-col>
-      <b-col class="b-col" cols="4">
-        <nuxt-link :to="{ path: '/toolkit/readdir' }">readLocalDir</nuxt-link>
-      </b-col>
-      <b-col class="b-col" cols="4">
-        <nuxt-link :to="{ path: '/toolkit/wechatqrcode' }">小程序码</nuxt-link>
-      </b-col>
-      <b-col class="b-col" cols="4">
+      </div>
+      <div>
+        <nuxt-link :to="{ path: '/toolkit/readdir' }"
+          >读取本地目录内容路径</nuxt-link
+        >
+      </div>
+      <div>
+        <nuxt-link :to="{ path: '/toolkit/wechatqrcode' }"
+          >生成小程序码</nuxt-link
+        >
+      </div>
+      <div>
         <nuxt-link :to="{ path: '/question/question' }">问卷调查</nuxt-link>
-      </b-col>
-    </b-row>
-    <b-row class="b-row-footer" align-h="center" align-v="center">
-      <a class="beian" href="http://beian.miit.gov.cn" target="blank"
-        >沪ICP备19009188号-1</a
-      >
-    </b-row>
-  </b-container>
+      </div>
+    </div>
+    <div class="index-bottom">
+      <a class="beian" href="http://beian.miit.gov.cn" target="blank">
+        沪ICP备19009188号-1
+      </a>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -35,13 +39,23 @@ export default {
 </script>
 
 <style scoped>
-.b-row-container {
+.index-wrap {
+  height: 100vh;
+}
+.index-links {
   height: 90vh;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.b-row-footer {
+.index-links > div {
+  flex: 1 0 auto;
+  text-align: center;
+  line-height: 2;
+}
+.index-bottom {
   height: 10vh;
-}
-.b-col {
   text-align: center;
 }
 .beian {

@@ -1,6 +1,5 @@
 const { getCtxBody, getCtxQuery, successResponse } = require('../../util')
-const axios = require('axios') // 测试使用axios, superagent貌似返回数据格式过多
-// const sharp = require('sharp')
+const axios = require('axios')
 
 let access_token = ''
 
@@ -9,12 +8,12 @@ const getWechatToken = async (appId, appSecret) => {
     `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appId}&secret=${appSecret}`,
   )
   const ctxBody = ctx.data
-  console.log('getWechatToken body ------------------', ctxBody)
   if (ctxBody) {
     // 重置access_token
     setTimeout(() => {
       access_token = ''
     }, (ctxBody.expire_in - 10 * 60) * 1000)
+    console.log('getWechatToken token ------------------', ctxBody.access_token)
     return ctxBody.access_token
   } else {
     return null
@@ -37,9 +36,12 @@ const getWxaCodeUnlimit = async (access_token, options = {}) => {
       responseEncoding: null,
     },
   )
-  const buffer = ctx.data
+  const buffer = {
+    buffer: ctx.data,
+    filename: options.scene,
+  }
   if (buffer) {
-    console.log('getWxaCodeUnlimit buffer: ', ctx)
+    console.log('getWxaCodeUnlimit buffer: ', buffer)
     return buffer
   } else {
     return null
@@ -47,53 +49,39 @@ const getWxaCodeUnlimit = async (access_token, options = {}) => {
 }
 
 exports.getwxacodeunlimit = async ctx => {
-  const { path, appId, appSecret, page, channels = [] } = getCtxBody(ctx)
+  const { path, appId, appSecret, page, scenes = [] } = getCtxBody(ctx)
+  const fs = require('fs')
 
+  // 检查path是否存在
+  if (!fs.existsSync(path)) {
+    throw { message: '目录不存在' }
+  }
+
+  // 获取token
   if (!access_token) {
     access_token = await getWechatToken(appId, appSecret)
   }
 
+  // 生成二维码
   let getQrcodePromiseArr = []
-  channels.forEach(channel => {
-    const options = {
-      scene: `channel=${channel}`,
-      page,
-    }
+  scenes.forEach(scene => {
+    const options = { scene, page }
     getQrcodePromiseArr.push(getWxaCodeUnlimit(access_token, options))
   })
 
-  const fs = require('fs')
+  // 写入二维码
   const { sep } = require('path')
-
   const qrcodeBuffers = await Promise.all(getQrcodePromiseArr)
-  qrcodeBuffers.forEach((buffer, index) => {
+  let qrcodePaths = []
+  qrcodeBuffers.forEach(data => {
     try {
-      // sharp(buffer).toFile(`${path}${sep}${channels[index]}.png`)
-      /* console.log('isBuffer: ', Buffer.isBuffer(buffer))
-      const buffer_img = Buffer.from(buffer)
-      console.log('buffer_img: ', buffer_img) */
-      fs.writeFileSync(`${path}${sep}${channels[index]}.png`, buffer)
+      const writePath = `${path}${sep}${data.filename}.png`
+      qrcodePaths.push(writePath)
+      fs.writeFileSync(writePath, data.buffer)
     } catch (e) {
       console.log(e)
+      throw { message: e }
     }
   })
-  /* Promise.all(getQrcodePromiseArr)
-    .then(qrcodeBuffers => {
-      qrcodeBuffers.forEach((buffer, index) => {
-        console.log(buffer)
-        const fs = require('fs')
-        const { sep } = require('path')
-        fs.writeFile(
-          `${path}${sep}${channels[index]}.png`,
-          buffer,
-          { encoding: 'utf-8', mode: 0666, flag: 'w' },
-          err => {
-            console.log(err)
-          },
-        )
-      })
-    })
-    .catch(e => {
-      console.log(e)
-    }) */
+  successResponse(ctx, qrcodePaths)
 }

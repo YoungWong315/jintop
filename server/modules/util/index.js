@@ -46,20 +46,21 @@ const upsertWithModel = Model => {
  * 读取文件名(使用fs模块) 没有解决同级有多个目录的情况
  * 用于依据 文件名 读取内容或进行初始化
  * @param {String} targetPath: 目录路径
+ * @param {Boolean} ignoreHiddenFile: 忽略隐藏文件（默认: true，不读取）
  * @return: 目录下所有文件的地址的数组(绝对路径)
  */
-const getFilenamesInSpecificDir = targetPath => {
+const getFilenamesInSpecificDir = (targetPath, ignoreHiddenFile = true) => {
   const path = require('path')
   const fs = require('fs')
 
-  const ignoreFiles = ['.DS_Store']
   let results = []
 
   try {
     const files = fs.readdirSync(targetPath)
     files.forEach(file => {
-      const noIgnoreFile = ignoreFiles.every(item => file.indexOf(item) === -1)
-      if (noIgnoreFile) {
+      // 判断是否为隐藏文件（若ignoreHiddenFile是false，则全不算做隐藏文件）
+      let isHiddenFile = ignoreHiddenFile ? file.startsWith('.') : false
+      if (!isHiddenFile) {
         file = path.join(targetPath, file)
         const stats = fs.statSync(file)
         if (stats.isDirectory()) {
