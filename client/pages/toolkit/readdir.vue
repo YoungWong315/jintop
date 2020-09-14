@@ -1,19 +1,27 @@
 <template>
   <section class="readdir-wrap">
     <div>
-      <el-input placeholder="本地目录的绝对路径" v-model.trim="path" clearable>
+      <el-input
+        placeholder="本地目录的绝对路径（仅限本地启动代码）"
+        v-model.trim="path"
+        clearable
+      >
       </el-input>
       <el-button class="submit-btn" @click="submit" type="primary"
         >确定</el-button
       >
     </div>
     <ul v-if="filePaths.length > 0">
-      <li v-for="(item, index) in filePaths" :key="index">{{ item }}</li>
+      <li v-for="(item, index) in filePaths" :key="index">
+        {{ index + 1 }}. {{ item }}
+      </li>
     </ul>
   </section>
 </template>
 
 <script>
+import { Loading } from 'element-ui'
+
 export default {
   data() {
     return {
@@ -37,7 +45,9 @@ export default {
         return
       }
 
+      const loadingIns = Loading.service({ fullscreen: true })
       const { code, data, err } = await this.$service.submitPath({ path })
+      loadingIns.close()
       if (code === 1) {
         this.filePaths = data
         return
@@ -66,6 +76,7 @@ export default {
   width: 100%;
 }
 .readdir-wrap > ul {
+  margin-left: 80px;
   padding: 20px;
   font-size: 14px;
   line-height: 1.5;

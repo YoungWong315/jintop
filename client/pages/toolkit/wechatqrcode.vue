@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui'
+
 export default {
   data() {
     return {
@@ -57,19 +59,31 @@ export default {
       this.$util.setStorage('formData', formData)
 
       if (!formData.appId) {
-        this.$message('需要输入小程序appId')
+        this.$message({
+          type: 'warning',
+          message: '需要输入小程序appId',
+        })
         return
       }
       if (!formData.appSecret) {
-        this.$message('需要输入小程序appSecret')
+        this.$message({
+          type: 'warning',
+          message: '需要输入小程序appSecret',
+        })
         return
       }
       if (!formData.appSecret) {
-        this.$message('需要输入小程序appSecret')
+        this.$message({
+          type: 'warning',
+          message: '需要输入小程序appSecret',
+        })
         return
       }
       if (!formData.path) {
-        this.$message('需要输入本地目录的绝对路径')
+        this.$message({
+          type: 'warning',
+          message: '需要输入本地目录的绝对路径',
+        })
         return
       }
 
@@ -79,14 +93,20 @@ export default {
           .replace(/\s/g, '') //匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]
           .split(';')
           .filter(item => item != '')
+
+        const loadingIns = Loading.service({ fullscreen: true })
         const result = await this.$service.getWxaCodeUnlimit(formData)
+        loadingIns.close()
         console.log(result)
         if (result.code === 1) {
-          this.$message(`成功，请在 ${formData.path} 目录下查看`)
+          this.$message({
+            message: `请在${formData.path}下查看`,
+            type: 'success',
+          })
           return
         }
         if (result.code === 0) {
-          this.$message(result.err.errMsg)
+          this.$message.error(result.err.errMsg)
         }
       }
     },
