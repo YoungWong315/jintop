@@ -1,13 +1,27 @@
 <template>
-  <section class="wrap">
-    <div class="content">
-      <nuxt-link :to="{path: '/toolkit/csstoolkit'}">css toolkit</nuxt-link>
-      <nuxt-link :to="{path: '/question/question'}">问卷调查</nuxt-link>
-      <!-- <nuxt-link :to="{path: '/toolkit/crawler'}">crawler</nuxt-link> -->
+  <section class="index-wrap">
+    <div class="index-links">
+      <div>
+        <nuxt-link :to="{ path: '/toolkit/csstoolkit' }">css toolkit</nuxt-link>
+      </div>
+      <!-- <div>
+        <nuxt-link :to="{ path: '/toolkit/readdir' }"
+          >扫描目录(仅限本地启动)</nuxt-link
+        > 
+      </div> -->
+      <div>
+        <nuxt-link :to="{ path: '/toolkit/wechatqrcode' }"
+          >生成小程序码</nuxt-link
+        >
+      </div>
+      <div>
+        <nuxt-link :to="{ path: '/question/question' }">问卷调查</nuxt-link>
+      </div>
     </div>
-    <div class="beian">
-      <a href="http://beian.miit.gov.cn"
-         target="blank">沪ICP备19009188号-1</a>
+    <div class="index-bottom">
+      <a class="beian" href="http://beian.miit.gov.cn" target="blank">
+        沪ICP备19009188号-1
+      </a>
     </div>
   </section>
 </template>
@@ -25,45 +39,30 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/css/reset';
-
-.wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100vw;
+.index-wrap {
   height: 100vh;
 }
-.content {
+.index-links {
+  height: 90vh;
   display: flex;
-  align-items: center;
+  align-content: center;
   justify-content: center;
   flex-wrap: wrap;
-
-  width: 80vw;
-  height: 80vh;
-  /* border: 1px solid lightblue; */
-  border-radius: 5px;
 }
-.content a {
-  margin-right: 30px;
-  font-size: 18px;
-  color: #1989fa;
+.index-links > div {
+  flex: 1 0 auto;
+  text-align: center;
+  line-height: 2;
+}
+.index-bottom {
+  height: 10vh;
+  text-align: center;
 }
 .beian {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  margin-top: 30px;
-  text-align: center;
-  color: #898989;
   font-size: 12px;
 }
-.beian a:link,
-.beian a:visited {
+.beian:link,
+.beian:visited {
   color: #898989;
 }
 </style>
