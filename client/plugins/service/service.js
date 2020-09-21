@@ -100,10 +100,17 @@ class Service {
   /**
    * 批量获取小程序码（根据渠道channel）
    * @param {Object} data = {
-   *   writePath, appId, appSecret, page, channels = []
+   *   path, appId, appSecret, page, scenes = []
    * }
    */
   getWxaCodeUnlimit = data => axios.post(`/wechat/getwxacodeunlimit`, data)
+  /**
+   * 批量获取小程序码（根据渠道channel）
+   * @param {Object} data = {
+   *   path, appId, appSecret, page, scenes = []
+   * }
+   */
+  getWxaCodeLimit = data => axios.post(`/wechat/getwxacodelimit`, data)
 }
 
 const myService = Service.getSingletonInstance()

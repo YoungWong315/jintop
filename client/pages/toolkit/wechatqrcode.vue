@@ -1,6 +1,6 @@
 <template>
   <section class="wechatqrcode-wrap">
-    <div class="title">生成小程序码</div>
+    <div class="title">生成小程序码(1664定制)</div>
     <div>
       <div class="param-wrap">
         <div>
@@ -19,7 +19,7 @@
         </div>
         <div>
           <el-input
-            placeholder="scene参数, 批量生成用英文分号分隔"
+            placeholder="scene参数, 批量生成用回车分隔"
             type="textarea"
             v-model="form.scenes"
           ></el-input>
@@ -88,14 +88,13 @@ export default {
       }
 
       if (Object.keys(formData)) {
-        console.log()
         formData.scenes = formData.scenes
-          .replace(/\s/g, '') //匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]
-          .split(';')
+          .replace(/[\f\t\v]/g, '') //匹配空白字符
+          .split(/[\r\n]/)
           .filter(item => item != '')
-
+          .map(item => `channel=jsb-${item}`)
         const loadingIns = Loading.service({ fullscreen: true })
-        const result = await this.$service.getWxaCodeUnlimit(formData)
+        const result = await this.$service.getWxaCodeLimit(formData)
         loadingIns.close()
         console.log(result)
         if (result.code === 1) {
