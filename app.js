@@ -1,7 +1,7 @@
 const startApp = async () => {
   // 链接数据库
-  const dbInstance = require('./server/database')
-  await dbInstance.connect()
+  // const dbInstance = require('./server/database')
+  // await dbInstance.connect()
 
   // 打开集群
   /* const cluster = require('cluster')

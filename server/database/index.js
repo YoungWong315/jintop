@@ -22,13 +22,13 @@ class Database {
       `${dialect}://${username}:${password}@${host}:${port}/${dbName}`,
     )
   }
-  static getSingletonInstance () {
+  static getSingletonInstance() {
     if (!this.instance) {
       this.instance = new Database()
     }
     return this.instance
   }
-  async connect () {
+  async connect() {
     const sql = this.sql
     try {
       await sql.authenticate()
@@ -46,8 +46,8 @@ class Database {
       })
     }
   }
-  defineModels () {
-    this.modelList.forEach(modelPath => {
+  defineModels() {
+    this.modelList.forEach((modelPath) => {
       const defineModel = require(`${modelPath}`)
       // 定义Model
       const Model = defineModel(this.sql, this.Sequelize)
@@ -61,7 +61,7 @@ class Database {
       this.schemaMap.set(path.basename(modelPath, '.js'), schema)
     })
   }
-  getSchema (schemaType) {
+  getSchema(schemaType) {
     return this.schemaMap.get(schemaType)
   }
 }

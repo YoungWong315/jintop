@@ -1,4 +1,4 @@
-const consola = require('consola')
+// const consola = require('consola')
 const Koa = require('koa')
 const session = require('koa-session')
 const redisStore = require('koa-redis')
@@ -49,7 +49,7 @@ const startServer = async () => {
   // .use(static);
 
   // nuxt render
-  app.use(ctx => {
+  app.use((ctx) => {
     ctx.status = 200
     ctx.respond = false // Bypass Koa's built-in response handling
     ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
@@ -57,11 +57,12 @@ const startServer = async () => {
   })
 
   app.listen(port, host)
-  consola.ready({
-    message: `Server listening on http://${host}:${port}`,
-    badge: true,
-    processId: process.pid,
-  })
+  // consola.ready({
+  //   message: `Server listening on http://${host}:${port}`,
+  //   badge: true,
+  //   processId: process.pid,
+  // })
+  console.log(`Server listening on http://${host}:${port}`)
 }
 
 module.exports = startServer

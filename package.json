@@ -5,7 +5,7 @@
   "author": "1099216788@qq.com",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon -w client -w server -w store -w nuxt.config.js -w app.js app.js",
+    "dev": "nodemon -w client -w server -w store -w nuxt.config.js -w app.js app.js",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node app.js",
     "generate": "nuxt generate",
